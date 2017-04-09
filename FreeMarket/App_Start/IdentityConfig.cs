@@ -28,7 +28,7 @@ namespace FreeMarket
             mail.Bcc.Add(new MailAddress(ConfigurationManager.AppSettings["ordersEmail"]));
             mail.Subject = message.Subject;
 
-            string body = string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Overberg Trading Post platform</td></tr><tr><td><br /><img src=cid:LogoImage></td></tr></table></body></html>", message.Body);
+            string body = string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Locarno Sun Dried Fruit platform</td></tr><tr><td><br /><img src=cid:LogoImage></td></tr></table></body></html>", message.Body);
             AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body.Trim(), null, "text/html");
 
             string fileNameLogo = HttpContext.Current.Server.MapPath("~/Content/Images/Trading Post Logo 2.jpg");
@@ -56,12 +56,12 @@ namespace FreeMarket
             {
                 System.Net.Mime.ContentType ct = new System.Net.Mime.ContentType(System.Net.Mime.MediaTypeNames.Application.Pdf);
                 System.Net.Mail.Attachment attach = new System.Net.Mail.Attachment(attachment, ct);
-                attach.ContentDisposition.FileName = "Overberg Trading Post Order";
+                attach.ContentDisposition.FileName = "Locarno Sun Dried Fruit Order";
 
                 mail.Attachments.Add(attach);
             }
 
-            string body = string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Overberg Trading Post platform</td></tr><tr><td><br /><img src=cid:LogoImage></td></tr></table></body></html>", message.Body);
+            string body = string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Locarno Sun Dried Fruit platform</td></tr><tr><td><br /><img src=cid:LogoImage></td></tr></table></body></html>", message.Body);
             AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body.Trim(), null, "text/html");
 
             string fileNameLogo = HttpContext.Current.Server.MapPath("~/Content/Images/Trading Post Logo 2.jpg");
@@ -93,12 +93,12 @@ namespace FreeMarket
             {
                 System.Net.Mime.ContentType ct = new System.Net.Mime.ContentType(System.Net.Mime.MediaTypeNames.Application.Pdf);
                 System.Net.Mail.Attachment attach = new System.Net.Mail.Attachment(attachment, ct);
-                attach.ContentDisposition.FileName = "Overberg Trading Post Order";
+                attach.ContentDisposition.FileName = "Locarno Sun Dried Fruit Order";
 
                 mail.Attachments.Add(attach);
             }
 
-            string body = string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Overberg Trading Post platform</td></tr><tr><td><br /><img src=cid:LogoImage></td></tr></table></body></html>", EmailService.Borderify(bodyContent));
+            string body = string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Locarno Sun Dried Fruit platform</td></tr><tr><td><br /><img src=cid:LogoImage></td></tr></table></body></html>", EmailService.Borderify(bodyContent));
             AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body.Trim(), null, "text/html");
 
             string fileNameLogo = HttpContext.Current.Server.MapPath("~/Content/Images/Trading Post Logo 2.jpg");
@@ -138,7 +138,7 @@ namespace FreeMarket
             request.AddParameter("to", message.Destination);
             request.AddParameter("subject", message.Subject);
             string body = EmailService.Borderify(message.Body);
-            request.AddParameter("html", string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Overberg Trading Post platform</td></tr><tr><td><br /><img src=\"cid:ramLogo.jpg\"></td></tr></table></body></html>", body));
+            request.AddParameter("html", string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Locarno Sun Dried Fruit platform</td></tr><tr><td><br /><img src=\"cid:ramLogo.jpg\"></td></tr></table></body></html>", body));
             request.AddFile("inline", HttpContext.Current.Server.MapPath("~/Content/Images/Trading Post Logo 2.jpg"));
             request.Method = Method.POST;
 
@@ -162,7 +162,7 @@ namespace FreeMarket
             request.AddParameter("to", message.Destination);
             request.AddParameter("subject", message.Subject);
             string body = EmailService.Borderify(message.Body);
-            request.AddParameter("html", string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Overberg Trading Post platform</td></tr><tr><td><br /><img src=\"cid:ramLogo.jpg\"></td></tr></table></body></html>", body));
+            request.AddParameter("html", string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Locarno Sun Dried Fruit platform</td></tr><tr><td><br /><img src=\"cid:ramLogo.jpg\"></td></tr></table></body></html>", body));
             request.AddFile("inline", HttpContext.Current.Server.MapPath("~/Content/Images/ramLogo.jpg"));
             request.AddFile("attachment", attachment.ToArray(), "Order.pdf");
             request.Method = Method.POST;

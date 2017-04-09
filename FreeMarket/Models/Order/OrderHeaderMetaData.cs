@@ -336,7 +336,7 @@ namespace FreeMarket.Models
                 string message1 = CreateRatingMessageCustomer();
 
                 iMessage.Body = string.Format((message1), user.Name, url);
-                iMessage.Subject = string.Format("Overberg Trading Post Order");
+                iMessage.Subject = string.Format("Locarno Sun Dried Fruit Order");
 
                 await email.SendAsync(iMessage);
 
@@ -426,7 +426,7 @@ namespace FreeMarket.Models
                     iMessage.Destination = user.Email;
 
                     iMessage.Body = string.Format((message1), user.Name, orderNumber, supportInfo.Cellphone, supportInfo.Landline, supportInfo.Email);
-                    iMessage.Subject = string.Format("Overberg Trading Post Refund");
+                    iMessage.Subject = string.Format("Locarno Sun Dried Fruit Refund");
 
                     await email.SendAsync(iMessage, refundSummary.FirstOrDefault().Key);
 
@@ -613,7 +613,7 @@ namespace FreeMarket.Models
                         , supportInfo.Cellphone
                         , supportInfo.Email);
 
-                    subject = string.Format("Overberg Trading Post Order {0}", order.OrderNumber);
+                    subject = string.Format("Locarno Sun Dried Fruit Order {0}", order.OrderNumber);
 
                     if (order.DeliveryType == "Courier")
                         cc = ConfigurationManager.AppSettings["timeFreightManagementEmail"];
@@ -633,7 +633,7 @@ namespace FreeMarket.Models
 
                 iMessageCourier.Destination = supportInfo.OrdersEmail;
                 iMessageCourier.Body = string.Format((message), order.OrderNumber);
-                iMessageCourier.Subject = string.Format("Overberg Trading Post Order {0}", order.OrderNumber);
+                iMessageCourier.Subject = string.Format("Locarno Sun Dried Fruit Order {0}", order.OrderNumber);
 
                 EmailService email = new EmailService();
 
@@ -843,7 +843,7 @@ namespace FreeMarket.Models
             string message1 = CreateConfirmationMessageCustomer();
 
             iMessage.Body = string.Format((message1), user.Name, supportInfo.MainContactName, supportInfo.Landline, supportInfo.Cellphone, supportInfo.Email);
-            iMessage.Subject = string.Format("Overberg Trading Post Order");
+            iMessage.Subject = string.Format("Locarno Sun Dried Fruit Order");
 
             EmailService email = new EmailService();
 
@@ -858,7 +858,7 @@ namespace FreeMarket.Models
             string message1 = CreateInvoiceMessageCustomer();
 
             iMessage.Body = string.Format((message1), user.Name, supportInfo.MainContactName, supportInfo.Landline, supportInfo.Cellphone, supportInfo.Email);
-            iMessage.Subject = string.Format("Overberg Trading Post Order");
+            iMessage.Subject = string.Format("Locarno Sun Dried Fruit Order");
 
             EmailService email = new EmailService();
 
