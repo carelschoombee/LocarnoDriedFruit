@@ -558,6 +558,8 @@
     <Content Include="Content\Images\comodo-seal.png" />
     <Content Include="Content\Images\comodo.png" />
     <Content Include="Content\Images\delivery.jpg" />
+    <Content Include="Content\Images\LocarnoFrontPage.jpg" />
+    <Content Include="Content\Images\Logopng.png" />
     <Content Include="Content\Images\MasterCard.png" />
     <Content Include="Content\Images\PayGate-3D-Secure-Logo-MasterCard-SecureCode-Small.png" />
     <Content Include="Content\Images\PayGate-3D-Secure-Logo-MasterCard-SecureCode.png" />

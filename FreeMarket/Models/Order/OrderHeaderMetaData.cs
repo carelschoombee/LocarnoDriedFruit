@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Configuration;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
@@ -412,7 +411,8 @@ namespace FreeMarket.Models
                     Support supportInfo = db.Supports
                         .FirstOrDefault();
 
-                    refundSummary = GetReport(ReportType.Refund.ToString(), orderNumber);
+                    // Reports are handled by Pastel
+                    // refundSummary = GetReport(ReportType.Refund.ToString(), orderNumber);
 
                     ApplicationUser user = System.Web.HttpContext
                                 .Current
@@ -428,7 +428,9 @@ namespace FreeMarket.Models
                     iMessage.Body = string.Format((message1), user.Name, orderNumber, supportInfo.Cellphone, supportInfo.Landline, supportInfo.Email);
                     iMessage.Subject = string.Format("Locarno Sun Dried Fruit Refund");
 
-                    await email.SendAsync(iMessage, refundSummary.FirstOrDefault().Key);
+                    // Reports are handled by Pastel
+                    // await email.SendAsync(iMessage, refundSummary.FirstOrDefault().Key);
+                    await email.SendAsync(iMessage);
 
                     IdentityMessage iMessageNotifyRefund = new IdentityMessage();
                     iMessageNotifyRefund.Destination = supportInfo.OrdersEmail;
@@ -441,7 +443,8 @@ namespace FreeMarket.Models
                     iMessageNotifyRefund.Body = string.Format((usLine1), orderNumber, user.Name, user.Email, user.PhoneNumber, user.SecondaryPhoneNumber);
                     iMessageNotifyRefund.Subject = string.Format("Refund - Order {0}", orderNumber);
 
-                    await email.SendAsync(iMessageNotifyRefund, refundSummary.FirstOrDefault().Key);
+                    // Reports are handled by Pastel
+                    await email.SendAsync(iMessageNotifyRefund);
 
                     // Query the database to determine whether this is activated
                     WebsiteFunction function = db.WebsiteFunctions.Find(6);
@@ -512,11 +515,12 @@ namespace FreeMarket.Models
                 Support supportInfo = db.Supports
                    .FirstOrDefault();
 
-                Dictionary<Stream, string> orderSummary = new Dictionary<Stream, string>();
+                // Reports are handled by Pastel
+                // Dictionary<Stream, string> orderSummary = new Dictionary<Stream, string>();
 
-                orderSummary = GetReport(ReportType.Invoice.ToString(), orderNumber);
+                // orderSummary = GetReport(ReportType.Invoice.ToString(), orderNumber);
 
-                SendInvoiceEmailToCustomer(order, user, supportInfo, orderSummary);
+                SendInvoiceEmailToCustomer(order, user, supportInfo);
 
                 SendInvoiceSmsToCustomer(user, order);
 
@@ -552,93 +556,96 @@ namespace FreeMarket.Models
                 Dictionary<Stream, string> orderSummary = new Dictionary<Stream, string>();
                 Dictionary<Stream, string> orderDeliveryInstruction = new Dictionary<Stream, string>();
 
-                GetConfirmationReports(orderNumber, order.DeliveryType, ref orderSummary, ref orderDeliveryInstruction);
+                // Reports are handled by Pastel
+                // GetConfirmationReports(orderNumber, order.DeliveryType, ref orderSummary, ref orderDeliveryInstruction);
 
-                SendConfirmationEmailToCustomer(order, user, supportInfo, orderSummary);
+                SendConfirmationEmailToCustomer(order, user, supportInfo);
 
                 SendConfirmationSmsToCustomer(user, order);
 
-                SendConfirmationEmailToCourier(order, supportInfo, orderDeliveryInstruction);
+                SendConfirmationEmailToCourier(order, supportInfo);
             }
         }
 
-        private async static void SendConfirmationEmailToCourier(OrderHeader order, Support supportInfo, Dictionary<Stream, string> orderDeliveryInstruction)
+        private async static void SendConfirmationEmailToCourier(OrderHeader order, Support supportInfo)
         {
-            if (order.DeliveryType == "Courier" || order.DeliveryType == "LocalCourier")
-            {
-                Courier courier = new Courier();
-                List<GetOrderDeliveryReport_Result> result = new List<GetOrderDeliveryReport_Result>();
+            // Client opts out on courier email
 
-                using (FreeMarketEntities db = new FreeMarketEntities())
-                {
-                    courier = db.Couriers.Find(order.CourierNumber);
-                    result = db.GetOrderDeliveryReport(order.OrderNumber).ToList();
-                }
+            //if (order.DeliveryType == "Courier" || order.DeliveryType == "LocalCourier")
+            //{
+            //    Courier courier = new Courier();
+            //    List<GetOrderDeliveryReport_Result> result = new List<GetOrderDeliveryReport_Result>();
 
-                string destination = "";
-                string body = "";
-                string subject = "";
-                string cc = "";
+            //    using (FreeMarketEntities db = new FreeMarketEntities())
+            //    {
+            //        courier = db.Couriers.Find(order.CourierNumber);
+            //        result = db.GetOrderDeliveryReport(order.OrderNumber).ToList();
+            //    }
 
-                if (courier != null)
-                {
-                    string message = CreateCourierInstructionsMessage();
+            //    string destination = "";
+            //    string body = "";
+            //    string subject = "";
+            //    string cc = "";
 
-                    if (ConfigurationManager.AppSettings["testMode"] == "true")
-                        destination = supportInfo.OrdersEmail;
-                    else
-                        destination = courier.MainContactEmailAddress;
+            //    if (courier != null)
+            //    {
+            //        string message = CreateCourierInstructionsMessage();
 
-                    string itemsTable = OrderHeader.BuildItemsTableForEmail(result);
+            //        if (ConfigurationManager.AppSettings["testMode"] == "true")
+            //            destination = supportInfo.OrdersEmail;
+            //        else
+            //            destination = courier.MainContactEmailAddress;
 
-                    body = string.Format((message)
-                        , result.FirstOrDefault().OrderNumber
-                        , result.FirstOrDefault().OrderNumber
-                        , result.FirstOrDefault().CustomerName
-                        , result.FirstOrDefault().CustomerPhone1
-                        , result.FirstOrDefault().CustomerPhone2
-                        , result.FirstOrDefault().CustomerEmail
-                        , string.Format("{0:f}", result.FirstOrDefault().PreferredDeliveryDate)
-                        , result.FirstOrDefault().AddressLine1
-                        , result.FirstOrDefault().Suburb
-                        , result.FirstOrDefault().City
-                        , result.FirstOrDefault().PostalCode
-                        , result.FirstOrDefault().StreetAddress
-                        , result.FirstOrDefault().TownName
-                        , result.FirstOrDefault().StruisbaaiPostalCode
-                        , result.FirstOrDefault().Province
-                        , itemsTable
-                        , supportInfo.MainContactName
-                        , supportInfo.Landline
-                        , supportInfo.Cellphone
-                        , supportInfo.Email);
+            //        string itemsTable = OrderHeader.BuildItemsTableForEmail(result);
 
-                    subject = string.Format("Locarno Sun Dried Fruit Order {0}", order.OrderNumber);
+            //        body = string.Format((message)
+            //            , result.FirstOrDefault().OrderNumber
+            //            , result.FirstOrDefault().OrderNumber
+            //            , result.FirstOrDefault().CustomerName
+            //            , result.FirstOrDefault().CustomerPhone1
+            //            , result.FirstOrDefault().CustomerPhone2
+            //            , result.FirstOrDefault().CustomerEmail
+            //            , string.Format("{0:f}", result.FirstOrDefault().PreferredDeliveryDate)
+            //            , result.FirstOrDefault().AddressLine1
+            //            , result.FirstOrDefault().Suburb
+            //            , result.FirstOrDefault().City
+            //            , result.FirstOrDefault().PostalCode
+            //            , result.FirstOrDefault().StreetAddress
+            //            , result.FirstOrDefault().TownName
+            //            , result.FirstOrDefault().StruisbaaiPostalCode
+            //            , result.FirstOrDefault().Province
+            //            , itemsTable
+            //            , supportInfo.MainContactName
+            //            , supportInfo.Landline
+            //            , supportInfo.Cellphone
+            //            , supportInfo.Email);
 
-                    if (order.DeliveryType == "Courier")
-                        cc = ConfigurationManager.AppSettings["timeFreightManagementEmail"];
-                    else
-                        cc = string.Empty;
+            //        subject = string.Format("Locarno Sun Dried Fruit Order {0}", order.OrderNumber);
 
-                    EmailService email = new EmailService();
+            //        if (order.DeliveryType == "Courier")
+            //            cc = ConfigurationManager.AppSettings["timeFreightManagementEmail"];
+            //        else
+            //            cc = string.Empty;
 
-                    await email.SendAsync(subject, destination, cc, body, orderDeliveryInstruction.FirstOrDefault().Key);
-                }
-            }
-            else if (order.DeliveryType == "PostOffice")
-            {
-                string message = CreatePostOfficeInstructionsMessage();
+            //        EmailService email = new EmailService();
 
-                IdentityMessage iMessageCourier = new IdentityMessage();
+            //        await email.SendAsync(subject, destination, cc, body);
+            //    }
+            //}
+            //else if (order.DeliveryType == "PostOffice")
+            //{
+            //    string message = CreatePostOfficeInstructionsMessage();
 
-                iMessageCourier.Destination = supportInfo.OrdersEmail;
-                iMessageCourier.Body = string.Format((message), order.OrderNumber);
-                iMessageCourier.Subject = string.Format("Locarno Sun Dried Fruit Order {0}", order.OrderNumber);
+            //    IdentityMessage iMessageCourier = new IdentityMessage();
 
-                EmailService email = new EmailService();
+            //    iMessageCourier.Destination = supportInfo.OrdersEmail;
+            //    iMessageCourier.Body = string.Format((message), order.OrderNumber);
+            //    iMessageCourier.Subject = string.Format("Locarno Sun Dried Fruit Order {0}", order.OrderNumber);
 
-                await email.SendAsync(iMessageCourier, orderDeliveryInstruction.FirstOrDefault().Key);
-            }
+            //    EmailService email = new EmailService();
+
+            //    await email.SendAsync(iMessageCourier);
+            //}
         }
 
         private static string BuildItemsTableForEmail(List<GetOrderDeliveryReport_Result> result)
@@ -835,7 +842,7 @@ namespace FreeMarket.Models
             }
         }
 
-        private async static void SendConfirmationEmailToCustomer(OrderHeader order, ApplicationUser user, Support supportInfo, Dictionary<Stream, string> orderSummary)
+        private async static void SendConfirmationEmailToCustomer(OrderHeader order, ApplicationUser user, Support supportInfo)
         {
             IdentityMessage iMessage = new IdentityMessage();
             iMessage.Destination = user.Email;
@@ -847,10 +854,10 @@ namespace FreeMarket.Models
 
             EmailService email = new EmailService();
 
-            await email.SendAsync(iMessage, orderSummary.FirstOrDefault().Key);
+            await email.SendAsync(iMessage);
         }
 
-        private async static void SendInvoiceEmailToCustomer(OrderHeader order, ApplicationUser user, Support supportInfo, Dictionary<Stream, string> orderSummary)
+        private async static void SendInvoiceEmailToCustomer(OrderHeader order, ApplicationUser user, Support supportInfo)
         {
             IdentityMessage iMessage = new IdentityMessage();
             iMessage.Destination = user.Email;
@@ -862,12 +869,13 @@ namespace FreeMarket.Models
 
             EmailService email = new EmailService();
 
-            await email.SendAsync(iMessage, orderSummary.FirstOrDefault().Key);
+            await email.SendAsync(iMessage);
         }
 
         private static void GetConfirmationReports(int orderNumber, string deliveryType, ref Dictionary<Stream,
             string> orderSummary, ref Dictionary<Stream, string> orderDeliveryInstruction)
         {
+            // Reports handled by Pastel
             if (deliveryType == "Courier" || deliveryType == "LocalCourier" || deliveryType == "Virtual")
             {
                 orderSummary = GetReport(ReportType.OrderConfirmation.ToString(), orderNumber);

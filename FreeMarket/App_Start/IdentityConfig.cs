@@ -31,7 +31,7 @@ namespace FreeMarket
             string body = string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Locarno Sun Dried Fruit platform</td></tr><tr><td><br /><img src=cid:LogoImage></td></tr></table></body></html>", message.Body);
             AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body.Trim(), null, "text/html");
 
-            string fileNameLogo = HttpContext.Current.Server.MapPath("~/Content/Images/Trading Post Logo 2.jpg");
+            string fileNameLogo = HttpContext.Current.Server.MapPath("~/Content/Images/Logopng.png");
             System.Net.Mail.LinkedResource imageResource = new System.Net.Mail.LinkedResource(fileNameLogo, "image/png");
             imageResource.ContentId = "LogoImage";
             htmlView.LinkedResources.Add(imageResource);
@@ -64,7 +64,7 @@ namespace FreeMarket
             string body = string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Locarno Sun Dried Fruit platform</td></tr><tr><td><br /><img src=cid:LogoImage></td></tr></table></body></html>", message.Body);
             AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body.Trim(), null, "text/html");
 
-            string fileNameLogo = HttpContext.Current.Server.MapPath("~/Content/Images/Trading Post Logo 2.jpg");
+            string fileNameLogo = HttpContext.Current.Server.MapPath("~/Content/Images/Logopng.png");
             System.Net.Mail.LinkedResource imageResource = new System.Net.Mail.LinkedResource(fileNameLogo, "image/png");
             imageResource.ContentId = "LogoImage";
             htmlView.LinkedResources.Add(imageResource);
@@ -101,7 +101,35 @@ namespace FreeMarket
             string body = string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Locarno Sun Dried Fruit platform</td></tr><tr><td><br /><img src=cid:LogoImage></td></tr></table></body></html>", EmailService.Borderify(bodyContent));
             AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body.Trim(), null, "text/html");
 
-            string fileNameLogo = HttpContext.Current.Server.MapPath("~/Content/Images/Trading Post Logo 2.jpg");
+            string fileNameLogo = HttpContext.Current.Server.MapPath("~/Content/Images/Logopng.png");
+            System.Net.Mail.LinkedResource imageResource = new System.Net.Mail.LinkedResource(fileNameLogo, "image/png");
+            imageResource.ContentId = "LogoImage";
+            htmlView.LinkedResources.Add(imageResource);
+
+            mail.AlternateViews.Add(htmlView);
+
+            smtp.Send(mail);
+
+            return Task.FromResult(0);
+        }
+
+        public Task SendAsync(string subject, string destination, string cc, string bodyContent)
+        {
+            SmtpClient smtp = new SmtpClient();
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(ConfigurationManager.AppSettings["systemEmail"]);
+            mail.To.Add(destination);
+
+            if (ConfigurationManager.AppSettings["ccTimeFreightManagement"] == "true" && !string.IsNullOrEmpty(cc))
+                mail.CC.Add(new MailAddress(cc));
+
+            mail.Bcc.Add(new MailAddress(ConfigurationManager.AppSettings["ordersEmail"]));
+            mail.Subject = subject;
+
+            string body = string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Locarno Sun Dried Fruit platform</td></tr><tr><td><br /><img src=cid:LogoImage></td></tr></table></body></html>", EmailService.Borderify(bodyContent));
+            AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body.Trim(), null, "text/html");
+
+            string fileNameLogo = HttpContext.Current.Server.MapPath("~/Content/Images/Logopng.png");
             System.Net.Mail.LinkedResource imageResource = new System.Net.Mail.LinkedResource(fileNameLogo, "image/png");
             imageResource.ContentId = "LogoImage";
             htmlView.LinkedResources.Add(imageResource);
@@ -139,7 +167,7 @@ namespace FreeMarket
             request.AddParameter("subject", message.Subject);
             string body = EmailService.Borderify(message.Body);
             request.AddParameter("html", string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Locarno Sun Dried Fruit platform</td></tr><tr><td><br /><img src=\"cid:ramLogo.jpg\"></td></tr></table></body></html>", body));
-            request.AddFile("inline", HttpContext.Current.Server.MapPath("~/Content/Images/Trading Post Logo 2.jpg"));
+            request.AddFile("inline", HttpContext.Current.Server.MapPath("~/Content/Images/Logopng.png"));
             request.Method = Method.POST;
 
             client.Execute(request);
