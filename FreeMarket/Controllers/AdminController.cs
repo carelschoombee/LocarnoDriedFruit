@@ -910,7 +910,7 @@ namespace FreeMarket.Controllers
             if (productNumber == 0 || supplierNumber == 0)
                 return RedirectToAction("ProductsIndex", "Admin");
 
-            Product product = Product.GetProduct(productNumber, supplierNumber);
+            Product product = Product.GetShallowProduct(productNumber, supplierNumber);
 
             return View(product);
         }
@@ -943,16 +943,6 @@ namespace FreeMarket.Controllers
             SiteConfiguration config = SiteConfiguration.GetSpecificSiteConfig(siteConfigNumber);
 
             return View(config);
-        }
-
-        public ActionResult EditCustodian(int custodianNumber, int supplierNumber, int productNumber)
-        {
-            if (custodianNumber == 0 || supplierNumber == 0 || productNumber == 0)
-                return RedirectToAction("CustodianIndex", "Admin");
-
-            ProductCustodian custodian = ProductCustodian.GetSpecificCustodian(custodianNumber, supplierNumber, productNumber);
-
-            return View(custodian);
         }
 
         public ActionResult EditCustodianActivation(int custodianNumber)
@@ -1019,7 +1009,7 @@ namespace FreeMarket.Controllers
                 }
             }
 
-            return View(model);
+            return RedirectToAction("CustodiansIndex", "Admin");
         }
 
         public ActionResult EditCashCustomer(int id)

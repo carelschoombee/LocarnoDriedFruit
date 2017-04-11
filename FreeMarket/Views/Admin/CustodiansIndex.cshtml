@@ -13,7 +13,7 @@
 {
     @Html.AntiForgeryToken()
 
-    @if (Model.Count > 0)
+    if (Model.Count > 0)
     {
         <table class="table table-bordered-custom table-responsive">
 
@@ -27,7 +27,7 @@
         {
             <tr class="well">
                 <td class="text-center">
-                
+                    <img width="256" height="192" class="img-thumbnail" src="@Url.Action("RenderImage", "Image", new { id = Model[i].MainImageNumber})" alt="@Model[i].ProductName" title="@Model[i].ProductName" />
                 </td>
                 <td class="text-center">
                     @Model[i].ProductName

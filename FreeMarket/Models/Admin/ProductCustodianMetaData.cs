@@ -17,52 +17,42 @@ namespace FreeMarket.Models
         public int QuantityChange { get; set; }
 
         public bool InStock { get; set; }
-
-        //public static ProductCustodian GetSpecificCustodian(int custodianNumber, int supplierNumber, int productNumber)
-        //{
-        //    using (FreeMarketEntities db = new FreeMarketEntities())
-        //    {
-        //        return db.GetAllProductCustodians()
-        //            .Where(c => c.CustodianNumber == custodianNumber && c.SupplierNumber == supplierNumber && c.ProductNumber == productNumber)
-        //            .Select(c => new ProductCustodian
-        //            {
-        //                QuantityOnHand = c.QuantityOnHand,
-        //                AmountLastIncreasedBySupplier = c.AmountLastIncreasedBySupplier,
-        //                CustodianName = c.CustodianName,
-        //                CustodianNumber = c.CustodianNumber,
-        //                DateLastIncreasedBySupplier = c.DateLastIncreasedBySupplier,
-        //                ProductNumber = c.ProductNumber,
-        //                StockReservedForOrders = c.StockReservedForOrders,
-        //                SupplierNumber = c.SupplierNumber,
-        //                ProductName = c.Description,
-        //                SupplierName = c.SupplierName,
-        //                QuantityChange = 0
-        //            }).FirstOrDefault();
-        //    }
-        //}
+        public int MainImageNumber { get; set; }
 
         public static List<ProductCustodian> GetAllProductCustodians()
         {
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
+                List<ProductCustodian> custodians = new List<ProductCustodian>();
                 List<GetAllProductCustodians_Result> result = db.GetAllProductCustodians().ToList();
 
+                foreach (GetAllProductCustodians_Result item in result)
+                {
+                    ProductCustodian productCustodianDB = db.ProductCustodians
+                        .FirstOrDefault(c => c.ProductNumber == item.ProductNumber && c.SupplierNumber == item.SupplierNumber);
 
+                    if (productCustodianDB == null)
+                        return new List<ProductCustodian>();
 
-                //return db.GetAllProductCustodians().Select(c => new ProductCustodian
-                //{
-                //    QuantityOnHand = c.QuantityOnHand,
-                //    AmountLastIncreasedBySupplier = c.AmountLastIncreasedBySupplier,
-                //    CustodianName = c.CustodianName,
-                //    CustodianNumber = c.CustodianNumber,
-                //    DateLastIncreasedBySupplier = c.DateLastIncreasedBySupplier,
-                //    ProductNumber = c.ProductNumber,
-                //    StockReservedForOrders = c.StockReservedForOrders,
-                //    SupplierNumber = c.SupplierNumber,
-                //    ProductName = c.Description,
-                //    SupplierName = c.SupplierName,
-                //    QuantityChange = 0
-                //}).ToList();
+                    bool inStock = productCustodianDB.QuantityOnHand > 0 ? true : false;
+
+                    Product product = db.Products.Find(item.ProductNumber);
+                    product.GetProductImages(product);
+
+                    Supplier supplier = db.Suppliers.Find(item.SupplierNumber);
+
+                    custodians.Add(new ProductCustodian
+                    {
+                        ProductName = product.Description,
+                        ProductNumber = item.ProductNumber,
+                        SupplierNumber = item.SupplierNumber,
+                        MainImageNumber = product.MainImageNumber,
+                        SupplierName = product.SupplierName,
+                        InStock = inStock
+                    });
+                }
+
+                return custodians;
             }
         }
 

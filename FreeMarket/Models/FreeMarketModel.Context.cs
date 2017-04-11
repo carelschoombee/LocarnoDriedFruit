@@ -102,15 +102,6 @@ namespace FreeMarket.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDeliveryTypeHistory_Result>("GetDeliveryTypeHistory", customerNumberParameter);
         }
     
-        public virtual ObjectResult<GetDetailsForShoppingCart_Result> GetDetailsForShoppingCart(Nullable<int> orderNumber)
-        {
-            var orderNumberParameter = orderNumber.HasValue ?
-                new ObjectParameter("OrderNumber", orderNumber) :
-                new ObjectParameter("OrderNumber", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDetailsForShoppingCart_Result>("GetDetailsForShoppingCart", orderNumberParameter);
-        }
-    
         public virtual ObjectResult<GetItemHistory_Result> GetItemHistory(string customerNumber)
         {
             var customerNumberParameter = customerNumber != null ?
@@ -236,19 +227,6 @@ namespace FreeMarket.Models
                 new ObjectParameter("filterCriteria", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<FilterCashOrder_Result>("FilterCashOrder", filterCriteriaParameter);
-        }
-    
-        public virtual ObjectResult<GetProduct_Result> GetProduct(Nullable<int> productNumber, Nullable<int> supplierNumber)
-        {
-            var productNumberParameter = productNumber.HasValue ?
-                new ObjectParameter("ProductNumber", productNumber) :
-                new ObjectParameter("ProductNumber", typeof(int));
-    
-            var supplierNumberParameter = supplierNumber.HasValue ?
-                new ObjectParameter("SupplierNumber", supplierNumber) :
-                new ObjectParameter("SupplierNumber", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProduct_Result>("GetProduct", productNumberParameter, supplierNumberParameter);
         }
     
         public virtual ObjectResult<Nullable<decimal>> CalculateCharliesFee(Nullable<decimal> weight, Nullable<int> orderNumber, ObjectParameter courierFee)
@@ -444,6 +422,50 @@ namespace FreeMarket.Models
         public virtual ObjectResult<GetAllProductCustodians_Result> GetAllProductCustodians()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllProductCustodians_Result>("GetAllProductCustodians");
+        }
+    
+        public virtual ObjectResult<GetAllProductsDistinct_Result> GetAllProductsDistinct()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllProductsDistinct_Result>("GetAllProductsDistinct");
+        }
+    
+        public virtual ObjectResult<GetDetailsForShoppingCart_Result> GetDetailsForShoppingCart(Nullable<int> orderNumber)
+        {
+            var orderNumberParameter = orderNumber.HasValue ?
+                new ObjectParameter("OrderNumber", orderNumber) :
+                new ObjectParameter("OrderNumber", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDetailsForShoppingCart_Result>("GetDetailsForShoppingCart", orderNumberParameter);
+        }
+    
+        public virtual ObjectResult<GetProduct_Result> GetProduct(Nullable<int> productNumber, Nullable<int> supplierNumber, Nullable<int> sizeType)
+        {
+            var productNumberParameter = productNumber.HasValue ?
+                new ObjectParameter("ProductNumber", productNumber) :
+                new ObjectParameter("ProductNumber", typeof(int));
+    
+            var supplierNumberParameter = supplierNumber.HasValue ?
+                new ObjectParameter("SupplierNumber", supplierNumber) :
+                new ObjectParameter("SupplierNumber", typeof(int));
+    
+            var sizeTypeParameter = sizeType.HasValue ?
+                new ObjectParameter("SizeType", sizeType) :
+                new ObjectParameter("SizeType", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProduct_Result>("GetProduct", productNumberParameter, supplierNumberParameter, sizeTypeParameter);
+        }
+    
+        public virtual ObjectResult<GetShallowProduct_Result> GetShallowProduct(Nullable<int> productNumber, Nullable<int> supplierNumber)
+        {
+            var productNumberParameter = productNumber.HasValue ?
+                new ObjectParameter("ProductNumber", productNumber) :
+                new ObjectParameter("ProductNumber", typeof(int));
+    
+            var supplierNumberParameter = supplierNumber.HasValue ?
+                new ObjectParameter("SupplierNumber", supplierNumber) :
+                new ObjectParameter("SupplierNumber", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetShallowProduct_Result>("GetShallowProduct", productNumberParameter, supplierNumberParameter);
         }
     }
 }

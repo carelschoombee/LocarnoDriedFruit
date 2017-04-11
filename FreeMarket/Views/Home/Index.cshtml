@@ -19,12 +19,12 @@
         @Html.Raw(Model.WelcomeText)
         
     </div>
-    @*<div class="row well text-center">
+    <div class="row well text-center">
 
         We offer the following payment options:
         @Html.Partial("_PaymentOptions")
         
-    </div>*@
+    </div>
     
     <div class="row text-center">
         <a class="btn btn-success" href="@Url.Action("Departments", "Product")"><span class="glyphicon glyphicon-shopping-cart">&nbsp;&nbsp;Start Shopping!</span></a>
@@ -32,39 +32,8 @@
     <div class="row">
         &nbsp;
     </div>
-    @*<div class="text-center">
-        <table class="table table-bordered-custom table-responsive">
-            <tr>
-                <td>
-                    <div class="row">
-                        <a class="btn btn-primary" href="@Url.Action("Cart", "ShoppingCart")"><span class="glyphicon glyphicon-shopping-cart">&nbsp;&nbsp;View your shopping cart...</span></a>
-                    </div>
-                </td>
-                <td>
-                    <div class="row">
-                        <a class="btn btn-primary" href="@Url.Action("DeliveryOptionsInfo", "Home")"><span class="glyphicon glyphicon-cog">&nbsp;&nbsp;Learn about our delivery options...</span></a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="row">
-                        <a class="btn btn-primary" href="@Url.Action("About", "Home")"><span class="glyphicon glyphicon-book">&nbsp;&nbsp;Learn more about us...</span></a>
-                    </div>
-                </td>
-                <td>
-                    <div class="row">
-                        <a class="btn btn-primary" href="@Url.Action("Contact", "Home")"><span class="glyphicon glyphicon-pencil">&nbsp;&nbsp;Contact us...</span></a>
-                    </div>
-                </td>
-            </tr>
-        </table>
-
-    </div>*@
-    
+   
 </div>
-
-@*@Html.Partial("_TermsAndConditionsContainer")*@
 
 <script type="text/javascript">
 

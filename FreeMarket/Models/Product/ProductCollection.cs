@@ -17,34 +17,17 @@ namespace FreeMarket.Models
 
         public static ProductCollection GetAllProducts()
         {
-            ProductCollection allProducts = new ProductCollection();
+            ProductCollection products = new ProductCollection();
+            List<GetAllProductsDistinct_Result> result = new List<GetAllProductsDistinct_Result>();
 
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
-                allProducts.Products = db.GetAllProducts()
-                    .Select(c => new Product
-                    {
-                        Activated = c.Activated,
-                        DateAdded = c.DateAdded,
-                        DateModified = c.DateModified,
-                        DepartmentName = c.DepartmentName,
-                        DepartmentNumber = c.DepartmentNumber,
-                        Description = c.Description,
-                        PricePerUnit = c.PricePerUnit,
-                        ProductNumber = c.ProductNumberID,
-                        Size = "",
-                        SupplierName = c.SupplierName,
-                        SupplierNumber = c.SupplierNumberID,
-                        IsVirtual = c.IsVirtual,
-                        Weight = 0
-                    }
-                    ).ToList();
+                result = db.GetAllProductsDistinct()
+                    .ToList();
 
-                SetProductData(allProducts);
+                products = SetAllProductDataDistinct(result);
 
-                Debug.Write(allProducts);
-
-                return allProducts;
+                return products;
             }
         }
 
@@ -171,7 +154,30 @@ namespace FreeMarket.Models
                 {
                     foreach (GetAllProductsByDepartmentDistinct_Result product in allProducts)
                     {
-                        Product prodTemp = Product.GetProduct(product.ProductNumber, product.SupplierNumber);
+                        Product prodTemp = Product.GetShallowProduct(product.ProductNumber, product.SupplierNumber);
+                        prodTemp.MinPrice = product.minPrice;
+                        prodTemp.MaxPrice = product.maxPrice;
+
+                        if (prodTemp != null)
+                            collection.Products.Add(prodTemp);
+                    }
+                }
+
+                return collection;
+            }
+        }
+
+        public static ProductCollection SetAllProductDataDistinct(List<GetAllProductsDistinct_Result> allProducts)
+        {
+            ProductCollection collection = new ProductCollection();
+
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                if (allProducts != null && allProducts.Count > 0)
+                {
+                    foreach (GetAllProductsDistinct_Result product in allProducts)
+                    {
+                        Product prodTemp = Product.GetShallowProduct(product.ProductNumber, product.SupplierNumber);
                         prodTemp.MinPrice = product.minPrice;
                         prodTemp.MaxPrice = product.maxPrice;
 

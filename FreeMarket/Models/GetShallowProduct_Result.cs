@@ -11,7 +11,7 @@ namespace FreeMarket.Models
 {
     using System;
     
-    public partial class GetProduct_Result
+    public partial class GetShallowProduct_Result
     {
         public int SupplierNumberID { get; set; }
         public string SupplierName { get; set; }

@@ -30,7 +30,7 @@
                 <img class="img-thumbnail" src="@Url.Action("RenderImage", "Image", new { id = Model.Cart.Body.OrderDetails[i].MainImageNumber, defaultSize = PictureSize.Small })" alt="@Model.Cart.Body.OrderDetails[i].ProductDescription" title="@Model.Cart.Body.OrderDetails[i].ProductDescription" />
             </td>
             <td>
-                @*@Html.Action("GetDimensions", "Product", new { productNumber = Model.Cart.Body.OrderDetails[i].ProductNumber })&nbsp;*@@Model.Cart.Body.OrderDetails[i].ProductDescription - @Model.Cart.Body.OrderDetails[i].SupplierName
+                @Model.Cart.Body.OrderDetails[i].ProductDescription - @Html.Action("GetAllowedSizes", "Product", new { id = Model.Cart.Body.OrderDetails[i].SizeType })
                 @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].ProductDescription)
             </td>
             <td data-label="Price:">
@@ -64,6 +64,7 @@
                 @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].ItemNumber)
                 @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].SupplierNumber)
                 @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].CustodianNumber)
+                @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].SizeType)
             </td>
         </tr>
     }

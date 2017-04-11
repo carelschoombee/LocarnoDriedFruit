@@ -26,6 +26,26 @@ namespace FreeMarket.Models
                 return productSizes;
             }
         }
+
+        public static List<ProductSize> GetExistingProductSizes(int productNumber, int supplierNumber)
+        {
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                List<ProductSize> prices = GetNewProductSizes();
+
+                List<ProductSupplier> productSizes = db.ProductSuppliers
+                    .Where(c => c.ProductNumber == productNumber && c.SupplierNumber == supplierNumber)
+                    .ToList();
+
+                foreach (ProductSupplier item in productSizes)
+                {
+                    prices.Where(c => c.SizeId == item.SizeType).FirstOrDefault().PricePerUnit = item.PricePerUnit;
+                    prices.Where(c => c.SizeId == item.SizeType).FirstOrDefault().Activated = true;
+                }
+
+                return prices;
+            }
+        }
     }
 
     public class ProductSizeMetaData

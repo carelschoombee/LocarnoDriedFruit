@@ -95,13 +95,34 @@ namespace FreeMarket.Models
             return toReturn;
         }
 
-        public static Product GetProduct(int productNumber, int supplierNumber)
+        public void GetProductImages(Product product)
+        {
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                product.MainImageNumber = db.ProductPictures
+                    .Where(c => c.ProductNumber == product.ProductNumber && c.Dimensions == PictureSize.Medium.ToString())
+                    .Select(c => c.PictureNumber)
+                    .FirstOrDefault();
+
+                product.SecondaryImageNumber = db.ProductPictures
+                    .Where(c => c.ProductNumber == product.ProductNumber && c.Dimensions == PictureSize.Small.ToString())
+                    .Select(c => c.PictureNumber)
+                    .FirstOrDefault();
+
+                product.AdditionalImageNumber = db.ProductPictures
+                    .Where(c => c.ProductNumber == product.ProductNumber && c.Dimensions == PictureSize.Large.ToString())
+                    .Select(c => c.PictureNumber)
+                    .FirstOrDefault();
+            }
+        }
+
+        public static Product GetProduct(int productNumber, int supplierNumber, int sizeType)
         {
             Product product = new Product();
 
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
-                var productInfo = db.GetProduct(productNumber, supplierNumber)
+                var productInfo = db.GetProduct(productNumber, supplierNumber, sizeType)
                     .FirstOrDefault();
 
                 product = new Product
@@ -156,6 +177,76 @@ namespace FreeMarket.Models
                         Selected = c.CustodianNumber == product.SelectedCustodianNumber ? true : false
                     })
                     .ToList();
+
+                product.SizeVariations = ProductSize.GetExistingProductSizes(productNumber, supplierNumber);
+            }
+
+            return product;
+        }
+
+        public static Product GetShallowProduct(int productNumber, int supplierNumber)
+        {
+            Product product = new Product();
+
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                var productInfo = db.GetShallowProduct(productNumber, supplierNumber)
+                    .FirstOrDefault();
+
+                product = new Product
+                {
+                    Activated = productInfo.Activated,
+                    DateAdded = productInfo.DateAdded,
+                    DateModified = productInfo.DateModified,
+                    DepartmentName = productInfo.DepartmentName,
+                    DepartmentNumber = productInfo.DepartmentNumber,
+                    Description = productInfo.Description,
+                    PricePerUnit = productInfo.PricePerUnit,
+                    ProductNumber = productInfo.ProductNumber,
+                    Size = "",
+                    SupplierName = productInfo.SupplierName,
+                    SupplierNumber = productInfo.SupplierNumberID,
+                    SpecialPricePerUnit = productInfo.SpecialPricePerUnit ?? productInfo.PricePerUnit,
+                    RetailPricePerUnit = productInfo.RetailPricePerUnit ?? productInfo.PricePerUnit,
+                    Weight = 0,
+                    LongDescription = productInfo.LongDescription,
+                    IsVirtual = productInfo.IsVirtual
+                };
+
+                product.MainImageNumber = db.ProductPictures
+                    .Where(c => c.ProductNumber == product.ProductNumber && c.Dimensions == PictureSize.Medium.ToString())
+                    .Select(c => c.PictureNumber)
+                    .FirstOrDefault();
+
+                product.SecondaryImageNumber = db.ProductPictures
+                    .Where(c => c.ProductNumber == product.ProductNumber && c.Dimensions == PictureSize.Small.ToString())
+                    .Select(c => c.PictureNumber)
+                    .FirstOrDefault();
+
+                product.AdditionalImageNumber = db.ProductPictures
+                    .Where(c => c.ProductNumber == product.ProductNumber && c.Dimensions == PictureSize.Large.ToString())
+                    .Select(c => c.PictureNumber)
+                    .FirstOrDefault();
+
+                product.Departments = db.Departments
+                    .Select(c => new SelectListItem
+                    {
+                        Text = "(" + c.DepartmentNumber + ") " + c.DepartmentName,
+                        Value = c.DepartmentNumber.ToString(),
+                        Selected = c.DepartmentNumber == product.DepartmentNumber ? true : false
+                    })
+                    .ToList();
+
+                product.Custodians = db.Custodians
+                    .Select(c => new SelectListItem
+                    {
+                        Text = "(" + c.CustodianNumber + ") " + c.CustodianName,
+                        Value = c.CustodianNumber.ToString(),
+                        Selected = c.CustodianNumber == product.SelectedCustodianNumber ? true : false
+                    })
+                    .ToList();
+
+                product.SizeVariations = ProductSize.GetExistingProductSizes(productNumber, supplierNumber);
             }
 
             return product;

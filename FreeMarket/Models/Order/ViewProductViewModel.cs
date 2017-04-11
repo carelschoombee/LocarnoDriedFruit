@@ -96,7 +96,7 @@ namespace FreeMarket.Models
         {
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
-                Product product = Product.GetProduct(productNumber, supplierNumber);
+                Product product = Product.GetShallowProduct(productNumber, supplierNumber);
                 Supplier supplier = db.Suppliers.Find(supplierNumber);
 
                 if (product == null || supplier == null)

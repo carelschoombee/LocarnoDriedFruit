@@ -87,7 +87,7 @@ namespace FreeMarket.Models
                     existingItem.Update(quantity);
 
                     // Setup return object
-                    var productInfo = db.GetProduct(productNumber, supplierNumber).FirstOrDefault();
+                    var productInfo = db.GetProduct(productNumber, supplierNumber, sizeType).FirstOrDefault();
 
                     if (productInfo == null)
                         return new FreeMarketObject { Result = FreeMarketResult.Failure, Argument = null, Message = "Product, Supplier or Price does not exist." };
@@ -98,7 +98,7 @@ namespace FreeMarket.Models
                 else
                 {
                     // A new OrderDetail must be created
-                    var productInfo = db.GetProduct(productNumber, supplierNumber)
+                    var productInfo = db.GetProduct(productNumber, supplierNumber, sizeType)
                         .FirstOrDefault();
 
                     if (productInfo == null)

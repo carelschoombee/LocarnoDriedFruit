@@ -54,7 +54,7 @@ namespace FreeMarket.Models
                 {
                     foreach (ProductSupplier product in products)
                     {
-                        Product fullProduct = Product.GetProduct(product.ProductNumber, product.SupplierNumber);
+                        Product fullProduct = Product.GetShallowProduct(product.ProductNumber, product.SupplierNumber);
 
                         if (fullProduct != null && fullProduct.Activated == true)
                         {

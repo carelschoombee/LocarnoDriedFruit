@@ -33,12 +33,13 @@ namespace FreeMarket.Models
                         ProductDescription = c.Description,
                         ProductNumber = c.OrderDetailProductNumber,
                         ProductPrice = c.PricePerUnit,
-                        ProductWeight = c.Weight,
+                        ProductWeight = c.Weight ?? 0,
                         Quantity = c.Quantity,
                         Settled = false,
                         SupplierName = c.SupplierName,
                         SupplierNumber = c.SupplierNumber,
-                        Selected = false
+                        Selected = false,
+                        SizeType = c.SizeType
                     }
                     ).ToList();
 
