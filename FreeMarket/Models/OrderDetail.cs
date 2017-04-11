@@ -19,6 +19,7 @@ namespace FreeMarket.Models
         public int SupplierNumber { get; set; }
         public int ProductNumber { get; set; }
         public Nullable<int> CustodianNumber { get; set; }
+        public int SizeType { get; set; }
         public Nullable<bool> Settled { get; set; }
         public Nullable<bool> PaySupplier { get; set; }
         public Nullable<bool> PayCourier { get; set; }
@@ -29,8 +30,8 @@ namespace FreeMarket.Models
         public int Quantity { get; set; }
         public decimal OrderItemValue { get; set; }
     
-        public virtual Supplier Supplier { get; set; }
         public virtual OrderHeader OrderHeader { get; set; }
         public virtual Product Product { get; set; }
+        public virtual Supplier Supplier { get; set; }
     }
 }

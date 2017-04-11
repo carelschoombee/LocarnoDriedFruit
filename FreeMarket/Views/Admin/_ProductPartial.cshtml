@@ -1,6 +1,8 @@
 ﻿@using FreeMarket.Models
 @model Product
 
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 <div class="form-group">
     @Html.LabelFor(m => m.Description, new { @class = "col-md-4 control-label" })
     <div class="col-md-6">
@@ -9,6 +11,7 @@
         @Html.HiddenFor(m => m.DepartmentNumber)
         @Html.HiddenFor(m => m.SupplierNumber)
         @Html.HiddenFor(m => m.DateAdded)
+        @Html.HiddenFor(m => m.IsVirtual)
     </div>
 </div>
 
@@ -88,14 +91,14 @@ else
     </table>
 }
 
-<div class="form-group">
+@*<div class="form-group">
     @Html.LabelFor(m => m.PricePerUnit, new { @class = "col-md-4 control-label" })
     <div class="col-md-6">
         @{ Html.EnableClientValidation(false); }
         @Html.EditorFor(m => m.PricePerUnit, new { htmlAttributes = new { @class = "form-control" } })
         @{ Html.EnableClientValidation(true); }
     </div>
-</div>
+</div>*@
 @*<div class="form-group">
     @Html.LabelFor(m => m.SpecialPricePerUnit, new { @class = "col-md-4 control-label" })
     <div class="col-md-6">
@@ -113,14 +116,14 @@ else
     </div>
 </div>*@
 
-<div class="form-group">
+@*<div class="form-group">
     @Html.LabelFor(m => m.IsVirtual, new { @class = "col-md-4 control-label" })
     <div class="col-md-6">
         @Html.EditorFor(m => m.IsVirtual)
     </div>
-</div>
+</div>*@
 
-<div class="form-group">
+@*<div class="form-group">
     @Html.LabelFor(m => m.Weight, new { @class = "col-md-4 control-label" })
     <div class="col-md-6">
         @{ Html.EnableClientValidation(false); }
@@ -133,7 +136,37 @@ else
     <div class="col-md-6">
         @Html.TextBoxFor(m => m.Size, new { @class = "form-control" })
     </div>
-</div>
+</div>*@
+
+@if (Model.SizeVariations != null && Model.SizeVariations.Count > 0)
+{
+    <table class="table table-bordered-custom table-condensed">
+        <tr>
+            <th>Description</th>
+            <th>Price Per Unit</th>
+            <th>Active</th>
+        </tr>
+        @for (int i = 0; i < Model.SizeVariations.Count; i++)
+        {
+        <tr>
+            <td>
+                @Model.SizeVariations[i].Description
+                @Html.HiddenFor(m => Model.SizeVariations[i].SizeId)
+            </td>
+            <td>
+                @{ Html.EnableClientValidation(false); }
+                @Html.EditorFor(m => Model.SizeVariations[i].PricePerUnit, new { htmlAttributes = new { @class = "form-control" } })
+                @{ Html.EnableClientValidation(true); }
+                @Html.ValidationMessageFor(m => Model.SizeVariations[i].PricePerUnit, null, new { @class = "text-danger" })
+            </td>
+            <td>
+                @Html.EditorFor(m => Model.SizeVariations[i].Activated)
+            </td>
+        </tr>
+        }
+    </table>
+}
+
 <div class="form-group">
     @Html.LabelFor(m => m.DateAdded, new { @class = "col-md-4 control-label" })
     <div class="col-md-6">

@@ -975,6 +975,53 @@ namespace FreeMarket.Controllers
             return View(courier);
         }
 
+        public ActionResult EditInStock(List<ProductCustodian> model)
+        {
+            if (model == null)
+                return RedirectToAction("Index", "Admin");
+
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                foreach (ProductCustodian pc in model)
+                {
+                    if (pc.InStock)
+                    {
+                        List<ProductCustodian> pcInstances =
+                            db.ProductCustodians
+                            .Where(c => c.ProductNumber == pc.ProductNumber
+                            && c.SupplierNumber == pc.SupplierNumber)
+                            .ToList();
+
+                        foreach (ProductCustodian pc2 in pcInstances)
+                        {
+                            pc2.QuantityOnHand = 1000;
+
+                            db.Entry(pc2).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        List<ProductCustodian> pcInstances =
+                            db.ProductCustodians
+                            .Where(c => c.ProductNumber == pc.ProductNumber
+                            && c.SupplierNumber == pc.SupplierNumber)
+                            .ToList();
+
+                        foreach (ProductCustodian pc2 in pcInstances)
+                        {
+                            pc2.QuantityOnHand = 0;
+
+                            db.Entry(pc2).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+                }
+            }
+
+            return View(model);
+        }
+
         public ActionResult EditCashCustomer(int id)
         {
             if (id == 0)
@@ -1494,7 +1541,7 @@ namespace FreeMarket.Controllers
 
                     if (product != null)
                     {
-                        totalWeight += product.Weight * detail.Quantity;
+                        totalWeight += product.Weight.Value * detail.Quantity;
                     }
                 }
             }

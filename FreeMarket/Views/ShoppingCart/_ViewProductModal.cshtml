@@ -65,12 +65,12 @@
                                         <img class="img-thumbnail img-thumbnail img-responsive" src="@Url.Action("RenderImage", "Image", new { id = Model.ProductInstance.MainImageNumber })" alt="@Model.ProductInstance.Description" title="@Model.ProductInstance.Description" />
                                     }
                                 </td>
-                                <td>
-                                    <div style="font-size:medium; font-weight:600;">@String.Format("{0:C}", Model.ProductInstance.PricePerUnit)</div>
-                                </td>
+                                <td>@Html.DropDownListFor(model => model.SelectedPackageType, Model.ProductSizes, new { @class = "form-control" })</td>
                             </tr>
                             <tr>
-                                <td><span>@Model.ProductInstance.SupplierName</span></td>
+                                <td id="PackageDetailsContainer">
+                                    <div style="font-size:medium; font-weight:600;" class="text-center">@String.Format("{0:C}", Model.ProductInstance.PricePerUnit)</div>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
@@ -140,6 +140,21 @@
     //    });
 
     //});
+
+    $("#SelectedPackageType").change(function () {
+        $.ajax({
+            url: '@Url.Action("GetPackageDetails", "ShoppingCart")',
+            type: 'POST',
+            data: {
+                id: $("#SelectedPackageType").val(),
+                productNumber: @Model.ProductNumber,
+                supplierNumber: @Model.SupplierNumber,
+                }
+        }).done
+            (function (data) {
+                $('#PackageDetailsContainer').html(data);
+            });
+    });
 
 
     $('#input-id').rating({displayOnly: true, step: 0.1, stars: 3});

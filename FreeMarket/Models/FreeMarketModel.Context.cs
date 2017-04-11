@@ -39,7 +39,6 @@ namespace FreeMarket.Models
         public virtual DbSet<PaymentGatewayPaymentMethod> PaymentGatewayPaymentMethods { get; set; }
         public virtual DbSet<PaymentGatewayTransactionStatu> PaymentGatewayTransactionStatus { get; set; }
         public virtual DbSet<PreferredCommunicationMethod> PreferredCommunicationMethods { get; set; }
-        public virtual DbSet<ProductCustodian> ProductCustodians { get; set; }
         public virtual DbSet<ProductPicture> ProductPictures { get; set; }
         public virtual DbSet<SiteConfiguration> SiteConfigurations { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
@@ -54,7 +53,6 @@ namespace FreeMarket.Models
         public virtual DbSet<Special> Specials { get; set; }
         public virtual DbSet<PriceHistory> PriceHistories { get; set; }
         public virtual DbSet<PostalFee> PostalFees { get; set; }
-        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<OrderHeader> OrderHeaders { get; set; }
         public virtual DbSet<Custodian> Custodians { get; set; }
         public virtual DbSet<PaymentGatewayMessage> PaymentGatewayMessages { get; set; }
@@ -62,16 +60,19 @@ namespace FreeMarket.Models
         public virtual DbSet<CashCustomer> CashCustomers { get; set; }
         public virtual DbSet<CashOrderDetail> CashOrderDetails { get; set; }
         public virtual DbSet<CashOrder> CashOrders { get; set; }
-        public virtual DbSet<ProductSupplier> ProductSuppliers { get; set; }
         public virtual DbSet<DepartmentPicture> DepartmentPictures { get; set; }
         public virtual DbSet<TimeFreightCourierFeeReference> TimeFreightCourierFeeReferences { get; set; }
         public virtual DbSet<PaymentOption> PaymentOptions { get; set; }
         public virtual DbSet<CharliesTransportCourierFeeReference> CharliesTransportCourierFeeReferences { get; set; }
         public virtual DbSet<WebsiteFunction> WebsiteFunctions { get; set; }
         public virtual DbSet<FreeMarketOwner> FreeMarketOwners { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ExternalWebsite> ExternalWebsites { get; set; }
         public virtual DbSet<ExternalWebsitePicture> ExternalWebsitePictures { get; set; }
+        public virtual DbSet<ProductSize> ProductSizes { get; set; }
+        public virtual DbSet<ProductCustodian> ProductCustodians { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductSupplier> ProductSuppliers { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
     
         public virtual ObjectResult<FilterCustomers_Result> FilterCustomers(string filterCriteria)
         {
@@ -154,11 +155,6 @@ namespace FreeMarket.Models
         public virtual ObjectResult<GetNumberOfItemsStatistic_Result> GetNumberOfItemsStatistic()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetNumberOfItemsStatistic_Result>("GetNumberOfItemsStatistic");
-        }
-    
-        public virtual ObjectResult<GetAllProductCustodians_Result> GetAllProductCustodians()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllProductCustodians_Result>("GetAllProductCustodians");
         }
     
         public virtual ObjectResult<GetCustodianInfo_Result> GetCustodianInfo(Nullable<int> productNumber, Nullable<int> supplierNumber)
@@ -421,6 +417,33 @@ namespace FreeMarket.Models
                 new ObjectParameter("orderNumber", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetOrderDetails_Result>("GetOrderDetails", orderNumberParameter);
+        }
+    
+        public virtual ObjectResult<GetAllProductsByDepartmentDistinct_Result> GetAllProductsByDepartmentDistinct(Nullable<int> departmentNumber)
+        {
+            var departmentNumberParameter = departmentNumber.HasValue ?
+                new ObjectParameter("DepartmentNumber", departmentNumber) :
+                new ObjectParameter("DepartmentNumber", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllProductsByDepartmentDistinct_Result>("GetAllProductsByDepartmentDistinct", departmentNumberParameter);
+        }
+    
+        public virtual ObjectResult<GetProductSizes_Result> GetProductSizes(Nullable<int> productNumber, Nullable<int> supplierNumber)
+        {
+            var productNumberParameter = productNumber.HasValue ?
+                new ObjectParameter("ProductNumber", productNumber) :
+                new ObjectParameter("ProductNumber", typeof(int));
+    
+            var supplierNumberParameter = supplierNumber.HasValue ?
+                new ObjectParameter("SupplierNumber", supplierNumber) :
+                new ObjectParameter("SupplierNumber", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProductSizes_Result>("GetProductSizes", productNumberParameter, supplierNumberParameter);
+        }
+    
+        public virtual ObjectResult<GetAllProductCustodians_Result> GetAllProductCustodians()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllProductCustodians_Result>("GetAllProductCustodians");
         }
     }
 }

@@ -10,10 +10,13 @@
 namespace FreeMarket.Models
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class GetAllProductCustodians_Result
+    public partial class ProductSize
     {
-        public int ProductNumber { get; set; }
-        public int SupplierNumber { get; set; }
+        public int SizeId { get; set; }
+        public string Description { get; set; }
+        public string Dimensions { get; set; }
+        public Nullable<decimal> Weight { get; set; }
     }
 }

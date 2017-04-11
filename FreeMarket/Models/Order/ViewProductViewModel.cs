@@ -1,5 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace FreeMarket.Models
 {
@@ -19,6 +22,8 @@ namespace FreeMarket.Models
         public int CustodianQuantityOnHand { get; set; }
         public int CustodianNumber { get; set; }
         public ProductReviewsCollection Reviews { get; set; }
+        public int SelectedPackageType { get; set; }
+        public List<SelectListItem> ProductSizes { get; set; }
 
         public void InitializeDefault()
         {
@@ -40,8 +45,14 @@ namespace FreeMarket.Models
 
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
+                decimal minValue = db.ProductSuppliers
+                    .Where(c => c.ProductNumber == productNumber && c.SupplierNumber == supplierNumber)
+                    .Min(c => c.PricePerUnit);
+
                 // Validate
-                ProductSupplier productSupplierTemp = db.ProductSuppliers.Find(productNumber, supplierNumber);
+                ProductSupplier productSupplierTemp = db.ProductSuppliers
+                    .Where(c => c.ProductNumber == productNumber && c.SupplierNumber == supplierNumber && c.PricePerUnit == minValue)
+                    .FirstOrDefault();
 
                 if (productSupplierTemp == null)
                 {
@@ -53,7 +64,7 @@ namespace FreeMarket.Models
                 ProductNumber = productNumber;
                 SupplierNumber = supplierNumber;
 
-                ProductCustodian custodian = ShoppingCart.GetStockAvailable(productNumber, supplierNumber, quantityRequested);
+                ProductCustodian custodian = ShoppingCart.GetStockAvailable(productNumber, supplierNumber, quantityRequested, productSupplierTemp.SizeType);
                 if (custodian != null)
                 {
                     CannotDeliver = false;
@@ -69,6 +80,15 @@ namespace FreeMarket.Models
 
                 SetInstances(productNumber, supplierNumber);
                 ReviewPageSize = 4;
+
+                ProductSizes = db.GetProductSizes(productNumber, supplierNumber)
+                    .Select(c => new SelectListItem
+                    {
+                        Text = c.Description,
+                        Value = c.SizeId.ToString(),
+                        Selected = productSupplierTemp.SizeType == c.SizeId ? true : false
+                    })
+                    .ToList();
             }
         }
 

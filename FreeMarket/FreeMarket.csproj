@@ -327,6 +327,9 @@
     <Compile Include="Models\GetAllProductCustodians_Result.cs">
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetAllProductsByDepartmentDistinct_Result.cs">
+      <DependentUpon>FreeMarketModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetAllProductsByDepartment_Result.cs">
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>
@@ -379,6 +382,9 @@
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetPriceHistories_Result.cs">
+      <DependentUpon>FreeMarketModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetProductSizes_Result.cs">
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetProduct_Result.cs">
@@ -454,6 +460,7 @@
     <Compile Include="Models\Order\CartBody.cs" />
     <Compile Include="Models\Checkout\ConfirmOrderViewModel.cs" />
     <Compile Include="Models\Order\PaymentOptionViewModel.cs" />
+    <Compile Include="Models\Order\ProductSizeMetaData.cs" />
     <Compile Include="Models\Order\ViewProductViewModel.cs" />
     <Compile Include="Models\Order\CourierLocationMetaData.cs" />
     <Compile Include="Models\Order\CourierMetaData.cs" />
@@ -500,6 +507,9 @@
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProductReview.cs">
+      <DependentUpon>FreeMarketModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductSize.cs">
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProductSupplier.cs">
@@ -866,6 +876,7 @@
     <Content Include="Views\Admin\_ValidateExternalWebsitePartial.cshtml" />
     <Content Include="Views\Admin\CreateExternalWebsite.cshtml" />
     <Content Include="Views\Admin\EditExternalWebsite.cshtml" />
+    <Content Include="Views\ShoppingCart\_CartViewProductModalPrice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

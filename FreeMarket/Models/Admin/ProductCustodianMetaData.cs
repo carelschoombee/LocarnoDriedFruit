@@ -16,47 +16,53 @@ namespace FreeMarket.Models
         [DisplayName("Amount of stock to be added / removed:")]
         public int QuantityChange { get; set; }
 
-        public static ProductCustodian GetSpecificCustodian(int custodianNumber, int supplierNumber, int productNumber)
-        {
-            using (FreeMarketEntities db = new FreeMarketEntities())
-            {
-                return db.GetAllProductCustodians()
-                    .Where(c => c.CustodianNumber == custodianNumber && c.SupplierNumber == supplierNumber && c.ProductNumber == productNumber)
-                    .Select(c => new ProductCustodian
-                    {
-                        QuantityOnHand = c.QuantityOnHand,
-                        AmountLastIncreasedBySupplier = c.AmountLastIncreasedBySupplier,
-                        CustodianName = c.CustodianName,
-                        CustodianNumber = c.CustodianNumber,
-                        DateLastIncreasedBySupplier = c.DateLastIncreasedBySupplier,
-                        ProductNumber = c.ProductNumber,
-                        StockReservedForOrders = c.StockReservedForOrders,
-                        SupplierNumber = c.SupplierNumber,
-                        ProductName = c.Description,
-                        SupplierName = c.SupplierName,
-                        QuantityChange = 0
-                    }).FirstOrDefault();
-            }
-        }
+        public bool InStock { get; set; }
+
+        //public static ProductCustodian GetSpecificCustodian(int custodianNumber, int supplierNumber, int productNumber)
+        //{
+        //    using (FreeMarketEntities db = new FreeMarketEntities())
+        //    {
+        //        return db.GetAllProductCustodians()
+        //            .Where(c => c.CustodianNumber == custodianNumber && c.SupplierNumber == supplierNumber && c.ProductNumber == productNumber)
+        //            .Select(c => new ProductCustodian
+        //            {
+        //                QuantityOnHand = c.QuantityOnHand,
+        //                AmountLastIncreasedBySupplier = c.AmountLastIncreasedBySupplier,
+        //                CustodianName = c.CustodianName,
+        //                CustodianNumber = c.CustodianNumber,
+        //                DateLastIncreasedBySupplier = c.DateLastIncreasedBySupplier,
+        //                ProductNumber = c.ProductNumber,
+        //                StockReservedForOrders = c.StockReservedForOrders,
+        //                SupplierNumber = c.SupplierNumber,
+        //                ProductName = c.Description,
+        //                SupplierName = c.SupplierName,
+        //                QuantityChange = 0
+        //            }).FirstOrDefault();
+        //    }
+        //}
 
         public static List<ProductCustodian> GetAllProductCustodians()
         {
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
-                return db.GetAllProductCustodians().Select(c => new ProductCustodian
-                {
-                    QuantityOnHand = c.QuantityOnHand,
-                    AmountLastIncreasedBySupplier = c.AmountLastIncreasedBySupplier,
-                    CustodianName = c.CustodianName,
-                    CustodianNumber = c.CustodianNumber,
-                    DateLastIncreasedBySupplier = c.DateLastIncreasedBySupplier,
-                    ProductNumber = c.ProductNumber,
-                    StockReservedForOrders = c.StockReservedForOrders,
-                    SupplierNumber = c.SupplierNumber,
-                    ProductName = c.Description,
-                    SupplierName = c.SupplierName,
-                    QuantityChange = 0
-                }).ToList();
+                List<GetAllProductCustodians_Result> result = db.GetAllProductCustodians().ToList();
+
+
+
+                //return db.GetAllProductCustodians().Select(c => new ProductCustodian
+                //{
+                //    QuantityOnHand = c.QuantityOnHand,
+                //    AmountLastIncreasedBySupplier = c.AmountLastIncreasedBySupplier,
+                //    CustodianName = c.CustodianName,
+                //    CustodianNumber = c.CustodianNumber,
+                //    DateLastIncreasedBySupplier = c.DateLastIncreasedBySupplier,
+                //    ProductNumber = c.ProductNumber,
+                //    StockReservedForOrders = c.StockReservedForOrders,
+                //    SupplierNumber = c.SupplierNumber,
+                //    ProductName = c.Description,
+                //    SupplierName = c.SupplierName,
+                //    QuantityChange = 0
+                //}).ToList();
             }
         }
 

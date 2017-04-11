@@ -132,7 +132,7 @@ namespace FreeMarket.Controllers
                 }
 
                 FreeMarketObject result;
-                result = cart.AddItemFromProduct(viewModel.ProductNumber, viewModel.SupplierNumber, viewModel.Quantity, viewModel.CustodianNumber);
+                result = cart.AddItemFromProduct(viewModel.ProductNumber, viewModel.SupplierNumber, viewModel.Quantity, viewModel.CustodianNumber, viewModel.SelectedPackageType);
 
                 if (result.Result == FreeMarketResult.Success)
                     // New item added
@@ -205,7 +205,7 @@ namespace FreeMarket.Controllers
                 {
                     foreach (OrderDetail detail in selectedItems)
                     {
-                        resultRemove = sessionCart.RemoveItem(detail.ItemNumber, detail.ProductNumber, detail.SupplierNumber, userId);
+                        resultRemove = sessionCart.RemoveItem(detail.ItemNumber, detail.ProductNumber, detail.SupplierNumber, detail.SizeType, userId);
                     }
                 }
 
@@ -889,6 +889,17 @@ namespace FreeMarket.Controllers
             SaveCartViewModel model = new SaveCartViewModel { Address = address, AddressName = address.AddressName };
 
             return PartialView("_CartModifyDeliveryDetails", model);
+        }
+
+        [HttpPost]
+        public ActionResult GetPackageDetails(int id, int productNumber, int supplierNumber)
+        {
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                ProductSupplier product = db.ProductSuppliers.Find(productNumber, supplierNumber, id);
+
+                return PartialView("_CartViewProductModalPrice", product);
+            }
         }
 
         public int PerformStockCheck(int id, int supplierNumber, int quantityRequested)

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Web.Mvc;
 
 namespace FreeMarket.Models
 {
@@ -33,13 +32,11 @@ namespace FreeMarket.Models
                         Description = c.Description,
                         PricePerUnit = c.PricePerUnit,
                         ProductNumber = c.ProductNumberID,
-                        Size = c.Size,
+                        Size = "",
                         SupplierName = c.SupplierName,
                         SupplierNumber = c.SupplierNumberID,
-                        SpecialPricePerUnit = c.SpecialPricePerUnit ?? c.PricePerUnit,
-                        RetailPricePerUnit = c.RetailPricePerUnit ?? c.PricePerUnit,
                         IsVirtual = c.IsVirtual,
-                        Weight = c.Weight
+                        Weight = 0
                     }
                     ).ToList();
 
@@ -54,37 +51,14 @@ namespace FreeMarket.Models
         public static ProductCollection GetProductsByDepartment(int departmentNumber)
         {
             ProductCollection departmentProducts = new ProductCollection();
+            List<GetAllProductsByDepartmentDistinct_Result> result = new List<GetAllProductsByDepartmentDistinct_Result>();
 
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
-                departmentProducts.Products = db.GetAllProductsByDepartment(departmentNumber)
-                    .Select(c => new Product
-                    {
-                        Activated = c.Activated,
-                        DateAdded = c.DateAdded,
-                        DateModified = c.DateModified,
-                        DepartmentName = c.DepartmentName,
-                        DepartmentNumber = c.DepartmentNumber,
-                        Description = c.Description,
-                        PricePerUnit = c.PricePerUnit,
-                        ProductNumber = c.ProductNumberID,
-                        Size = c.Size,
-                        SupplierName = c.SupplierName,
-                        SupplierNumber = c.SupplierNumberID,
-                        SpecialPricePerUnit = c.SpecialPricePerUnit ?? c.PricePerUnit,
-                        RetailPricePerUnit = c.RetailPricePerUnit ?? c.PricePerUnit,
-                        IsVirtual = c.IsVirtual,
-                        Weight = c.Weight
-                    }
-                    ).ToList();
-
-                SetProductData(departmentProducts);
-
-                departmentProducts.Websites = db.ExternalWebsites
-                    .Where(c => c.Department == departmentNumber && c.Activated == true)
+                result = db.GetAllProductsByDepartmentDistinct(departmentNumber)
                     .ToList();
 
-                SetWebsiteData(departmentProducts);
+                departmentProducts = SetProductDataDistinct(result);
 
                 return departmentProducts;
             }
@@ -107,12 +81,11 @@ namespace FreeMarket.Models
                         Description = c.Description,
                         PricePerUnit = c.PricePerUnit,
                         ProductNumber = c.ProductNumberID,
-                        Size = c.Size,
+                        Size = "",
                         SupplierName = c.SupplierName,
                         SupplierNumber = c.SupplierNumberID,
-                        SpecialPricePerUnit = c.SpecialPricePerUnit ?? c.PricePerUnit,
                         IsVirtual = c.IsVirtual,
-                        Weight = c.Weight
+                        Weight = 0
                     }
                     ).ToList();
 
@@ -142,11 +115,10 @@ namespace FreeMarket.Models
                         LongDescription = c.LongDescription,
                         PricePerUnit = c.PricePerUnit,
                         ProductNumber = c.ProductNumberID,
-                        Size = c.Size,
+                        Size = "",
                         SupplierName = c.SupplierName,
                         SupplierNumber = c.SupplierNumberID,
-                        SpecialPricePerUnit = c.SpecialPricePerUnit ?? c.PricePerUnit,
-                        Weight = c.Weight,
+                        Weight = 0,
                         ProductRating = c.ProductRating ?? 0,
                         ProductReviewText = c.ProductReviewText,
                         PriceRating = c.PriceRating ?? 0,
@@ -184,36 +156,31 @@ namespace FreeMarket.Models
 
                         product.MainImageNumber = imageNumber;
                         product.SecondaryImageNumber = imageNumberSecondary;
-
-                        product.Prices = new List<SelectListItem>();
-
-                        string normalPrice = string.Format("{0:C}", product.PricePerUnit);
-                        string specialPrice = string.Format("{0:C}", product.SpecialPricePerUnit);
-                        string retailPrice = string.Format("{0:C}", product.RetailPricePerUnit);
-
-                        product.Prices.Add(new SelectListItem
-                        {
-                            Text = normalPrice,
-                            Value = product.PricePerUnit.ToString()
-                        });
-
-                        product.Prices.Add(new SelectListItem
-                        {
-                            Text = specialPrice,
-                            Value = product.SpecialPricePerUnit.ToString(),
-                            Selected = true
-                        });
-
-                        product.Prices.Add(new SelectListItem
-                        {
-                            Text = retailPrice,
-                            Value = product.RetailPricePerUnit.ToString(),
-                            Selected = true
-                        });
-
-                        product.CashQuantity = 0;
                     }
                 }
+            }
+        }
+
+        public static ProductCollection SetProductDataDistinct(List<GetAllProductsByDepartmentDistinct_Result> allProducts)
+        {
+            ProductCollection collection = new ProductCollection();
+
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                if (allProducts != null && allProducts.Count > 0)
+                {
+                    foreach (GetAllProductsByDepartmentDistinct_Result product in allProducts)
+                    {
+                        Product prodTemp = Product.GetProduct(product.ProductNumber, product.SupplierNumber);
+                        prodTemp.MinPrice = product.minPrice;
+                        prodTemp.MaxPrice = product.maxPrice;
+
+                        if (prodTemp != null)
+                            collection.Products.Add(prodTemp);
+                    }
+                }
+
+                return collection;
             }
         }
 

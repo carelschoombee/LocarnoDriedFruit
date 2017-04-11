@@ -68,7 +68,7 @@ namespace FreeMarket.Controllers
                     if (product != null)
                     {
                         if (product.Weight < 1)
-                            toReturn = string.Format("{0} {1}", Math.Round(product.Weight * 1000, 0), "Grams");
+                            toReturn = string.Format("{0} {1}", Math.Round(product.Weight.Value * 1000, 0), "Grams");
                         else
                             toReturn = string.Format("{0} {1}", product.Weight, "KG");
                     }
@@ -119,6 +119,19 @@ namespace FreeMarket.Controllers
                     return Json(new { ModelString = modelString, ModelCount = modelCount });
                 }
                 return Json(model);
+            }
+        }
+
+        public ActionResult GetAllowedSizes(int id)
+        {
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                ProductSize size = db.ProductSizes.Find(id);
+
+                if (size == null)
+                    return Content("");
+
+                return Content(size.Description);
             }
         }
 

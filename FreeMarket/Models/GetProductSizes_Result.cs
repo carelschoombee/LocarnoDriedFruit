@@ -11,9 +11,9 @@ namespace FreeMarket.Models
 {
     using System;
     
-    public partial class GetAllProductCustodians_Result
+    public partial class GetProductSizes_Result
     {
-        public int ProductNumber { get; set; }
-        public int SupplierNumber { get; set; }
+        public string Description { get; set; }
+        public int SizeId { get; set; }
     }
 }

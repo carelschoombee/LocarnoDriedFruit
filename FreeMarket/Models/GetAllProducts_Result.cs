@@ -21,7 +21,7 @@ namespace FreeMarket.Models
         public string Description { get; set; }
         public string LongDescription { get; set; }
         public int DepartmentNumber { get; set; }
-        public decimal Weight { get; set; }
+        public Nullable<decimal> Weight { get; set; }
         public string Size { get; set; }
         public bool Activated { get; set; }
         public bool IsVirtual { get; set; }

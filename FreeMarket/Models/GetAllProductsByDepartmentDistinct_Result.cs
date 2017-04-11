@@ -11,9 +11,11 @@ namespace FreeMarket.Models
 {
     using System;
     
-    public partial class GetAllProductCustodians_Result
+    public partial class GetAllProductsByDepartmentDistinct_Result
     {
         public int ProductNumber { get; set; }
         public int SupplierNumber { get; set; }
+        public Nullable<decimal> minPrice { get; set; }
+        public Nullable<decimal> maxPrice { get; set; }
     }
 }

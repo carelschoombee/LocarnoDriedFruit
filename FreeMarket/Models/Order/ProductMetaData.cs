@@ -38,6 +38,9 @@ namespace FreeMarket.Models
         [DisplayName("Retail Price Per Unit")]
         public decimal RetailPricePerUnit { get; set; }
 
+        public decimal? MinPrice { get; set; }
+        public decimal? MaxPrice { get; set; }
+
         public string SelectedDepartment { get; set; }
         public List<SelectListItem> Departments { get; set; }
 
@@ -67,6 +70,8 @@ namespace FreeMarket.Models
         public int CashQuantity { get; set; }
         public string SelectedPrice { get; set; }
         public List<SelectListItem> Prices { get; set; }
+
+        public List<ProductSize> SizeVariations { get; set; }
 
         public static string GetFullDescription(int productNumber, int supplierNumber)
         {
@@ -109,12 +114,12 @@ namespace FreeMarket.Models
                     Description = productInfo.Description,
                     PricePerUnit = productInfo.PricePerUnit,
                     ProductNumber = productInfo.ProductNumber,
-                    Size = productInfo.Size,
+                    Size = "",
                     SupplierName = productInfo.SupplierName,
                     SupplierNumber = productInfo.SupplierNumberID,
                     SpecialPricePerUnit = productInfo.SpecialPricePerUnit ?? productInfo.PricePerUnit,
                     RetailPricePerUnit = productInfo.RetailPricePerUnit ?? productInfo.PricePerUnit,
-                    Weight = productInfo.Weight,
+                    Weight = 0,
                     LongDescription = productInfo.LongDescription,
                     IsVirtual = productInfo.IsVirtual
                 };
@@ -151,10 +156,6 @@ namespace FreeMarket.Models
                         Selected = c.CustodianNumber == product.SelectedCustodianNumber ? true : false
                     })
                     .ToList();
-
-                product.CustodianInfo = db.GetCustodianInfo(product.ProductNumber, product.SupplierNumber)
-                    .Select(c => new { c.CustodianName, c.QuantityOnHand })
-                    .ToDictionary(c => c.CustodianName, c => c.QuantityOnHand);
             }
 
             return product;
@@ -207,6 +208,8 @@ namespace FreeMarket.Models
                             Value = c.CustodianNumber.ToString(),
                         })
                         .ToList();
+
+                    SizeVariations = ProductSize.GetNewProductSizes();
                 }
             }
         }
@@ -242,6 +245,9 @@ namespace FreeMarket.Models
                         Value = c.CustodianNumber.ToString(),
                     })
                     .ToList();
+
+                product.SizeVariations = ProductSize.GetNewProductSizes();
+
             }
 
             return product;
@@ -265,17 +271,24 @@ namespace FreeMarket.Models
                 db.Products.Add(product);
                 db.SaveChanges();
 
-                ProductSupplier productSupplierDb = new ProductSupplier()
+                foreach (ProductSize item in product.SizeVariations)
                 {
-                    ProductNumber = product.ProductNumber,
-                    SupplierNumber = int.Parse(product.SelectedSupplier),
-                    PricePerUnit = product.PricePerUnit,
-                    SpecialPricePerUnit = 0,
-                    RetailPricePerUnit = 0
-                };
+                    if (item.PricePerUnit > 0 && item.Activated == true)
+                    {
+                        ProductSupplier productSupplierDb = new ProductSupplier()
+                        {
+                            ProductNumber = product.ProductNumber,
+                            SupplierNumber = int.Parse(product.SelectedSupplier),
+                            PricePerUnit = item.PricePerUnit,
+                            SpecialPricePerUnit = 0,
+                            RetailPricePerUnit = 0,
+                            SizeType = item.SizeId
+                        };
 
-                db.ProductSuppliers.Add(productSupplierDb);
-                db.SaveChanges();
+                        db.ProductSuppliers.Add(productSupplierDb);
+                        db.SaveChanges();
+                    }
+                }
 
                 Custodian custodian = db.Custodians.Find(product.SelectedCustodianNumber);
 
@@ -283,19 +296,26 @@ namespace FreeMarket.Models
                     return;
                 try
                 {
-                    ProductCustodian productCustodianDb = new ProductCustodian()
+                    foreach (ProductSize item in product.SizeVariations)
                     {
-                        AmountLastIncreasedBySupplier = null,
-                        CustodianNumber = product.SelectedCustodianNumber,
-                        DateLastIncreasedBySupplier = null,
-                        ProductNumber = product.ProductNumber,
-                        SupplierNumber = int.Parse(product.SelectedSupplier),
-                        QuantityOnHand = 0,
-                        StockReservedForOrders = 0
-                    };
+                        if (item.PricePerUnit > 0 && item.Activated == true)
+                        {
+                            ProductCustodian productCustodianDb = new ProductCustodian()
+                            {
+                                AmountLastIncreasedBySupplier = null,
+                                CustodianNumber = product.SelectedCustodianNumber,
+                                DateLastIncreasedBySupplier = null,
+                                ProductNumber = product.ProductNumber,
+                                SupplierNumber = int.Parse(product.SelectedSupplier),
+                                QuantityOnHand = 0,
+                                StockReservedForOrders = 0,
+                                SizeType = item.SizeId
+                            };
 
-                    db.ProductCustodians.Add(productCustodianDb);
-                    db.SaveChanges();
+                            db.ProductCustodians.Add(productCustodianDb);
+                            db.SaveChanges();
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
@@ -470,12 +490,9 @@ namespace FreeMarket.Models
         [DisplayName("Is this an Advert?")]
         public bool IsVirtual { get; set; }
 
-        [Required]
         [DisplayName("Size")]
         public string Size { get; set; }
 
-        [Required]
-        //[MinValue("0.1")]
         [DisplayName("Weight (KG)")]
         public decimal Weight { get; set; }
 
