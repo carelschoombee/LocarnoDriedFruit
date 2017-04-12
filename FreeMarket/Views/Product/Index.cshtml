@@ -9,7 +9,7 @@
 @helper ListProduct(int i)
 {
     <div>
-        <table class="table table-bordered-custom table-responsive well">
+        <table class="table table-bordered-custom-product table-responsive well">
             <tr>
                 <th class="col-sm-2"></th>
                 <th class="col-sm-2"></th>
@@ -166,19 +166,25 @@
                 <div class="row">
                     @if (i < Model.Products.Count)
                     {
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             @ListProduct(i)
                         </div>
                     }
                     @if (++i < Model.Products.Count)
                     {
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             @ListProduct(i)
                         </div>
                     }
                     @if (++i < Model.Products.Count)
                     {
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
+                            @ListProduct(i)
+                        </div>
+                    }
+                    @if (++i < Model.Products.Count)
+                    {
+                        <div class="col-sm-3">
                             @ListProduct(i)
                         </div>
                     }
@@ -241,19 +247,25 @@
                 <div class="row">
                     @if (i < Model.Websites.Count)
                     {
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             @ListWebsite(i)
                         </div>
                     }
                     @if (++i < Model.Websites.Count)
                     {
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             @ListWebsite(i)
                         </div>
                     }
                     @if (++i < Model.Websites.Count)
                     {
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
+                            @ListWebsite(i)
+                        </div>
+                    }
+                    @if (++i < Model.Websites.Count)
+                    {
+                        <div class="col-sm-3">
                             @ListWebsite(i)
                         </div>
                     }
@@ -263,7 +275,7 @@
     </div>
     <div class="col-sm-12">
         <div class="row text-center">
-            @Html.ActionLink("Back to Categories", "Departments", "Product", null, new { @style = "color:black; font-size:20px; font-weight:600" })
+            @Html.ActionLink("Back to Categories", "Index", "Home", null, new { @style = "color:black; font-size:20px; font-weight:600" })
         </div>
     </div>
 </div>

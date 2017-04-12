@@ -695,6 +695,14 @@ namespace FreeMarket.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateProductProcess(Product product, HttpPostedFileBase imagePrimary, HttpPostedFileBase imageSecondary, HttpPostedFileBase imageAdditional)
         {
+            if (product.SizeVariations.All(c => c.Activated == false))
+            {
+                ModelState.AddModelError("", "Please mark at least one checkbox as active.");
+                product.InitializeDropDowns("create");
+                product.SizeVariations = ProductSize.GetExistingProductSizes(product.ProductNumber, product.SupplierNumber);
+                return View("CreateProduct", product);
+            }
+
             if (ModelState.IsValid)
             {
                 Product.CreateNewProduct(product);
@@ -1199,6 +1207,14 @@ namespace FreeMarket.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditProductProcess(Product product, HttpPostedFileBase imagePrimary, HttpPostedFileBase imageSecondary, HttpPostedFileBase imageAdditional)
         {
+            if (product.SizeVariations.All(c => c.Activated == false))
+            {
+                ModelState.AddModelError("", "Please mark at least one checkbox as active.");
+                product.InitializeDropDowns("edit");
+                product.SizeVariations = ProductSize.GetExistingProductSizes(product.ProductNumber, product.SupplierNumber);
+                return View("EditProduct", product);
+            }
+
             if (ModelState.IsValid)
             {
                 Product.SaveProduct(product);

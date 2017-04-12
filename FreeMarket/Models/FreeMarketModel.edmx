@@ -854,6 +854,7 @@
         </Function>
         <Function Name="GetAllProductsDistinct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetAllProductsIncludingDeactivated" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllProductsIncludingDeactivatedDistinct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetAllProductsInOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="orderNumber" Type="int" Mode="In" />
         </Function>
@@ -1450,6 +1451,7 @@
             <Parameter Name="ProductNumber" Mode="In" Type="Int32" />
             <Parameter Name="SupplierNumber" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="GetAllProductsIncludingDeactivatedDistinct" ReturnType="Collection(FreeMarketModel.GetAllProductsIncludingDeactivatedDistinct_Result)" />
           </EntityContainer>
         <EntityType Name="SystemAction">
           <Key>
@@ -2598,6 +2600,12 @@
           <Property Type="Decimal" Name="PricePerUnit" Nullable="false" Precision="19" />
           <Property Type="Decimal" Name="SpecialPricePerUnit" Nullable="true" Precision="19" />
           <Property Type="Decimal" Name="RetailPricePerUnit" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="GetAllProductsIncludingDeactivatedDistinct_Result">
+          <Property Type="Int32" Name="ProductNumber" Nullable="false" />
+          <Property Type="Int32" Name="SupplierNumber" Nullable="false" />
+          <Property Type="Decimal" Name="minPrice" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="maxPrice" Nullable="true" Precision="19" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3885,6 +3893,16 @@
                 <ScalarProperty Name="PricePerUnit" ColumnName="PricePerUnit" />
                 <ScalarProperty Name="SpecialPricePerUnit" ColumnName="SpecialPricePerUnit" />
                 <ScalarProperty Name="RetailPricePerUnit" ColumnName="RetailPricePerUnit" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllProductsIncludingDeactivatedDistinct" FunctionName="FreeMarketModel.Store.GetAllProductsIncludingDeactivatedDistinct">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FreeMarketModel.GetAllProductsIncludingDeactivatedDistinct_Result">
+                <ScalarProperty Name="ProductNumber" ColumnName="ProductNumber" />
+                <ScalarProperty Name="SupplierNumber" ColumnName="SupplierNumber" />
+                <ScalarProperty Name="minPrice" ColumnName="minPrice" />
+                <ScalarProperty Name="maxPrice" ColumnName="maxPrice" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

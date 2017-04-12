@@ -47,7 +47,7 @@ namespace FreeMarket.Controllers
 
             ShoppingCart cart = GetCartFromSession(userId);
             ShoppingCartViewModel model = new ShoppingCartViewModel();
-            model = new ShoppingCartViewModel() { Cart = cart, ReturnUrl = Url.Action("Departments", "Product") };
+            model = new ShoppingCartViewModel() { Cart = cart, ReturnUrl = Url.Action("Index", "Home") };
 
             return View(model);
         }

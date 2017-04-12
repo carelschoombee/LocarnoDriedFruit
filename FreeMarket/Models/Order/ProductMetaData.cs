@@ -213,6 +213,11 @@ namespace FreeMarket.Models
                     IsVirtual = productInfo.IsVirtual
                 };
 
+                product.SelectedCustodianNumber = db.ProductCustodians
+                    .Where(c => c.ProductNumber == product.ProductNumber && c.SupplierNumber == product.SupplierNumber)
+                    .FirstOrDefault()
+                    .CustodianNumber;
+
                 product.MainImageNumber = db.ProductPictures
                     .Where(c => c.ProductNumber == product.ProductNumber && c.Dimensions == PictureSize.Medium.ToString())
                     .Select(c => c.PictureNumber)
@@ -267,9 +272,14 @@ namespace FreeMarket.Models
                         })
                         .ToList();
 
-                    CustodianInfo = db.GetCustodianInfo(this.ProductNumber, this.SupplierNumber)
-                        .Select(c => new { c.CustodianName, c.QuantityOnHand })
-                        .ToDictionary(c => c.CustodianName, c => c.QuantityOnHand);
+                    Custodians = db.Custodians
+                        .Select(c => new SelectListItem
+                        {
+                            Text = "(" + c.CustodianNumber + ") " + c.CustodianName,
+                            Value = c.CustodianNumber.ToString(),
+                            Selected = c.CustodianNumber == SelectedCustodianNumber ? true : false
+                        })
+                        .ToList();
                 }
                 else
                 {
@@ -418,7 +428,7 @@ namespace FreeMarket.Models
         public static void SaveProduct(Product product)
         {
             Product productDb = new Product();
-            ProductSupplier productSupplierDb = new ProductSupplier();
+            List<ProductSupplier> productSupplierDb = new List<ProductSupplier>();
 
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
@@ -435,64 +445,72 @@ namespace FreeMarket.Models
                     productDb.Weight = product.Weight;
                     productDb.IsVirtual = product.IsVirtual;
                     db.Entry(productDb).State = EntityState.Modified;
+                    db.SaveChanges();
                 }
 
-                productSupplierDb = db.ProductSuppliers.Find(product.ProductNumber, product.SupplierNumber);
-
-                if (product.PricePerUnit != productSupplierDb.PricePerUnit)
+                // For each productsize entry on the form
+                foreach (ProductSize x in product.SizeVariations)
                 {
-                    PriceHistory history = new PriceHistory()
+                    // Query the productsupplier table to get a record
+                    ProductSupplier temp = db.ProductSuppliers
+                        .Where(c => c.ProductNumber == product.ProductNumber
+                            && c.SupplierNumber == product.SupplierNumber && c.SizeType == x.SizeId)
+                        .FirstOrDefault();
+
+                    // If a record does not exist
+                    if (temp == null)
                     {
-                        OldPrice = productSupplierDb.PricePerUnit,
-                        NewPrice = product.PricePerUnit,
-                        ProductNumber = product.ProductNumber,
-                        SupplierNumber = product.SupplierNumber,
-                        Date = DateTime.Now,
-                        Type = "Normal"
-                    };
+                        // Check the activated field of the form and add a new record if it is true
+                        if (x.Activated == true)
+                        {
+                            ProductSupplier prodSup = new ProductSupplier
+                            {
+                                PricePerUnit = x.PricePerUnit,
+                                ProductNumber = product.ProductNumber,
+                                SupplierNumber = product.SupplierNumber,
+                                SizeType = x.SizeId,
+                            };
 
-                    db.PriceHistories.Add(history);
-                }
+                            db.ProductSuppliers.Add(prodSup);
+                            db.SaveChanges();
+                        }
+                    }
 
-                if (product.SpecialPricePerUnit != productSupplierDb.SpecialPricePerUnit)
-                {
-                    PriceHistory history = new PriceHistory()
+                    // If a record does exist
+                    else
                     {
-                        OldPrice = productSupplierDb.SpecialPricePerUnit,
-                        NewPrice = product.SpecialPricePerUnit,
-                        ProductNumber = product.ProductNumber,
-                        SupplierNumber = product.SupplierNumber,
-                        Date = DateTime.Now,
-                        Type = "Special"
-                    };
+                        // Check the activated field and remove it if it is false
+                        if (x.Activated == false)
+                        {
+                            db.ProductSuppliers.Remove(temp);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            // If the prices differ, record it in the pricehistory table
+                            if (x.PricePerUnit != temp.PricePerUnit)
+                            {
+                                PriceHistory history = new PriceHistory()
+                                {
+                                    OldPrice = temp.PricePerUnit,
+                                    NewPrice = x.PricePerUnit,
+                                    ProductNumber = product.ProductNumber,
+                                    SupplierNumber = product.SupplierNumber,
+                                    Date = DateTime.Now,
+                                    Type = x.SizeId.ToString()
+                                };
 
-                    db.PriceHistories.Add(history);
+                                db.PriceHistories.Add(history);
+
+                                // Update the record
+                                temp.PricePerUnit = x.PricePerUnit;
+                                db.Entry(temp).State = EntityState.Modified;
+
+                                db.SaveChanges();
+                            }
+                        }
+                    }
                 }
-
-                if (product.RetailPricePerUnit != productSupplierDb.RetailPricePerUnit)
-                {
-                    PriceHistory history = new PriceHistory()
-                    {
-                        OldPrice = productSupplierDb.RetailPricePerUnit,
-                        NewPrice = product.RetailPricePerUnit,
-                        ProductNumber = product.ProductNumber,
-                        SupplierNumber = product.SupplierNumber,
-                        Date = DateTime.Now,
-                        Type = "Retail"
-                    };
-
-                    db.PriceHistories.Add(history);
-                }
-
-                if (productSupplierDb != null)
-                {
-                    productSupplierDb.PricePerUnit = product.PricePerUnit;
-                    productSupplierDb.SpecialPricePerUnit = product.SpecialPricePerUnit;
-                    productSupplierDb.RetailPricePerUnit = product.RetailPricePerUnit;
-                    db.Entry(productSupplierDb).State = EntityState.Modified;
-                }
-
-                db.SaveChanges();
             }
         }
 

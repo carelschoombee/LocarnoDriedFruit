@@ -20,9 +20,7 @@
             <th class="col-sm-1">Product Number</th>
             <th class="col-sm-1">Image</th>
             <th class="col-sm-2">Description</th>
-            <th class="col-sm-2">Weight</th>
-            <th class="col-sm-2">Supplier</th>
-            <th class="col-sm-2">Price Per Unit</th>
+            <th class="col-sm-2">Price Range</th>
             <th class="col-sm-2">Active</th>
         </tr>
 
@@ -39,16 +37,10 @@
                     <img width="256" height="192" class="img-thumbnail" src="@Url.Action("RenderImage", "Image", new { id = product.MainImageNumber})" alt="@product.Description" title="@product.Description" />
                 </td>
                 <td>
-                    @Html.DisplayFor(model => product.Description)
+                    @Html.DisplayFor(model => product.Description) 
                 </td>
                 <td>
-                    @Html.DisplayFor(model => product.Weight)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => product.SupplierName)
-                </td>
-                <td>
-                    @String.Format("{0:C}", product.PricePerUnit)
+                    <div>@String.Format("{0:C} - {1:C}", product.MinPrice, product.MaxPrice)</div>
                 </td>
                 <td>
                     @product.Activated

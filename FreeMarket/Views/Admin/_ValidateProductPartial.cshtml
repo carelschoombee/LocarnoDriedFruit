@@ -73,22 +73,62 @@
                                 }
                             }
                         },
-                        'PricePerUnit': {
+                        'SelectedDepartment': {
                             validators: {
                                 notEmpty: {
                                     message: 'The field is required.'
-                                },
-                                regexp: {
-                                    regexp: /^[\d,\s]+$/,
-                                    message: 'Only numbers, spaces and commas.'
-                                },
-                                greaterThan: {
-                                    message: 'Must be a positive number greater than zero.',
-                                    value: 0,
-                                    inclusive: false
                                 }
                             }
                         },
+                        'SelectedSupplier': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                }
+                            }
+                        },
+                        'SelectedCustodianNumber': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                }
+                            }
+                        },
+                        @if (Model.Suppliers != null)
+                        {
+                            <text>
+                            'imagePrimary': {
+                                validators: {
+                                        notEmpty: {
+                                            message: 'The field is required.'
+                                        }
+                                }
+                            },
+                            //'imageSecondary': {
+                            //    validators: {
+                            //        notEmpty: {
+                            //            message: 'The field is required.'
+                            //        }
+                            //    }
+                            //},
+                            </text>
+                        }
+                        //'PricePerUnit': {
+                        //    validators: {
+                        //        notEmpty: {
+                        //            message: 'The field is required.'
+                        //        },
+                        //        regexp: {
+                        //            regexp: /^[\d,\s]+$/,
+                        //            message: 'Only numbers, spaces and commas.'
+                        //        },
+                        //        greaterThan: {
+                        //            message: 'Must be a positive number greater than zero.',
+                        //            value: 0,
+                        //            inclusive: false
+                        //        }
+                        //    }
+                        //},
                         //'SpecialPricePerUnit': {
                         //    validators: {
                         //        regexp: {
@@ -115,70 +155,31 @@
                         //        }
                         //    }
                         //},
-                        'Weight': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'The field is required.'
-                                },
-                                numeric: {
-                                    message: 'The field must be a number.',
-                                    separator: ','
-                                },
-                                greaterThan: {
-                                    message: 'Must be a positive number greater than zero.',
-                                    value: -1,
-                                    inclusive: false
-                                }
-                            }
-                        },
-                        @if (Model.Suppliers != null)
-                        {
-                         <text>
-                        'imagePrimary': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'The field is required.'
-                                }
-                            }
-                        },
-                        'imageSecondary': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'The field is required.'
-                                }
-                            }
-                        },
-                        </text>
-                        }
-                        'SelectedDepartment': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'The field is required.'
-                                }
-                            }
-                        },
-                        'SelectedSupplier': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'The field is required.'
-                                }
-                            }
-                        },
-                        'SelectedCustodianNumber': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'The field is required.'
-                                }
-                            }
-                        },
-                        'Size': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'The field is required.'
-                                }
-                            }
-                        }
-
+                        //'Weight': {
+                        //    validators: {
+                        //        notEmpty: {
+                        //            message: 'The field is required.'
+                        //        },
+                        //        numeric: {
+                        //            message: 'The field must be a number.',
+                        //            separator: ','
+                        //        },
+                        //        greaterThan: {
+                        //            message: 'Must be a positive number greater than zero.',
+                        //            value: -1,
+                        //            inclusive: false
+                        //        }
+                        //    }
+                        //},
+                        
+                        
+                        //'Size': {
+                        //    validators: {
+                        //        notEmpty: {
+                        //            message: 'The field is required.'
+                        //        }
+                        //    }
+                        //}
                     }
                 })
     });

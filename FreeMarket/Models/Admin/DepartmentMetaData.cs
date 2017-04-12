@@ -13,6 +13,7 @@ namespace FreeMarket.Models
     {
         public int MainImageNumber { get; set; }
         public int SecondaryImageNumber { get; set; }
+        public int ItemsInDepartment { get; set; }
 
         public static List<Department> GetModel()
         {
@@ -57,6 +58,10 @@ namespace FreeMarket.Models
                     .Where(c => c.DepartmentNumber == model.DepartmentNumber && c.Dimensions == PictureSize.Large.ToString())
                     .Select(c => c.PictureNumber)
                     .FirstOrDefault();
+
+                model.ItemsInDepartment = db.Products
+                    .Where(c => c.DepartmentNumber == model.DepartmentNumber)
+                    .Count();
             }
 
             if (model == null)
@@ -83,6 +88,10 @@ namespace FreeMarket.Models
 
                     department.MainImageNumber = imageNumber;
                     department.SecondaryImageNumber = imageNumberSecondary;
+
+                    department.ItemsInDepartment = db.Products
+                       .Where(c => c.DepartmentNumber == department.DepartmentNumber)
+                       .Count();
                 }
             }
         }

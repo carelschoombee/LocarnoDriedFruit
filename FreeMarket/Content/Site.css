@@ -2,6 +2,28 @@
 
 /* bootstrap 3 helpers */
 
+.table-bordered-custom-product img{
+    height: 192px;
+}
+
+.table-bordered-custom-product td {
+    /*border: 1px solid #ddd !important;*/
+    border: 2px solid !important;
+    border-color: white;
+    font-size: 18px !important;
+    /*font-family: 'Arial' !important;*/
+    font-weight: 600;
+}
+
+.table-bordered-custom-product {
+    /*border: 1px solid #ddd !important;*/
+    border: 2px solid white !important;
+    font-size: 20px !important;
+    /*font-family: 'Arial' !important;*/
+    font-weight: 700;
+    text-align:center;
+}
+
 .carousel-inner > .item > img, .carousel-inner > .item > a > img {
     width: 256px;
     height: 192px;
@@ -254,13 +276,21 @@ a:hover {
     font-family: 'Glyphicons Halflings';
 }
 
-.well {       
+.well-payment {
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
     border: 1px solid white;
 
+background-color:white;
+color:black;
+}
 
+.well {       
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    border: 1px solid white;
 
 background: #000000; /* fallback for old browsers */
 background: -webkit-linear-gradient(to left, #000000 , #434343); /* Chrome 10-25, Safari 5.1-6 */
@@ -273,9 +303,6 @@ background: linear-gradient(to left, #000000 , #434343); /* W3C, IE 10+/ Edge, F
     -webkit-border-radius: 10px;
     border-radius: 10px;
     border: 1px solid white;
-    
-
-
 
 background: #000000; /* fallback for old browsers */
 background: -webkit-linear-gradient(to left, #000000 , #434343); /* Chrome 10-25, Safari 5.1-6 */

@@ -30,9 +30,9 @@ namespace FreeMarket.Controllers
             List<Department> departments = Department.GetModel();
 
             if (departments != null && departments.Count > 0)
-                return View(departments);
+                return PartialView("_Departments", departments);
 
-            return View();
+            return PartialView("_Departments");
         }
 
         [ChildActionOnly]

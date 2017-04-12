@@ -17,7 +17,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrapValidator")
     @Scripts.Render("~/bundles/animsition")
-    @Scripts.Render("~/bundles/morris")
+    @Scripts.Render("~/bundles/morris")    
     @Scripts.Render("~/bundles/bootstrap")
 
 </head>
@@ -37,14 +37,6 @@
     <div>
         <nav role="navigation" class="navbar navbar-default navbar-static-top" id="topnavbar">
             <div class="container">
-
-                 @*
-                <div class="navbar-header pull-left">
-                    <a href="@Url.Action("Departments", "Product")">
-                        <img class="img-rounded img-thumbnail" src="@Url.Content("~/Content/Images/logoSmall.png")" alt="Locarno Sun Dried Fruit" title="Buy" />
-                    </a>
-                </div>*@
-
                 <div class="collapse navbar-collapse navbar-header pull-left">
 
                     <ul class="nav navbar-nav pull-right">
@@ -55,7 +47,6 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                                <li>@Html.ActionLink("Shop", "Departments", "Product", new { area = "" }, null)</li>
                                 <li>@Html.ActionLink("Delivery Options", "DeliveryOptionsInfo", "Home", new { area = "" }, null)</li>
                                 <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, null)</li>
                                 <li>@Html.ActionLink("Contact Us", "Contact", "Home", new { area = "" }, null)</li>
@@ -128,7 +119,7 @@
         
         @RenderBody()
         <hr />
-        <footer>
+        <footer style="background-color:white">
             <p class="text-center" style="font-weight:bold">&copy; @DateTime.Now.Year - Locarno Sun Dried Fruit</p>
             <div class="text-center">@Html.ActionLink("Privacy", "Privacy", "Home", null, new { @style = "color:black" })</div>
             
@@ -263,6 +254,6 @@
     
 
     @RenderSection("scripts", required: false)
-
+    
 </body>
 </html>

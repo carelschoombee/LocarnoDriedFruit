@@ -1,19 +1,10 @@
 ﻿@using FreeMarket.Models
 @model List<Department>
 
-@{
-    ViewBag.Title = "Locarno Sun Dried Fruit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
 @helper ListDepartment(int i)
 {
     <div>
-        <table class="table table-bordered-custom table-responsive well">
-            <tr class="well well-modal">
-                <th class="col-sm-2"></th>
-                <th class="col-sm-2"></th>
-            </tr>
+        <table class="table table-bordered-custom-product table-responsive well">
             <tr>
                 <td class="text-center" colspan="2">
                     @if (Model[i].SecondaryImageNumber != 0)
@@ -28,10 +19,10 @@
                             <!-- Wrapper for carousel items -->
                             <div class="carousel-inner">
                                 <div class="item active">
-                                    <img width="256" height="192" class="img-thumbnail" src="@Url.Action("RenderDepartmentImage", "Image", new { id = Model[i].MainImageNumber})" alt="@Model[i].DepartmentName" title="@Model[i].DepartmentName" />
+                                    <img width="256" height="192" class="img-thumbnail img-responsive" src="@Url.Action("RenderDepartmentImage", "Image", new { id = Model[i].MainImageNumber})" alt="@Model[i].DepartmentName" title="@Model[i].DepartmentName" />
                                 </div>
                                 <div class="item">
-                                    <img width="256" height="192" class="img-thumbnail" src="@Url.Action("RenderDepartmentImage", "Image", new { id = Model[i].SecondaryImageNumber})" alt="@Model[i].DepartmentName" title="@Model[i].DepartmentName" />
+                                    <img width="256" height="192" class="img-thumbnail img-responsive" src="@Url.Action("RenderDepartmentImage", "Image", new { id = Model[i].SecondaryImageNumber})" alt="@Model[i].DepartmentName" title="@Model[i].DepartmentName" />
                                 </div>
                             </div>
 
@@ -46,13 +37,13 @@
                     }
                     else
                     {
-                        <img width="256" height="192" class="img-thumbnail" src="@Url.Action("RenderDepartmentImage", "Image", new { id = Model[i].MainImageNumber})" alt="@Model[i].DepartmentName" title="@Model[i].DepartmentName" />
+                        <img width="256" height="192" class="img-thumbnail img-responsive" src="@Url.Action("RenderDepartmentImage", "Image", new { id = Model[i].MainImageNumber})" alt="@Model[i].DepartmentName" title="@Model[i].DepartmentName" />
                     }
                 </td>
             </tr>
             <tr>
                 <td class="text-center" colspan="2">
-                    <div style="font-size: 24px; color:white"><i><strong>@Model[i].DepartmentName</strong></i></div>
+                    <div style="font-size: 24px; color:white"><i><strong>@Model[i].DepartmentName (@Model[i].ItemsInDepartment)</strong></i></div>
                 </td>
             </tr>
 
@@ -70,10 +61,6 @@
 <br />
 
 <div class="container">
-    <div class="row">
-        <h1 class="text-center">Categories</h1>
-        <hr />
-    </div>
 
     <div class="col-sm-12">
         @if (Model.Count == 1)
@@ -129,30 +116,31 @@
                 <div class="row">
                     @if (i < Model.Count)
                     {
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             @ListDepartment(i)
                         </div>
                     }
                     @if (++i < Model.Count)
                     {
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             @ListDepartment(i)
                         </div>
                     }
                     @if (++i < Model.Count)
                     {
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
+                            @ListDepartment(i)
+                        </div>
+                    }
+                    @if (++i < Model.Count)
+                    {
+                        <div class="col-sm-3">
                             @ListDepartment(i)
                         </div>
                     }
                 </div>
             }
         }
-    </div>
-    <div class="col-sm-12">
-        <div class="row text-center">
-            @Html.ActionLink("Back to Home", "Index", "Home", null, new { @style = "color:black; font-size:20px; font-weight:600" })
-        </div>
     </div>
 </div>
 

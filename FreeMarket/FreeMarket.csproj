@@ -336,6 +336,9 @@
     <Compile Include="Models\GetAllProductsDistinct_Result.cs">
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetAllProductsIncludingDeactivatedDistinct_Result.cs">
+      <DependentUpon>FreeMarketModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetAllProductsIncludingDeactivated_Result.cs">
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>
@@ -869,7 +872,7 @@
     <Content Include="Views\Admin\InitiateCashOrder.cshtml" />
     <Content Include="Views\Admin\EditCashOrder.cshtml" />
     <Content Include="Views\Home\_SpecialMessage.cshtml" />
-    <Content Include="Views\Product\Departments.cshtml" />
+    <Content Include="Views\Product\_Departments.cshtml" />
     <Content Include="Views\ShoppingCart\ChoosePaymentOption.cshtml" />
     <Content Include="Views\ShoppingCart\ConfirmInvoice.cshtml" />
     <Content Include="Views\Admin\ControlPanelIndex.cshtml" />

@@ -8,32 +8,35 @@
 
 <div id="parent" class="center_div container">
     <div class="row">
-        <h1 class="text-center">Welcome</h1>
+        <h1 class="text-center">Welcome to Locarno Sun Dried Fruit & Nuts</h1>
         <hr />
     </div>
     <div class="row">
         @Html.Partial("_ProductCarousel")
     </div>
-    <div class="row well">
-
-        @Html.Raw(Model.WelcomeText)
-        
-    </div>
     <div class="row well text-center">
 
-        We offer the following payment options:
+        @Html.Raw(Model.WelcomeText)
+        <div>Feel free to @Html.ActionLink("Contact", "Contact", "Home", new { @class = "freemarket-link" }) us if you don’t find what you are looking for.</div>
+    </div>
+    <div class="row well-payment text-center">
+
+        Accepted payment methods (EFT, Credit Card & More)
         @Html.Partial("_PaymentOptions")
         
     </div>
     
-    <div class="row text-center">
+    @*<div class="row text-center">
         <a class="btn btn-success" href="@Url.Action("Departments", "Product")"><span class="glyphicon glyphicon-shopping-cart">&nbsp;&nbsp;Start Shopping!</span></a>
-    </div>
+    </div>*@
+
     <div class="row">
         &nbsp;
     </div>
    
 </div>
+
+@Html.Action("Departments", "Product")
 
 <script type="text/javascript">
 

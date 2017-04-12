@@ -467,5 +467,10 @@ namespace FreeMarket.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetShallowProduct_Result>("GetShallowProduct", productNumberParameter, supplierNumberParameter);
         }
+    
+        public virtual ObjectResult<GetAllProductsIncludingDeactivatedDistinct_Result> GetAllProductsIncludingDeactivatedDistinct()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllProductsIncludingDeactivatedDistinct_Result>("GetAllProductsIncludingDeactivatedDistinct");
+        }
     }
 }

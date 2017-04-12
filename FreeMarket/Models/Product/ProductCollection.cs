@@ -49,34 +49,17 @@ namespace FreeMarket.Models
 
         public static ProductCollection GetAllProductsIncludingDeactivated()
         {
-            ProductCollection allProducts = new ProductCollection();
+            ProductCollection departmentProducts = new ProductCollection();
+            List<GetAllProductsIncludingDeactivatedDistinct_Result> result = new List<GetAllProductsIncludingDeactivatedDistinct_Result>();
 
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
-                allProducts.Products = db.GetAllProductsIncludingDeactivated()
-                    .Select(c => new Product
-                    {
-                        Activated = c.Activated,
-                        DateAdded = c.DateAdded,
-                        DateModified = c.DateModified,
-                        DepartmentName = c.DepartmentName,
-                        DepartmentNumber = c.DepartmentNumber,
-                        Description = c.Description,
-                        PricePerUnit = c.PricePerUnit,
-                        ProductNumber = c.ProductNumberID,
-                        Size = "",
-                        SupplierName = c.SupplierName,
-                        SupplierNumber = c.SupplierNumberID,
-                        IsVirtual = c.IsVirtual,
-                        Weight = 0
-                    }
-                    ).ToList();
+                result = db.GetAllProductsIncludingDeactivatedDistinct()
+                    .ToList();
 
-                SetProductData(allProducts);
+                departmentProducts = SetProductIncludingDeactivatedDataDistinct(result);
 
-                Debug.Write(allProducts);
-
-                return allProducts;
+                return departmentProducts;
             }
         }
 
@@ -141,6 +124,29 @@ namespace FreeMarket.Models
                         product.SecondaryImageNumber = imageNumberSecondary;
                     }
                 }
+            }
+        }
+
+        public static ProductCollection SetProductIncludingDeactivatedDataDistinct(List<GetAllProductsIncludingDeactivatedDistinct_Result> allProducts)
+        {
+            ProductCollection collection = new ProductCollection();
+
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                if (allProducts != null && allProducts.Count > 0)
+                {
+                    foreach (GetAllProductsIncludingDeactivatedDistinct_Result product in allProducts)
+                    {
+                        Product prodTemp = Product.GetShallowProduct(product.ProductNumber, product.SupplierNumber);
+                        prodTemp.MinPrice = product.minPrice;
+                        prodTemp.MaxPrice = product.maxPrice;
+
+                        if (prodTemp != null)
+                            collection.Products.Add(prodTemp);
+                    }
+                }
+
+                return collection;
             }
         }
 

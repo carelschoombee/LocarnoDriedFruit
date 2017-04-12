@@ -44,10 +44,10 @@
                                         <!-- Wrapper for carousel items -->
                                         <div class="carousel-inner">
                                             <div class="item active">
-                                                <img class="img-thumbnail img-thumbnail img-responsive" src="@Url.Action("RenderImage", "Image", new { id = Model.ProductInstance.AdditionalImageNumber })" alt="@Model.ProductInstance.Description" title="@Model.ProductInstance.Description" />
+                                                <img class="img-thumbnail img-thumbnail img-responsive magnify" src="@Url.Action("RenderImage", "Image", new { id = Model.ProductInstance.AdditionalImageNumber })" alt="@Model.ProductInstance.Description" title="@Model.ProductInstance.Description" />
                                             </div>
                                             <div class="item">
-                                                <img class="img-thumbnail img-thumbnail img-responsive" src="@Url.Action("RenderImage", "Image", new { id = Model.ProductInstance.MainImageNumber })" alt="@Model.ProductInstance.Description" title="@Model.ProductInstance.Description" />
+                                                <img class="img-thumbnail img-thumbnail img-responsive magnify" src="@Url.Action("RenderImage", "Image", new { id = Model.ProductInstance.MainImageNumber })" alt="@Model.ProductInstance.Description" title="@Model.ProductInstance.Description" />
                                             </div>
                                         </div>
 
@@ -62,7 +62,7 @@
                                     }
                                     else
                                     {
-                                        <img class="img-thumbnail img-thumbnail img-responsive" src="@Url.Action("RenderImage", "Image", new { id = Model.ProductInstance.MainImageNumber })" alt="@Model.ProductInstance.Description" title="@Model.ProductInstance.Description" />
+                                        <img class="img-thumbnail img-thumbnail img-responsive magnify" src="@Url.Action("RenderImage", "Image", new { id = Model.ProductInstance.MainImageNumber })" alt="@Model.ProductInstance.Description" title="@Model.ProductInstance.Description" />
                                     }
                                 </td>
                                 <td>@Html.DropDownListFor(model => model.SelectedPackageType, Model.ProductSizes, new { @class = "form-control" })</td>
@@ -215,4 +215,5 @@
     }).on('error.form.bv', function (e) {
         e.preventDefault();        
     });
+
 </script>
