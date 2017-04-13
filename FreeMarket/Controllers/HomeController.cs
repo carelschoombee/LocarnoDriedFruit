@@ -32,10 +32,9 @@ namespace FreeMarket.Controllers
             return View(model);
         }
 
-        public ActionResult DeliveryOptionsInfo()
+        public ActionResult Gallery()
         {
-            DeliveryOptionsViewModel model = new DeliveryOptionsViewModel();
-            return View(model);
+            return View();
         }
 
         public ActionResult About()
@@ -47,14 +46,29 @@ namespace FreeMarket.Controllers
 
         public ActionResult Contact()
         {
-            Support support = new Support();
+            ContactUsViewModel model = new ContactUsViewModel();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SendEmail(ContactUsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                EmailService service = new EmailService();
+                service.SendAsync(model.FromEmail, model.DestinationEmail, model.Message);
+
+                return View("ThankYouForYourEmail");
+            }
 
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
-                support = db.Supports.FirstOrDefault();
+                model.SupportInfo = db.Supports.FirstOrDefault();
             }
 
-            return View(support);
+            return View("Contact", model);
         }
 
         public ActionResult TermsAndConditionsModal()

@@ -19,6 +19,29 @@ namespace FreeMarket
 {
     public class EmailService : IIdentityMessageService
     {
+        public Task SendAsync(string from, string to, string message)
+        {
+            SmtpClient smtp = new SmtpClient();
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(from);
+            mail.To.Add(new MailAddress(to));
+            mail.Subject = "Inquiry";
+
+            string body = string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Locarno Sun Dried Fruit platform</td></tr><tr><td><br /><img src=cid:LogoImage></td></tr></table></body></html>", message);
+            AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body.Trim(), null, "text/html");
+
+            string fileNameLogo = HttpContext.Current.Server.MapPath("~/Content/Images/Logopng.png");
+            System.Net.Mail.LinkedResource imageResource = new System.Net.Mail.LinkedResource(fileNameLogo, "image/png");
+            imageResource.ContentId = "LogoImage";
+            htmlView.LinkedResources.Add(imageResource);
+
+            mail.AlternateViews.Add(htmlView);
+
+            smtp.Send(mail);
+
+            return Task.FromResult(0);
+        }
+
         public Task SendAsync(IdentityMessage message)
         {
             SmtpClient smtp = new SmtpClient();

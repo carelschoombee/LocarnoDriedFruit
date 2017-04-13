@@ -24,5 +24,18 @@ namespace FreeMarket.Models
         public string TownName { get; set; }
         public string PostalCode { get; set; }
         public string Province { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+        public string StoreName { get; set; }
+        public Nullable<int> DefaultZoomLevel { get; set; }
+        public string Fax { get; set; }
+        public string ManagingEmail1 { get; set; }
+        public string ManagingEmail2 { get; set; }
+        public string AccountsEmail { get; set; }
+        public string Manager1 { get; set; }
+        public string Manager2 { get; set; }
+        public string AccountsPerson { get; set; }
+        public string PhysicalAddress { get; set; }
+        public string PostalAddress { get; set; }
     }
 }

@@ -566,6 +566,19 @@
           <Property Name="TownName" Type="nvarchar" MaxLength="200" />
           <Property Name="PostalCode" Type="nvarchar" MaxLength="50" />
           <Property Name="Province" Type="nvarchar" MaxLength="50" />
+          <Property Name="Latitude" Type="nvarchar" MaxLength="50" />
+          <Property Name="Longitude" Type="nvarchar" MaxLength="50" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="100" />
+          <Property Name="DefaultZoomLevel" Type="int" />
+          <Property Name="Fax" Type="nvarchar" MaxLength="50" />
+          <Property Name="ManagingEmail1" Type="nvarchar" MaxLength="100" />
+          <Property Name="ManagingEmail2" Type="nvarchar" MaxLength="100" />
+          <Property Name="AccountsEmail" Type="nvarchar" MaxLength="100" />
+          <Property Name="Manager1" Type="nvarchar" MaxLength="100" />
+          <Property Name="Manager2" Type="nvarchar" MaxLength="100" />
+          <Property Name="AccountsPerson" Type="nvarchar" MaxLength="100" />
+          <Property Name="PhysicalAddress" Type="nvarchar" MaxLength="700" />
+          <Property Name="PostalAddress" Type="nvarchar" MaxLength="700" />
         </EntityType>
         <EntityType Name="SystemActions">
           <Key>
@@ -1865,6 +1878,19 @@
           <Property Name="TownName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="PostalCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Province" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Latitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Longitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StoreName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DefaultZoomLevel" Type="Int32" />
+          <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ManagingEmail1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ManagingEmail2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AccountsEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Manager1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Manager2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AccountsPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PhysicalAddress" Type="String" MaxLength="700" FixedLength="false" Unicode="true" />
+          <Property Name="PostalAddress" Type="String" MaxLength="700" FixedLength="false" Unicode="true" />
         </EntityType>
         <ComplexType Name="FilterAuditUser_Result">
           <Property Type="Int64" Name="ActionNumber" Nullable="true" />
@@ -3190,6 +3216,19 @@
           <EntitySetMapping Name="Supports">
             <EntityTypeMapping TypeName="FreeMarketModel.Support">
               <MappingFragment StoreEntitySet="Support">
+                <ScalarProperty Name="PostalAddress" ColumnName="PostalAddress" />
+                <ScalarProperty Name="PhysicalAddress" ColumnName="PhysicalAddress" />
+                <ScalarProperty Name="AccountsPerson" ColumnName="AccountsPerson" />
+                <ScalarProperty Name="Manager2" ColumnName="Manager2" />
+                <ScalarProperty Name="Manager1" ColumnName="Manager1" />
+                <ScalarProperty Name="AccountsEmail" ColumnName="AccountsEmail" />
+                <ScalarProperty Name="ManagingEmail2" ColumnName="ManagingEmail2" />
+                <ScalarProperty Name="ManagingEmail1" ColumnName="ManagingEmail1" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="DefaultZoomLevel" ColumnName="DefaultZoomLevel" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Province" ColumnName="Province" />
                 <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
                 <ScalarProperty Name="TownName" ColumnName="TownName" />

@@ -34,9 +34,14 @@
     text-align:center;
 }
 
-.carousel-inner > .item > img, .carousel-inner > .item > a > img {
+.productCarousel .carousel-inner > .item > img, .carousel-inner > .item > a > img {
     width: 256px;
     height: 192px;
+}
+
+.gallerySlide .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    width: 1000px;
+    height: 600px;
 }
 
 .has-error .form-control-feedback {

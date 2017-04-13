@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Thank You";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+
+<div id="parent" class="text-center well well-modal">
+    <h2>Thank you for your inquiry. We will get back to you as soon as possible. Why not browse our shop while you wait?</h2>
+
+    @Html.ActionLink("Browse Shop", "Index", "Home", null, new { @class = "freemarket-link" })
+</div>

@@ -6,24 +6,35 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="parent" class="center_div container">
+<div class="container">
     <div class="col-sm-12">
         <div class="row">
-            <h1 class="text-center">About Me</h1>
+            <h1 class="text-center">Our Story</h1>
             <hr />
         </div>
         <div class="row well">
-            <div class="text-center">
-                <img class="img-rounded img-thumbnail img-responsive" src="~/Content/Images/AboutUs.jpg" width="400" height="200"/>
-            </div>
             <div>
                 <br />
                 @Html.Raw(Model.MainDescription)
+                <br />
+                <div class="text-center"><b>The image below is the entrance to our shop in Montagu in the Western Cape of South Africa.</b></div>
+
+                <div class="text-center"><img src="~/Content/Images/Shop-7.jpg" /></div>
+                <br />
+
+                <div class="text-center"><b>The image below shows the inside of our shop in Montagu.</b></div>
+
+                <div class="text-center"><img src="~/Content/Images/Shop-9.jpg" /></div>
+                <br />
+
+                <div class="text-center"><b>The image below shows our drying baskets on the farm. </b></div>
+
+                <div class="text-center"><img src="~/Content/Images/P-51.jpg" /></div>
             </div>
         </div>
 
-        <div class="col-md-offset-4 row">
-            <a class="btn btn-success" href="@Url.Action("Departments", "Product")"><span class="glyphicon glyphicon-shopping-cart">&nbsp;&nbsp;Start Shopping!</span></a>
+        <div class="text-center row">
+            <a class="btn btn-success" href="@Url.Action("Index", "Home")"><span class="glyphicon glyphicon-shopping-cart">&nbsp;&nbsp;Start Shopping!</span></a>
         </div>
     </div>
 </div>

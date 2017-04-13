@@ -24,7 +24,14 @@
 </head>
 <body>
     <header class="masthead">
-        
+        <div id="parent" class="center_div text-center">
+
+            <span class="glyphicon glyphicon-phone">+27 (023) 614 3782</span>
+            &nbsp;&nbsp;
+            <span><a style="color:white" href="mailto:info@locarnodriedfruit.co.za">info@locarnodriedfruit.co.za</a></span>
+            @Html.Partial("_SocialMedia")
+
+        </div>
     </header>
 
     <div class="container" id="banner">
@@ -48,9 +55,9 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                                <li>@Html.ActionLink("Delivery Options", "DeliveryOptionsInfo", "Home", new { area = "" }, null)</li>
                                 <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, null)</li>
                                 <li>@Html.ActionLink("Contact Us", "Contact", "Home", new { area = "" }, null)</li>
+                                <li>@Html.ActionLink("Gallery", "Gallery", "Home", new { area = "" }, null)</li>
                             </ul>
                         </li>
                     </ul>
@@ -130,8 +137,8 @@
             </div>
 
             <div id="parent" class="center_div text-center">
-               @* <div class="text-center">Our payment partners:</div>*@
 
+                @Html.Partial("_SocialMedia")
                 @Html.Partial("_PaymentPartners")
                 
             </div>
