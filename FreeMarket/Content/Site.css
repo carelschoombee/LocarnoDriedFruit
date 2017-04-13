@@ -2,6 +2,16 @@
 
 /* bootstrap 3 helpers */
 
+.wrapper {
+   position: relative;
+}
+
+.wrapper .magnify-icon {
+   position: absolute;
+   top: 1px;
+   right: 1px;
+}
+
 .table-bordered-custom-product img{
     height: 192px;
 }

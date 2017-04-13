@@ -80,7 +80,15 @@ namespace FreeMarket.Controllers
 
         public ActionResult GetAverageRating(int productNumber, int supplierNumber)
         {
-            return Content(ProductReviewsCollection.CalculateAverageRatingOnly(productNumber, supplierNumber).ToString());
+            string toReturn = "";
+            double? averageRating = ProductReviewsCollection.CalculateAverageRatingOnly(productNumber, supplierNumber);
+
+            if (averageRating == null || averageRating == 0)
+                toReturn = "No reviews written yet.";
+            else
+                toReturn = averageRating.ToString() + " / 3";
+
+            return Content(toReturn);
         }
 
         public ActionResult GetReviews(int productNumber, int supplierNumber, int size = 4)

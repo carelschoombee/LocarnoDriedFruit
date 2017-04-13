@@ -38,6 +38,9 @@ namespace FreeMarket
                       "~/Scripts/raphael.min.js",
                       "~/Scripts/morris.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/zoom").Include(
+                      "~/Scripts/jquery.zoom.min.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       //"~/Content/bootstrap-theme.min.css",
                       "~/Content/bootstrap.css",
