@@ -951,7 +951,7 @@
     <Content Include="Views\Admin\_SupportPartial.cshtml" />
     <Content Include="Views\Admin\_ValidateSupportPartial.cshtml" />
     <Content Include="Views\Admin\_InTransitOrders.cshtml" />
-    <Content Include="Views\Admin\_ViewFullOrder.cshtml" />
+    <Content Include="Views\Admin\ViewFullOrder.cshtml" />
     <Content Include="Views\Admin\_ViewAudits.cshtml" />
     <Content Include="Views\Home\_PaymentOptions.cshtml" />
     <Content Include="Views\Shared\_PaymentPartners.cshtml" />

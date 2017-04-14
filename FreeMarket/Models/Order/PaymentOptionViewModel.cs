@@ -15,6 +15,7 @@ namespace FreeMarket.Models
             {
                 options = db.PaymentOptions
                     .Where(c => c.Activated == true)
+                    .OrderByDescending(c => c.PaymentOptionID)
                     .ToList();
             }
         }

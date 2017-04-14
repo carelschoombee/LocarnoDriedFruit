@@ -472,5 +472,14 @@ namespace FreeMarket.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllProductsIncludingDeactivatedDistinct_Result>("GetAllProductsIncludingDeactivatedDistinct");
         }
+    
+        public virtual ObjectResult<Nullable<int>> FilterOrders(string filterCriteria)
+        {
+            var filterCriteriaParameter = filterCriteria != null ?
+                new ObjectParameter("filterCriteria", filterCriteria) :
+                new ObjectParameter("filterCriteria", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("FilterOrders", filterCriteriaParameter);
+        }
     }
 }

@@ -28,7 +28,7 @@
             
             <tr>
                 <td data-label="#:" class="text-center">
-                    @Html.ActionLink(Model[i].OrderNumber.ToString(), "ViewOrder", "Admin", new { orderNumber = Model[i].OrderNumber, customerNumber = Model[i].CustomerNumber }, new { @class = "freemarket-link" })
+                    @Html.ActionLink(Model[i].OrderNumber.ToString(), "ViewFullOrder", "Admin", new { id = Model[i].OrderNumber }, new { @class = "freemarket-link" })
                     @Html.HiddenFor(model => Model[i].OrderNumber)
                 </td>
                 <td>@Model[i].OrderStatus</td>
@@ -44,7 +44,7 @@
     {
         <tr>
             <td style="font-size: 20px">
-                There are no new invoices at the moment.
+                There are no new orders/invoices at the moment.
             </td>
         </tr>
     }

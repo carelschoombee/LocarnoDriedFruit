@@ -89,7 +89,7 @@
         <li><a href="#dispatch" data-toggle="tab">Orders to be Dispatched</a></li>
         <li><a href="#orders" data-toggle="tab">Orders In Transit </a></li>
         <li><a href="#customers" data-toggle="tab">Customer Search</a></li>
-        <li><a href="#orderSearch" data-toggle="tab">Order Search</a></li>
+        @*<li><a href="#orderSearch" data-toggle="tab">Order Search</a></li>*@
         <li><a href="#orderRecord" data-toggle="tab">Order Record</a></li>
         <li><a href="#ratings" data-toggle="tab">Customer Ratings</a></li>
         <li><a href="#profile" data-toggle="tab">Functions</a></li>
@@ -302,15 +302,6 @@
                 <br />
             </div>
 
-            @if (Model.AllOrders != null)
-            {
-                @Html.Partial("_AllOrders", Model.AllOrders)
-            }
-        </div>
-        <div class="tab-pane" id="orderSearch">
-            <h2 class="text-center">Search Orders</h2>
-            <hr />
-            
             @using (Ajax.BeginForm("SearchOrder", "Admin", null, ajaxOptsSearchOrder, new { @id = "searchOrderForm" }))
             {
                 @Html.AntiForgeryToken()
@@ -321,7 +312,7 @@
                         @Html.ValidationMessageFor(m => m.OrderSearchCriteria, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-sm-3">
-                        <input type="submit" value="Filter by Order Number" class="btn btn-primary btn-sm" />
+                        <input type="submit" value="Search" class="btn btn-primary btn-sm" />
                     </div>
                 </div>
 
@@ -329,21 +320,22 @@
                     <div class="col-sm-12">
                         <br />
                     </div>
-                </div>     
+                </div>
             }
 
             <br />
             <br />
-            
-            <div id="searchOrderResults">
-                
-            </div>
 
+            <div id="searchOrderResults">
+                @if (Model.AllOrders != null)
+                {
+                    @Html.Partial("_AllOrders", Model.AllOrders)
+                }
+            </div>
         </div>
         <div class="tab-pane" id="customers">
             <h2 class="text-center">Customers</h2>
             <hr />
-            <div class="text-center">Enter the word "all" in the textbox below to view all customers. If you know the name of the specific customer you are looking for please enter that.</div>
             @using (Ajax.BeginForm("SearchCustomer", "Admin", null, ajaxOptsCustomer, new { @id = "searchCustomerForm" }))
             {
                 @Html.AntiForgeryToken()
@@ -354,7 +346,7 @@
                         @Html.ValidationMessageFor(m => m.CustomerSearchCriteria, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-sm-3">
-                        <input type="submit" value="Filter/Submit" class="btn btn-primary btn-sm" />
+                        <input type="submit" value="Search" class="btn btn-primary btn-sm" />
                     </div>
                 </div>
 
@@ -368,6 +360,7 @@
                 <br />
 
                 <div id="customersResults">
+                    @Html.Partial("_ViewCustomers", Model.Customers)
                 </div>
             }
         </div>
@@ -390,41 +383,6 @@
                 }
             }
         </div>
-        @*<div class="tab-pane" id="cashSales">
-            <h2 class="text-center">Cash Orders</h2>
-            <hr />
-
-            @using (Ajax.BeginForm("SearchCashOrders", "Admin", null, ajaxOptsCashSales, new { @id = "searchCashSalesForm" }))
-            {
-                @Html.AntiForgeryToken()
-
-                <div class="form-group">
-                    <div class="col-md-3">
-                        @Html.ActionLink("New Cash Order", "InitiateCashOrder", "Admin", null, new { @class = "btn btn-success" })
-                    </div>
-                    <div class="col-md-3">
-                        @Html.TextBoxFor(c => c.CashSalesCriteria, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.CashSalesCriteria, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-md-3">
-                        <input type="submit" value="Filter" class="btn btn-primary btn-sm" />
-                    </div>
-                </div>
-
-                <div class="form-group center_div">
-                    <div class="col-sm-12">
-                        <br />
-                    </div>
-                </div>
-            }
-
-            <br />
-            <br />
-
-            <div id="cashSalesResults">
-
-            </div>
-        </div>*@
         @if (User.Identity.Name == "carelschoombee@gmail.com")
         {
         <div class="tab-pane" id="auditing">

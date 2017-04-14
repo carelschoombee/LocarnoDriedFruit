@@ -36,9 +36,8 @@ namespace FreeMarket.Models
 
         public string Period { get; set; }
 
-        [DisplayName("Filter")]
-        public int OrderSearchCriteria { get; set; }
-        public OrderHeaderViewModel SearchedOrder { get; set; }
+        [DisplayName("Filter by customer data or order number")]
+        public string OrderSearchCriteria { get; set; }
 
         [DisplayName("Filter")]
         public string AuditSearchCriteria { get; set; }
@@ -116,6 +115,7 @@ namespace FreeMarket.Models
 
                 RatingsInformation = new RatingsInfo();
                 Customers = new List<AspNetUser>();
+                Customers = db.AspNetUsers.ToList();
                 AllOrders = db.OrderHeaders.OrderByDescending(c => c.OrderNumber).ToList();
                 Invoices = db.OrderHeaders.Where(c => c.OrderStatus == "Invoiced").OrderByDescending(c => c.OrderNumber).ToList();
                 ConfirmedOrders = db.OrderHeaders.Where(c => c.OrderStatus == "Confirmed").OrderByDescending(c => c.OrderNumber).ToList();

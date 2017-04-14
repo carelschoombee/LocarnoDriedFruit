@@ -13,17 +13,17 @@
             <table>
                 <tr>
                     <td>
-                        <img class="img-thumbnail" src="@Url.Action("RenderImage", "Image", new { id = Model.Cart.Body.OrderDetails[i].MainImageNumber, defaultSize = PictureSize.Small })" alt="@Model.Cart.Body.OrderDetails[i].ProductDescription" title="Model.Cart.Body.OrderDetails[i].ProductDescription" />
+                        <img class="img-responsive small-cart-body" src="@Url.Action("RenderImage", "Image", new { id = Model.Cart.Body.OrderDetails[i].MainImageNumber, defaultSize = PictureSize.Small })" alt="@Model.Cart.Body.OrderDetails[i].ProductDescription" title="Model.Cart.Body.OrderDetails[i].ProductDescription" />
                     </td>
                     <td>
                         <table style="text-align:left !important">
-                            <tr>
+                            <tr style="width:100%">
                                 <td><b>@Model.Cart.Body.OrderDetails[i].ProductDescription</b></td>
                             </tr>
-                            <tr>
+                            <tr style="width:100%">
                                 <td>Unit Price: @string.Format("{0:C}", Model.Cart.Body.OrderDetails[i].Price)</td>
                             </tr>
-                            <tr>
+                            <tr style="width:100%">
                                 <td>Quantity: @Model.Cart.Body.OrderDetails[i].Quantity</td>
                             </tr>
                         </table>

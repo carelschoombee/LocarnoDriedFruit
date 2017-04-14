@@ -2,6 +2,11 @@
 
 /* bootstrap 3 helpers */
 
+.small-cart-body{
+    height: 79px;
+    width: 80px;
+}
+
 .wrapper {
    position: relative;
 }

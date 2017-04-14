@@ -108,7 +108,145 @@
                                 }
                             }
                         },
-                        
+                        'Latitude': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                },
+                                stringLength: {
+                                    message: 'Max length must be less than 50 characters.',
+                                    max: 50
+                                }
+                            }
+                        },
+                        'Longitude': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                },
+                                stringLength: {
+                                    message: 'Max length must be less than 50 characters.',
+                                    max: 50
+                                }
+                            }
+                        },
+                        'StoreName': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                },
+                                stringLength: {
+                                    message: 'Max length must be less than 100 characters.',
+                                    max: 100
+                                }
+                            }
+                        },
+                        'DefaultZoomLevel': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                }
+                            }
+                        },
+                        'Fax': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                },
+                                stringLength: {
+                                    message: 'Max length must be less than 50 characters.',
+                                    max: 50
+                                }
+                            }
+                        },
+                        'ManagingEmail1': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                },
+                                stringLength: {
+                                    message: 'Max length must be less than 100 characters.',
+                                    max: 100
+                                }
+                            }
+                        },
+                        'ManagingEmail2': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                },
+                                stringLength: {
+                                    message: 'Max length must be less than 100 characters.',
+                                    max: 100
+                                }
+                            }
+                        },
+                        'AccountsEmail': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                },
+                                stringLength: {
+                                    message: 'Max length must be less than 100 characters.',
+                                    max: 100
+                                }
+                            }
+                        },
+                        'Manager1': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                },
+                                stringLength: {
+                                    message: 'Max length must be less than 100 characters.',
+                                    max: 100
+                                }
+                            }
+                        },
+                        'Manager2': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                },
+                                stringLength: {
+                                    message: 'Max length must be less than 100 characters.',
+                                    max: 100
+                                }
+                            }
+                        },
+                        'AccountsPerson': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                },
+                                stringLength: {
+                                    message: 'Max length must be less than 100 characters.',
+                                    max: 100
+                                }
+                            }
+                        },
+                        'PhysicalAddress': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                },
+                                stringLength: {
+                                    message: 'Max length must be less than 700 characters.',
+                                    max: 700
+                                }
+                            }
+                        },
+                        'PostalAddress': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The field is required.'
+                                },
+                                stringLength: {
+                                    message: 'Max length must be less than 700 characters.',
+                                    max: 700
+                                }
+                            }
+                        },
                     }
                 })
     });

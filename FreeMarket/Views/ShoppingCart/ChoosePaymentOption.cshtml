@@ -9,12 +9,12 @@
 <h2 class="text-center"><span class="glyphicon glyphicon-lock"></span>@ViewBag.Title</h2>
 <hr />
 
-<div id="parent" class="container center_div well well-modal">
+<div id="parent" class="container center_div well-payment">
 
     <div class="text-center">
-        <table class="table table-bordered-custom table-responsive">
+        <table class="table table-responsive">
             @foreach (PaymentOption option in Model.options)
-            {
+            {                
                 if (option.PaymentOptionID == 1)
                 {
                     <tr>
@@ -31,6 +31,7 @@
                         <td>
                             <div class="row">
                                 <a class="btn btn-primary" href="@Url.Action("ConfirmShoppingCart", "ShoppingCart")"><span class="glyphicon glyphicon-credit-card">&nbsp;&nbsp;@option.Description</span></a>
+                                @Html.Partial("_PaymentOptions")
                             </div>
                         </td>
                     </tr>

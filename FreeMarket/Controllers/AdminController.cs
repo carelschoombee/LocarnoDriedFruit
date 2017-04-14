@@ -88,31 +88,44 @@ namespace FreeMarket.Controllers
             }
         }
 
+        public ActionResult ViewFullOrder(int id)
+        {
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                OrderHeader order = db.OrderHeaders.Find(id);
+
+                if (order == null)
+                    return Content("");
+
+                OrderHeaderViewModel searchedOrder = OrderHeaderViewModel.GetOrder(id, order.CustomerNumber);
+
+                return View("ViewFullOrder", searchedOrder);
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SearchOrder(Dashboard model)
         {
-            ModelState.Remove("SelectedYear");
-
-            if (ModelState.IsValid)
+            using (FreeMarketEntities db = new FreeMarketEntities())
             {
-                using (FreeMarketEntities db = new FreeMarketEntities())
+                List<int?> orderNumbers = db.FilterOrders(model.OrderSearchCriteria)
+                    .ToList();
+
+                if (orderNumbers == null || orderNumbers.Count == 0)
+                    return Content("");
+
+                List<OrderHeader> orders = new List<OrderHeader>();
+
+                foreach (int number in orderNumbers)
                 {
-                    OrderHeader order = db.OrderHeaders.Find(model.OrderSearchCriteria);
-
-                    if (order == null)
-                    {
-                        return Content("");
-                    }
-
-                    model.SearchedOrder = OrderHeaderViewModel.GetOrder(model.OrderSearchCriteria, order.CustomerNumber);
+                    OrderHeader oh = db.OrderHeaders.Find(number);
+                    orders.Add(oh);
                 }
 
-                return PartialView("_ViewFullOrder", model.SearchedOrder);
-            }
-            else
-            {
-                return Content("");
+                orders = orders.OrderByDescending(c => c.OrderNumber).ToList();
+
+                return PartialView("_AllOrders", orders);
             }
         }
 

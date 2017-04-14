@@ -81,5 +81,69 @@ namespace FreeMarket.Models
         [StringLength(200)]
         [DisplayName("Town Name")]
         public string TownName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        [DisplayName("Latitude")]
+        public string Latitude { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        [DisplayName("Longitude")]
+        public string Longitude { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [DisplayName("Store Name")]
+        public string StoreName { get; set; }
+
+        [Required]
+        [DisplayName("Default Google Map Zoom Level")]
+        public int DefaultZoomLevel { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        [DisplayName("Fax Number")]
+        public string Fax { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [DisplayName("Manager Email 1")]
+        public string ManagingEmail1 { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [DisplayName("Manager Email 2")]
+        public string ManagingEmail2 { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [DisplayName("Accounts Person Email")]
+        public string AccountsEmail { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [DisplayName("Manager Name 1")]
+        public string Manager1 { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [DisplayName("Manager Name 2")]
+        public string Manager2 { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [DisplayName("Accounts Person Name")]
+        public string AccountsPerson { get; set; }
+
+        [Required]
+        [StringLength(700)]
+        [DisplayName("Physical Address")]
+        public string PhysicalAddress { get; set; }
+
+        [Required]
+        [StringLength(700)]
+        [DisplayName("Postal Address")]
+        public string PostalAddress { get; set; }
     }
 }

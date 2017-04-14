@@ -853,6 +853,9 @@
         <Function Name="FilterCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="filterCriteria" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="FilterOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="filterCriteria" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="GetAllCouriersReview" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="orderNumber" Type="int" Mode="In" />
         </Function>
@@ -1465,6 +1468,9 @@
             <Parameter Name="SupplierNumber" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetAllProductsIncludingDeactivatedDistinct" ReturnType="Collection(FreeMarketModel.GetAllProductsIncludingDeactivatedDistinct_Result)" />
+          <FunctionImport Name="FilterOrders" ReturnType="Collection(Int32)">
+            <Parameter Name="filterCriteria" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="SystemAction">
           <Key>
@@ -3945,6 +3951,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="FilterOrders" FunctionName="FreeMarketModel.Store.FilterOrders" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

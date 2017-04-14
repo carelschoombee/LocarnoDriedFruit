@@ -48,11 +48,12 @@ namespace FreeMarket.Models
                 if (ProductRatings == null)
                     ProductRatings = new List<ProductReview>();
 
-                List<ProductSupplier> products = db.ProductSuppliers.ToList();
+                List<GetAllProductsDistinct_Result> products = db.GetAllProductsDistinct()
+                    .ToList();
 
                 if (products != null && products.Count > 0)
                 {
-                    foreach (ProductSupplier product in products)
+                    foreach (GetAllProductsDistinct_Result product in products)
                     {
                         Product fullProduct = Product.GetShallowProduct(product.ProductNumber, product.SupplierNumber);
 
