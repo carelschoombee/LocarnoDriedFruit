@@ -41,7 +41,7 @@ namespace FreeMarket.Models
                     Price = c.Price,
                     Quantity = c.Quantity,
                     SupplierName = c.SupplierName,
-                    ProductWeight = c.Weight,
+                    ProductWeight = c.Weight ?? 0,
                     OrderItemValue = c.OrderItemValue
                 }).ToList();
 

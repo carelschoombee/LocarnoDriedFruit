@@ -29,7 +29,8 @@ namespace FreeMarket.Models
         public decimal OrderItemValue { get; set; }
         public string Description { get; set; }
         public string SupplierName { get; set; }
-        public decimal Weight { get; set; }
+        public Nullable<decimal> Weight { get; set; }
         public bool IsVirtual { get; set; }
+        public int SizeType { get; set; }
     }
 }

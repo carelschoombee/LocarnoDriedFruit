@@ -32,7 +32,7 @@ namespace FreeMarket.Models
         public string DeliveryType { get; set; }
         public string Description { get; set; }
         public string Size { get; set; }
-        public decimal Weight { get; set; }
+        public Nullable<decimal> Weight { get; set; }
         public string SupportCel { get; set; }
         public string SupportLand { get; set; }
         public string SupportEmail { get; set; }

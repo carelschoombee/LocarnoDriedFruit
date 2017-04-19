@@ -984,9 +984,7 @@ namespace FreeMarket {
                 this.columnDeliveryType.MaxLength = 50;
                 this.columnDescription.AllowDBNull = false;
                 this.columnDescription.MaxLength = 2147483647;
-                this.columnSize.AllowDBNull = false;
                 this.columnSize.MaxLength = 50;
-                this.columnWeight.AllowDBNull = false;
                 this.columnSupportCel.MaxLength = 50;
                 this.columnSupportLand.MaxLength = 50;
                 this.columnSupportEmail.MaxLength = 50;
@@ -1814,9 +1812,7 @@ namespace FreeMarket {
                 this.columnDeliveryType.MaxLength = 50;
                 this.columnDescription.AllowDBNull = false;
                 this.columnDescription.MaxLength = 2147483647;
-                this.columnSize.AllowDBNull = false;
                 this.columnSize.MaxLength = 50;
-                this.columnWeight.AllowDBNull = false;
                 this.columnSupportCel.MaxLength = 50;
                 this.columnSupportLand.MaxLength = 50;
                 this.columnSupportEmail.MaxLength = 50;
@@ -2249,7 +2245,12 @@ namespace FreeMarket {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Size {
                 get {
-                    return ((string)(this[this.tableGetOrderReport.SizeColumn]));
+                    try {
+                        return ((string)(this[this.tableGetOrderReport.SizeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Size\' in table \'GetOrderReport\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableGetOrderReport.SizeColumn] = value;
@@ -2260,7 +2261,12 @@ namespace FreeMarket {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public decimal Weight {
                 get {
-                    return ((decimal)(this[this.tableGetOrderReport.WeightColumn]));
+                    try {
+                        return ((decimal)(this[this.tableGetOrderReport.WeightColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Weight\' in table \'GetOrderReport\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableGetOrderReport.WeightColumn] = value;
@@ -2637,6 +2643,30 @@ namespace FreeMarket {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetDeliveryTypeNull() {
                 this[this.tableGetOrderReport.DeliveryTypeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsSizeNull() {
+                return this.IsNull(this.tableGetOrderReport.SizeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetSizeNull() {
+                this[this.tableGetOrderReport.SizeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsWeightNull() {
+                return this.IsNull(this.tableGetOrderReport.WeightColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetWeightNull() {
+                this[this.tableGetOrderReport.WeightColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3022,7 +3052,12 @@ namespace FreeMarket {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Size {
                 get {
-                    return ((string)(this[this.tableGetOrderDeliveryReport.SizeColumn]));
+                    try {
+                        return ((string)(this[this.tableGetOrderDeliveryReport.SizeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Size\' in table \'GetOrderDeliveryReport\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableGetOrderDeliveryReport.SizeColumn] = value;
@@ -3033,7 +3068,12 @@ namespace FreeMarket {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public decimal Weight {
                 get {
-                    return ((decimal)(this[this.tableGetOrderDeliveryReport.WeightColumn]));
+                    try {
+                        return ((decimal)(this[this.tableGetOrderDeliveryReport.WeightColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Weight\' in table \'GetOrderDeliveryReport\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableGetOrderDeliveryReport.WeightColumn] = value;
@@ -3417,6 +3457,30 @@ namespace FreeMarket {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsSizeNull() {
+                return this.IsNull(this.tableGetOrderDeliveryReport.SizeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetSizeNull() {
+                this[this.tableGetOrderDeliveryReport.SizeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsWeightNull() {
+                return this.IsNull(this.tableGetOrderDeliveryReport.WeightColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetWeightNull() {
+                this[this.tableGetOrderDeliveryReport.WeightColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsSupportCelNull() {
                 return this.IsNull(this.tableGetOrderDeliveryReport.SupportCelColumn);
             }
@@ -3748,8 +3812,7 @@ namespace FreeMarket.FreeMarketDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = "Data Source=localhost;Initial Catalog=OverbergTradingPost;User ID=sa;Password=!Fr" +
-                "ee#Pecans#4";
+            this._connection.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3965,8 +4028,7 @@ namespace FreeMarket.FreeMarketDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = "Data Source=localhost;Initial Catalog=OverbergTradingPost;User ID=sa;Password=!Fr" +
-                "ee#Pecans#4";
+            this._connection.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

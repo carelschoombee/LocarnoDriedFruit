@@ -225,9 +225,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
-    <Compile Include="FreeMarketDataSet.cs">
-      <DependentUpon>FreeMarketDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="FreeMarketDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -575,6 +572,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Images\absa-logo.png" />
     <Content Include="Content\Images\comodo-seal.png" />
     <Content Include="Content\Images\comodo.png" />
     <Content Include="Content\Images\delivery.jpg" />
@@ -761,19 +759,19 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="FreeMarketDataSet.xsc">
-      <DependentUpon>FreeMarketDataSet.xsd</DependentUpon>
-    </Content>
     <Content Include="fonts\EdwardianScriptITC.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ConnectionStrings.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="FreeMarketDataSet.xsc">
+      <DependentUpon>FreeMarketDataSet.xsd</DependentUpon>
+    </Content>
     <None Include="FreeMarketDataSet.xsd">
+      <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>FreeMarketDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </None>
     <Content Include="FreeMarketDataSet.xss">
       <DependentUpon>FreeMarketDataSet.xsd</DependentUpon>

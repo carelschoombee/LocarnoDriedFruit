@@ -342,15 +342,6 @@ namespace FreeMarket.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("CalculateLocalDeliveryFeeAdhoc", weightParameter, postalCodeParameter);
         }
     
-        public virtual ObjectResult<GetOrderReport_Result> GetOrderReport(Nullable<int> orderNumber)
-        {
-            var orderNumberParameter = orderNumber.HasValue ?
-                new ObjectParameter("OrderNumber", orderNumber) :
-                new ObjectParameter("OrderNumber", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetOrderReport_Result>("GetOrderReport", orderNumberParameter);
-        }
-    
         public virtual ObjectResult<GetAllProducts_Result> GetAllProducts()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllProducts_Result>("GetAllProducts");
@@ -480,6 +471,15 @@ namespace FreeMarket.Models
                 new ObjectParameter("filterCriteria", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("FilterOrders", filterCriteriaParameter);
+        }
+    
+        public virtual ObjectResult<GetOrderReport_Result> GetOrderReport(Nullable<int> orderNumber)
+        {
+            var orderNumberParameter = orderNumber.HasValue ?
+                new ObjectParameter("OrderNumber", orderNumber) :
+                new ObjectParameter("OrderNumber", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetOrderReport_Result>("GetOrderReport", orderNumberParameter);
         }
     }
 }

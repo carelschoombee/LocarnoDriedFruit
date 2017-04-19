@@ -671,7 +671,7 @@ namespace FreeMarket.Controllers
                 return View("Index");
             }
 
-            return File(obj.FirstOrDefault().Key, obj.FirstOrDefault().Value, string.Format("Order {0}.pdf", orderNumber));
+            return File(obj.FirstOrDefault().Key, obj.FirstOrDefault().Value, string.Format("Invoice {0}.pdf", orderNumber));
         }
 
         [HttpPost]
@@ -1556,12 +1556,12 @@ namespace FreeMarket.Controllers
 
                 foreach (OrderDetail detail in details)
                 {
+                    decimal? weight = db.ProductSizes.Find(detail.SizeType).Weight;
+
                     Product product = db.Products.Find(detail.ProductNumber);
 
-                    if (product != null)
-                    {
-                        totalWeight += product.Weight.Value * detail.Quantity;
-                    }
+                    if (!product.IsVirtual)
+                        totalWeight += weight.Value * detail.Quantity;
                 }
             }
 

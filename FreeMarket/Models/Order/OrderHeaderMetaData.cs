@@ -675,7 +675,7 @@ namespace FreeMarket.Models
                 builder.Append(res.Description);
                 builder.Append("</td>");
                 builder.Append("<td>");
-                builder.Append(Math.Round(res.Weight, 2));
+                builder.Append(Math.Round(res.Weight ?? 0, 2));
                 builder.Append("</td>");
                 builder.Append("<td>");
                 builder.Append(res.Size);

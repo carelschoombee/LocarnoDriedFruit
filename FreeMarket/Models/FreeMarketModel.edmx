@@ -1378,9 +1378,6 @@
           </FunctionImport>
           <EntitySet Name="WebsiteFunctions" EntityType="FreeMarketModel.WebsiteFunction" />
           <EntitySet Name="FreeMarketOwners" EntityType="FreeMarketModel.FreeMarketOwner" />
-          <FunctionImport Name="GetOrderReport" ReturnType="Collection(FreeMarketModel.GetOrderReport_Result)">
-          <Parameter Name="OrderNumber" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="GetAllProducts" ReturnType="Collection(FreeMarketModel.GetAllProducts_Result)" />
           <FunctionImport Name="GetAllProductsByDepartment" ReturnType="Collection(FreeMarketModel.GetAllProductsByDepartment_Result)">
           <Parameter Name="DepartmentNumber" Mode="In" Type="Int32" />
@@ -1469,7 +1466,10 @@
           </FunctionImport>
           <FunctionImport Name="GetAllProductsIncludingDeactivatedDistinct" ReturnType="Collection(FreeMarketModel.GetAllProductsIncludingDeactivatedDistinct_Result)" />
           <FunctionImport Name="FilterOrders" ReturnType="Collection(Int32)">
-            <Parameter Name="filterCriteria" Mode="In" Type="String" />
+          <Parameter Name="filterCriteria" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetOrderReport" ReturnType="Collection(FreeMarketModel.GetOrderReport_Result)">
+          <Parameter Name="OrderNumber" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="SystemAction">
@@ -2104,44 +2104,6 @@
           <Property Name="BankAccountType" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="ProofOfPaymentEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
-        <ComplexType Name="GetOrderReport_Result">
-          <Property Type="String" Name="CustomerName" Nullable="true" />
-          <Property Type="String" Name="CustomerPhone1" Nullable="true" />
-          <Property Type="String" Name="CustomerPhone2" Nullable="true" />
-          <Property Type="String" Name="CustomerEmail" Nullable="true" MaxLength="256" />
-          <Property Type="String" Name="AddressLine1" Nullable="true" MaxLength="1003" />
-          <Property Type="String" Name="Suburb" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="City" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="PostalCode" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="OrderNumber" Nullable="false" />
-          <Property Type="DateTime" Name="PreferredDeliveryDate" Nullable="true" Precision="23" />
-          <Property Type="Decimal" Name="SubTotal" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="ShippingTotal" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="TotalOrderValue" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
-          <Property Type="Int32" Name="Quantity" Nullable="false" />
-          <Property Type="Decimal" Name="Total" Nullable="true" Precision="19" />
-          <Property Type="String" Name="DeliveryType" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Description" Nullable="false" />
-          <Property Type="String" Name="Size" Nullable="false" MaxLength="50" />
-          <Property Type="Decimal" Name="Weight" Nullable="false" Precision="8" Scale="2" />
-          <Property Type="String" Name="SupportCel" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="SupportLand" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="SupportEmail" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CourierName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="MainContactTelephoneNumber" Nullable="false" MaxLength="25" />
-          <Property Type="String" Name="MainContactEmailAddress" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="StreetAddress" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="TownName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="StruisbaaiPostalCode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Province" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BankingDetailsBankName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="BankingDetailsBranchName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="BankingDetailsBranchCode" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="BankingDetailsAccountType" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="BankingDetailsAccountNumber" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="ProofOfPaymentEmail" Nullable="true" MaxLength="100" />
-        </ComplexType>
         <ComplexType Name="GetAllProducts_Result">
           <Property Type="Int32" Name="SupplierNumberID" Nullable="false" />
           <Property Type="String" Name="SupplierName" Nullable="false" MaxLength="100" />
@@ -2236,8 +2198,8 @@
           <Property Type="Decimal" Name="Total" Nullable="true" Precision="19" />
           <Property Type="String" Name="DeliveryType" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Description" Nullable="false" />
-          <Property Type="String" Name="Size" Nullable="false" MaxLength="50" />
-          <Property Type="Decimal" Name="Weight" Nullable="false" Precision="8" Scale="2" />
+          <Property Type="String" Name="Size" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Weight" Nullable="true" Precision="8" Scale="2" />
           <Property Type="String" Name="SupportCel" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="SupportLand" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="SupportEmail" Nullable="true" MaxLength="50" />
@@ -2272,8 +2234,9 @@
           <Property Type="Decimal" Name="OrderItemValue" Nullable="false" Precision="19" />
           <Property Type="String" Name="Description" Nullable="false" />
           <Property Type="String" Name="SupplierName" Nullable="false" MaxLength="100" />
-          <Property Type="Decimal" Name="Weight" Nullable="false" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="Weight" Nullable="true" Precision="8" Scale="2" />
           <Property Type="Boolean" Name="IsVirtual" Nullable="false" />
+          <Property Type="Int32" Name="SizeType" Nullable="false" />
         </ComplexType>
         <EntityType Name="ExternalWebsite">
           <Key>
@@ -2638,6 +2601,44 @@
           <Property Type="Int32" Name="SupplierNumber" Nullable="false" />
           <Property Type="Decimal" Name="minPrice" Nullable="true" Precision="19" />
           <Property Type="Decimal" Name="maxPrice" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="GetOrderReport_Result">
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="String" Name="CustomerPhone1" Nullable="true" />
+          <Property Type="String" Name="CustomerPhone2" Nullable="true" />
+          <Property Type="String" Name="CustomerEmail" Nullable="true" MaxLength="256" />
+          <Property Type="String" Name="AddressLine1" Nullable="true" MaxLength="1003" />
+          <Property Type="String" Name="Suburb" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PostalCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="OrderNumber" Nullable="false" />
+          <Property Type="DateTime" Name="PreferredDeliveryDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="SubTotal" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="ShippingTotal" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="TotalOrderValue" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="Quantity" Nullable="false" />
+          <Property Type="Decimal" Name="Total" Nullable="true" Precision="19" />
+          <Property Type="String" Name="DeliveryType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="String" Name="Size" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Weight" Nullable="true" Precision="8" Scale="2" />
+          <Property Type="String" Name="SupportCel" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SupportLand" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SupportEmail" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CourierName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="MainContactTelephoneNumber" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="MainContactEmailAddress" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="StreetAddress" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="TownName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="StruisbaaiPostalCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Province" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BankingDetailsBankName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="BankingDetailsBranchName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="BankingDetailsBranchCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="BankingDetailsAccountType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="BankingDetailsAccountNumber" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ProofOfPaymentEmail" Nullable="true" MaxLength="100" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3500,48 +3501,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetOrderReport" FunctionName="FreeMarketModel.Store.GetOrderReport">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="FreeMarketModel.GetOrderReport_Result">
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="CustomerPhone1" ColumnName="CustomerPhone1" />
-                <ScalarProperty Name="CustomerPhone2" ColumnName="CustomerPhone2" />
-                <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
-                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
-                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
-                <ScalarProperty Name="PreferredDeliveryDate" ColumnName="PreferredDeliveryDate" />
-                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
-                <ScalarProperty Name="ShippingTotal" ColumnName="ShippingTotal" />
-                <ScalarProperty Name="TotalOrderValue" ColumnName="TotalOrderValue" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="DeliveryType" ColumnName="DeliveryType" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Size" ColumnName="Size" />
-                <ScalarProperty Name="Weight" ColumnName="Weight" />
-                <ScalarProperty Name="SupportCel" ColumnName="SupportCel" />
-                <ScalarProperty Name="SupportLand" ColumnName="SupportLand" />
-                <ScalarProperty Name="SupportEmail" ColumnName="SupportEmail" />
-                <ScalarProperty Name="CourierName" ColumnName="CourierName" />
-                <ScalarProperty Name="MainContactTelephoneNumber" ColumnName="MainContactTelephoneNumber" />
-                <ScalarProperty Name="MainContactEmailAddress" ColumnName="MainContactEmailAddress" />
-                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
-                <ScalarProperty Name="TownName" ColumnName="TownName" />
-                <ScalarProperty Name="StruisbaaiPostalCode" ColumnName="StruisbaaiPostalCode" />
-                <ScalarProperty Name="Province" ColumnName="Province" />
-                <ScalarProperty Name="BankingDetailsBankName" ColumnName="BankingDetailsBankName" />
-                <ScalarProperty Name="BankingDetailsBranchName" ColumnName="BankingDetailsBranchName" />
-                <ScalarProperty Name="BankingDetailsBranchCode" ColumnName="BankingDetailsBranchCode" />
-                <ScalarProperty Name="BankingDetailsAccountType" ColumnName="BankingDetailsAccountType" />
-                <ScalarProperty Name="BankingDetailsAccountNumber" ColumnName="BankingDetailsAccountNumber" />
-                <ScalarProperty Name="ProofOfPaymentEmail" ColumnName="ProofOfPaymentEmail" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetAllProducts" FunctionName="FreeMarketModel.Store.GetAllProducts">
             <ResultMapping>
               <ComplexTypeMapping TypeName="FreeMarketModel.GetAllProducts_Result">
@@ -3696,6 +3655,7 @@
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
                 <ScalarProperty Name="Weight" ColumnName="Weight" />
                 <ScalarProperty Name="IsVirtual" ColumnName="IsVirtual" />
+                <ScalarProperty Name="SizeType" ColumnName="SizeType" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -3952,6 +3912,48 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="FilterOrders" FunctionName="FreeMarketModel.Store.FilterOrders" />
+          <FunctionImportMapping FunctionImportName="GetOrderReport" FunctionName="FreeMarketModel.Store.GetOrderReport">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FreeMarketModel.GetOrderReport_Result">
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerPhone1" ColumnName="CustomerPhone1" />
+                <ScalarProperty Name="CustomerPhone2" ColumnName="CustomerPhone2" />
+                <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+                <ScalarProperty Name="PreferredDeliveryDate" ColumnName="PreferredDeliveryDate" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="ShippingTotal" ColumnName="ShippingTotal" />
+                <ScalarProperty Name="TotalOrderValue" ColumnName="TotalOrderValue" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="DeliveryType" ColumnName="DeliveryType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="SupportCel" ColumnName="SupportCel" />
+                <ScalarProperty Name="SupportLand" ColumnName="SupportLand" />
+                <ScalarProperty Name="SupportEmail" ColumnName="SupportEmail" />
+                <ScalarProperty Name="CourierName" ColumnName="CourierName" />
+                <ScalarProperty Name="MainContactTelephoneNumber" ColumnName="MainContactTelephoneNumber" />
+                <ScalarProperty Name="MainContactEmailAddress" ColumnName="MainContactEmailAddress" />
+                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+                <ScalarProperty Name="TownName" ColumnName="TownName" />
+                <ScalarProperty Name="StruisbaaiPostalCode" ColumnName="StruisbaaiPostalCode" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="BankingDetailsBankName" ColumnName="BankingDetailsBankName" />
+                <ScalarProperty Name="BankingDetailsBranchName" ColumnName="BankingDetailsBranchName" />
+                <ScalarProperty Name="BankingDetailsBranchCode" ColumnName="BankingDetailsBranchCode" />
+                <ScalarProperty Name="BankingDetailsAccountType" ColumnName="BankingDetailsAccountType" />
+                <ScalarProperty Name="BankingDetailsAccountNumber" ColumnName="BankingDetailsAccountNumber" />
+                <ScalarProperty Name="ProofOfPaymentEmail" ColumnName="ProofOfPaymentEmail" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

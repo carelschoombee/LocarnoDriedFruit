@@ -2,16 +2,14 @@
 <xs:schema id="FreeMarketDataSet" targetNamespace="http://tempuri.org/FreeMarketDataSet.xsd" xmlns:mstns="http://tempuri.org/FreeMarketDataSet.xsd" xmlns="http://tempuri.org/FreeMarketDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
-      <DataSource DefaultConnectionIndex="2" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
-          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="FreeMarketConnectionString" IsAppSettingsProperty="true" Modifier="Assembly" Name="FreeMarketConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.FreeMarketConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
-          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="DefaultConnection" IsAppSettingsProperty="true" Modifier="Assembly" Name="DefaultConnection (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.DefaultConnection.ConnectionString" Provider="System.Data.SqlClient" />
-          <Connection ConnectionStringObject="Data Source=localhost;Initial Catalog=OverbergTradingPost;User ID=sa;Password=!Free#Pecans#4" IsAppSettingsProperty="false" Modifier="Assembly" Name="FreeMarketConnectionString (FreeMarket)" ParameterPrefix="@" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="DefaultConnection" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="DefaultConnection (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.DefaultConnection.ConnectionString" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="GetOrderReportTableAdapter" GeneratorDataComponentClassName="GetOrderReportTableAdapter" Name="GetOrderReport" UserDataComponentName="GetOrderReportTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="FreeMarketConnectionString (FreeMarket)" DbObjectName="OverbergTradingPost.dbo.GetOrderReport" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+              <DbSource ConnectionRef="DefaultConnection (Web.config)" DbObjectName="LocarnoDriedFruit.dbo.GetOrderReport" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                     <CommandText>dbo.GetOrderReport</CommandText>
@@ -65,7 +63,7 @@
           </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="GetOrderDeliveryReportTableAdapter" GeneratorDataComponentClassName="GetOrderDeliveryReportTableAdapter" Name="GetOrderDeliveryReport" UserDataComponentName="GetOrderDeliveryReportTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="FreeMarketConnectionString (FreeMarket)" DbObjectName="OverbergTradingPost.dbo.GetOrderDeliveryReport" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+              <DbSource ConnectionRef="DefaultConnection (Web.config)" DbObjectName="LocarnoDriedFruit.dbo.GetOrderDeliveryReport" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                     <CommandText>dbo.GetOrderDeliveryReport</CommandText>
@@ -122,10 +120,10 @@
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="FreeMarketDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="FreeMarketDataSet" msprop:Generator_UserDSName="FreeMarketDataSet">
+  <xs:element name="FreeMarketDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="FreeMarketDataSet" msprop:Generator_UserDSName="FreeMarketDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="GetOrderReport" msprop:Generator_TableClassName="GetOrderReportDataTable" msprop:Generator_TableVarName="tableGetOrderReport" msprop:Generator_RowChangedName="GetOrderReportRowChanged" msprop:Generator_TablePropName="GetOrderReport" msprop:Generator_RowDeletingName="GetOrderReportRowDeleting" msprop:Generator_RowChangingName="GetOrderReportRowChanging" msprop:Generator_RowEvHandlerName="GetOrderReportRowChangeEventHandler" msprop:Generator_RowDeletedName="GetOrderReportRowDeleted" msprop:Generator_RowClassName="GetOrderReportRow" msprop:Generator_UserTableName="GetOrderReport" msprop:Generator_RowEvArgName="GetOrderReportRowChangeEvent">
+        <xs:element name="GetOrderReport" msprop:Generator_TableClassName="GetOrderReportDataTable" msprop:Generator_TableVarName="tableGetOrderReport" msprop:Generator_TablePropName="GetOrderReport" msprop:Generator_RowDeletingName="GetOrderReportRowDeleting" msprop:Generator_RowChangingName="GetOrderReportRowChanging" msprop:Generator_RowEvHandlerName="GetOrderReportRowChangeEventHandler" msprop:Generator_RowDeletedName="GetOrderReportRowDeleted" msprop:Generator_UserTableName="GetOrderReport" msprop:Generator_RowChangedName="GetOrderReportRowChanged" msprop:Generator_RowEvArgName="GetOrderReportRowChangeEvent" msprop:Generator_RowClassName="GetOrderReportRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="CustomerName" msprop:Generator_ColumnVarNameInTable="columnCustomerName" msprop:Generator_ColumnPropNameInRow="CustomerName" msprop:Generator_ColumnPropNameInTable="CustomerNameColumn" msprop:Generator_UserColumnName="CustomerName" minOccurs="0">
@@ -206,14 +204,14 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Size" msprop:Generator_ColumnVarNameInTable="columnSize" msprop:Generator_ColumnPropNameInRow="Size" msprop:Generator_ColumnPropNameInTable="SizeColumn" msprop:Generator_UserColumnName="Size">
+              <xs:element name="Size" msprop:Generator_ColumnVarNameInTable="columnSize" msprop:Generator_ColumnPropNameInRow="Size" msprop:Generator_ColumnPropNameInTable="SizeColumn" msprop:Generator_UserColumnName="Size" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Weight" msprop:Generator_ColumnVarNameInTable="columnWeight" msprop:Generator_ColumnPropNameInRow="Weight" msprop:Generator_ColumnPropNameInTable="WeightColumn" msprop:Generator_UserColumnName="Weight" type="xs:decimal" />
+              <xs:element name="Weight" msprop:Generator_ColumnVarNameInTable="columnWeight" msprop:Generator_ColumnPropNameInRow="Weight" msprop:Generator_ColumnPropNameInTable="WeightColumn" msprop:Generator_UserColumnName="Weight" type="xs:decimal" minOccurs="0" />
               <xs:element name="SupportCel" msprop:Generator_ColumnVarNameInTable="columnSupportCel" msprop:Generator_ColumnPropNameInRow="SupportCel" msprop:Generator_ColumnPropNameInTable="SupportCelColumn" msprop:Generator_UserColumnName="SupportCel" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -410,14 +408,14 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Size" msprop:Generator_ColumnVarNameInTable="columnSize" msprop:Generator_ColumnPropNameInRow="Size" msprop:Generator_ColumnPropNameInTable="SizeColumn" msprop:Generator_UserColumnName="Size">
+              <xs:element name="Size" msprop:Generator_ColumnVarNameInTable="columnSize" msprop:Generator_ColumnPropNameInRow="Size" msprop:Generator_ColumnPropNameInTable="SizeColumn" msprop:Generator_UserColumnName="Size" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Weight" msprop:Generator_ColumnVarNameInTable="columnWeight" msprop:Generator_ColumnPropNameInRow="Weight" msprop:Generator_ColumnPropNameInTable="WeightColumn" msprop:Generator_UserColumnName="Weight" type="xs:decimal" />
+              <xs:element name="Weight" msprop:Generator_ColumnVarNameInTable="columnWeight" msprop:Generator_ColumnPropNameInRow="Weight" msprop:Generator_ColumnPropNameInTable="WeightColumn" msprop:Generator_UserColumnName="Weight" type="xs:decimal" minOccurs="0" />
               <xs:element name="SupportCel" msprop:Generator_ColumnVarNameInTable="columnSupportCel" msprop:Generator_ColumnPropNameInRow="SupportCel" msprop:Generator_ColumnPropNameInTable="SupportCelColumn" msprop:Generator_UserColumnName="SupportCel" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">

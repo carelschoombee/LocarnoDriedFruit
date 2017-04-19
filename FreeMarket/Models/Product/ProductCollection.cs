@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using FreeMarket.Infrastructure;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FreeMarket.Models
@@ -65,11 +65,12 @@ namespace FreeMarket.Models
 
         public static ProductCollection GetProductsInOrder(int orderNumber)
         {
+            ProductCollection allProductsTemp = new ProductCollection();
             ProductCollection allProducts = new ProductCollection();
 
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
-                allProducts.Products = db.GetAllProductsInOrder(orderNumber)
+                allProductsTemp.Products = db.GetAllProductsInOrder(orderNumber)
                     .Select(c => new Product
                     {
                         Activated = c.Activated,
@@ -94,9 +95,11 @@ namespace FreeMarket.Models
                     }
                     ).ToList();
 
-                SetProductData(allProducts);
+                allProducts.Products = allProductsTemp.Products
+                    .DistinctBy(c => new { c.ProductNumber, c.SupplierNumber })
+                    .ToList();
 
-                Debug.Write(allProducts);
+                SetProductData(allProducts);
 
                 return allProducts;
             }

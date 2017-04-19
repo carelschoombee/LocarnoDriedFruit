@@ -6,19 +6,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<br />
-<h2 class="text-center">@ViewBag.Title</h2>
-<hr />
-
-<div class="col-md-12 container text-center">
+<div class="container text-center">
+    <br />
+    <h2 class="text-center">@ViewBag.Title</h2>
+    <hr />
 
     <div class="row well well-modal">
         <p class="text-center" style="font-weight:bolder; font-size:large">
-            Please make an electronic bank transfer payment into our bank account and send us proof of payment. Your order will be prepared and dispatched only once proof of payment has been received. A copy of this invoice has been sent to your email address.
+            Please make an electronic bank transfer payment into our bank account and send us proof of payment. Your order will be prepared and dispatched only once proof of payment has been received .
         </p>
         <br />
         <div class="col-md-6">
-            <img class="img-rounded img-thumbnail img-responsive" src="@Url.Content("~/Content/Images/Trading Post Logo 2.jpg")" alt="Locarno Sun Dried Fruit" title="Locarno Sun Dried Fruit" />
+            <img class="img-rounded img-thumbnail img-responsive" src="@Url.Content("~/Content/Images/logopng.png")" alt="Locarno Sun Dried Fruit" title="Locarno Sun Dried Fruit" />
+            <img class="img-rounded img-thumbnail img-responsive" src="@Url.Content("~/Content/Images/absa-logo.png")" alt="ABSA" title="ABSA" />
         </div>
         <div class="col-md-6 text-center">
             <table class="table table-bordered-custom table-responsive">
@@ -60,52 +60,54 @@
             </table>
         </div>
     </div>
-    <h2 class="text-center">Your Order</h2>
-    <table class="table table-bordered-custom table-condensed table-responsive">
-        <tr>
-            <th class="col-sm-1">
-                Image
-            </th>
-            <th class="col-sm-3">
-                Description
-            </th>
-            <th class="col-sm-1">
-                Price
-            </th>
-            <th class="col-sm-1">
-                Quantity
-            </th>
-            <th class="col-sm-1">
-                Total
-            </th>
-        </tr>
-
-        @for (int i = 0; i < Model.Cart.Body.OrderDetails.Count; i++)
-        {
-            <tr class="well">
-                <td>
-                    <img class="img-thumbnail" src="@Url.Action("RenderImage", "Image", new { id = Model.Cart.Body.OrderDetails[i].MainImageNumber, defaultSize = PictureSize.Small })" alt="@Model.Cart.Body.OrderDetails[i].ProductDescription" title="@Model.Cart.Body.OrderDetails[i].ProductDescription" />
-                </td>
-                <td>
-                    @*@Html.Action("GetDimensions", "Product", new { productNumber = Model.Cart.Body.OrderDetails[i].ProductNumber })&nbsp;*@@Model.Cart.Body.OrderDetails[i].ProductDescription - @Model.Cart.Body.OrderDetails[i].SupplierName
-                    @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].ProductDescription)
-                </td>
-                <td data-label="Price:">
-                    @String.Format("{0:C}", Model.Cart.Body.OrderDetails[i].Price)
-                </td>
-                <td class="text-center" data-label="Qty:">
-                    @Html.DisplayFor(model => Model.Cart.Body.OrderDetails[i].Quantity)
-                </td>
-                <td data-label="Total:">
-                    @String.Format("{0:C}", Model.Cart.Body.OrderDetails[i].OrderItemValue)
-                    @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].ProductNumber)
-                    @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].ItemNumber)
-                    @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].SupplierNumber)
-                    @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].CustodianNumber)
-                </td>
+    <div class="row well well-modal">
+        <h2 class="text-center">Your Order</h2>
+        <table class="table table-bordered-custom table-condensed table-responsive">
+            <tr>
+                <th class="col-sm-1">
+                    Image
+                </th>
+                <th class="col-sm-3">
+                    Description
+                </th>
+                <th class="col-sm-1">
+                    Price
+                </th>
+                <th class="col-sm-1">
+                    Quantity
+                </th>
+                <th class="col-sm-1">
+                    Total
+                </th>
             </tr>
-        }
-    </table>
+
+            @for (int i = 0; i < Model.Cart.Body.OrderDetails.Count; i++)
+            {
+                <tr class="well">
+                    <td>
+                        <img class="img-responsive" src="@Url.Action("RenderImage", "Image", new { id = Model.Cart.Body.OrderDetails[i].MainImageNumber, defaultSize = PictureSize.Small })" alt="@Model.Cart.Body.OrderDetails[i].ProductDescription" title="@Model.Cart.Body.OrderDetails[i].ProductDescription" />
+                    </td>
+                    <td>
+                        @Model.Cart.Body.OrderDetails[i].ProductDescription - @Html.Action("GetAllowedSizes", "Product", new { id = Model.Cart.Body.OrderDetails[i].SizeType })
+                        @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].ProductDescription)
+                    </td>
+                    <td data-label="Price:">
+                        @String.Format("{0:C}", Model.Cart.Body.OrderDetails[i].Price)
+                    </td>
+                    <td class="text-center" data-label="Qty:">
+                        @Html.DisplayFor(model => Model.Cart.Body.OrderDetails[i].Quantity)
+                    </td>
+                    <td data-label="Total:">
+                        @String.Format("{0:C}", Model.Cart.Body.OrderDetails[i].OrderItemValue)
+                        @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].ProductNumber)
+                        @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].ItemNumber)
+                        @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].SupplierNumber)
+                        @Html.HiddenFor(model => Model.Cart.Body.OrderDetails[i].CustodianNumber)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
     <div class="row">
         <div class="col-sm-3">
             <a href="https://www.smartweb.co.za/comodo-ssl-certificates.php">

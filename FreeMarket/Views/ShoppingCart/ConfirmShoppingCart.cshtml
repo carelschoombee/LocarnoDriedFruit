@@ -6,91 +6,108 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<br />
-<h2 class="text-center"><span class="glyphicon glyphicon-lock"></span>@ViewBag.Title</h2>
-<hr />
-
 <div class="container text-center">
+    <br />
+    <h2 class="text-center"><span class="glyphicon glyphicon-lock"></span>@ViewBag.Title</h2>
+    <hr />
 
     <div class="row well well-modal">
-        <div class="col-sm-6">
-            <table class="table table-bordered-custom table-responsive">
-                <tr>
-                    <td colspan="2">
-                        Customer Details
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="2">
-                        @Model.Cart.Order.CustomerName
-                    </td>
-                    <td>
-                        <span class="glyphicon glyphicon-pencil"></span>&nbsp;@Model.Cart.Order.CustomerEmail
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="glyphicon glyphicon-phone"></span>&nbsp;@Model.Cart.Order.CustomerPrimaryContactPhone
-                    </td>
-                </tr>
-            </table>
+        <table class="table table-bordered-custom table-responsive">
+            <tr>
+                <td colspan="2">
+                    <span style="font-size:x-large">Customer Details</span>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="2">
+                    Customer: @Model.Cart.Order.CustomerName
+                </td>
+                <td>
+                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;@Model.Cart.Order.CustomerEmail
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="glyphicon glyphicon-phone"></span>&nbsp;@Model.Cart.Order.CustomerPrimaryContactPhone
+                </td>
+            </tr>
+            <tr>
+                @if (Model.Cart.Order.DeliveryType == "Courier" || Model.Cart.Order.DeliveryType == "LocalCourier")
+                {
+                    <th>Delivery Address&nbsp; </th>
+                }
+                else if (Model.Cart.Order.DeliveryType == "PostOffice")
+                {
+                    <th>Delivery Address - Collect at Post Office &nbsp; </th>
+                }
 
-            @Html.Partial("_ConfirmDeliveryPartial", Model)
+                <td>
+                    <span class="glyphicon glyphicon-home"></span>&nbsp;<span style="white-space :pre-line" aria-hidden="true">@Model.Cart.Order.DeliveryAddress</span>
+                </td>
+            </tr>
+        </table>
 
-        </div>
-        <div class="col-sm-6">
-            <table class="table table-bordered-custom table-responsive">
-                <tr>
-                    <td colspan="2">
-                        Order Information
-                    </td>
-                </tr>
-                <tr>
+        @*@Html.Partial("_ConfirmDeliveryPartial", Model)*@
+
+        <table class="table table-bordered-custom table-responsive">
+            <tr>
+                <td colspan="2">
+                    <span style="font-size:x-large">Order Information</span>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Order Number
+                </th>
+                <td data-label="Order:">
+                    @Html.DisplayFor(c => Model.Cart.Order.OrderNumber)
+                </td>
+            </tr>
+            <tr>
+                @if (Model.Cart.Order.DeliveryType == "Courier" || Model.Cart.Order.DeliveryType == "LocalCourier")
+                {
                     <th>
-                        @Html.LabelFor(c => Model.Cart.Order.OrderNumber)
+                        Preferred Delivery Date
                     </th>
-                    <td data-label="Order:">
-                        @Html.DisplayFor(c => Model.Cart.Order.OrderNumber)
-                    </td>
-                </tr>
-                <tr>
-                    @if (Model.Cart.Order.DeliveryType == "Courier" || Model.Cart.Order.DeliveryType == "LocalCourier")
-                    {
-                        <th>
-                            Preferred Delivery Date
-                        </th>
                         <td>
                             @string.Format("{0:f}", Model.Cart.Order.DeliveryDate)
                         </td>
-                    }
-                    else if (Model.Cart.Order.DeliveryType == "PostOffice")
-                    {
-                        <th>
-                            Date of dispatch
-                        </th>
+                }
+                else if (Model.Cart.Order.DeliveryType == "PostOffice")
+                {
+                    <th>
+                        Date of dispatch
+                    </th>
                         <td>
                             @string.Format("{0:f}", Model.MinDispatchDate)
                         </td>
-                    }
-                </tr>
-                <tr>
-                    @if (Model.Cart.Order.DeliveryType == "Courier" || Model.Cart.Order.DeliveryType == "LocalCourier")
-                    {
-                        <th>Delivery Address<span class="glyphicon glyphicon-home"></span>&nbsp; </th>
-                    }
-                    else if (Model.Cart.Order.DeliveryType == "PostOffice")
-                    {
-                        <th>Delivery Address - Collect at Post Office <span class="glyphicon glyphicon-home"></span>&nbsp; </th>
-                    }
+                }
+            </tr>
 
-                    <td>
-                        <span style="white-space :pre-line" aria-hidden="true">@Model.Cart.Order.DeliveryAddress</span>
-                    </td>
-                </tr>
-            </table>
-        </div>
+        </table>
+        <table class="table table-bordered-totals well well-banner">
+            <tr>
+                <td colspan="2">
+                    <span style="font-size:x-large">Cost Summary</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-sm-2 text-center"><strong>Sub-Total:</strong></td>
+                <td class="col-sm-2 text-center"><strong>@string.Format("{0:C}", Model.Cart.Order.SubTotal)</strong></td>
+            </tr>
+            <tr>
+                <td class="col-sm-2 text-center"><strong>Shipping:</strong></td>
+                <td class="col-sm-2 text-center"><strong>@string.Format("{0:C}", Model.Cart.Order.ShippingTotal)</strong></td>
+            </tr>
+            <tr>
+                <td class="col-sm-2 text-center"><strong style="font-size: 24px">Total:</strong></td>
+                <td class="col-sm-2 text-center"><strong style="font-size: 24px">@string.Format("{0:C}", Model.Cart.Order.TotalOrderValue)</strong></td>
+            </tr>
+        </table>
     </div>
     <div class="row">
+        <div class="col-sm-3">
+        </div>
         <div class="col-sm-6 well">
             @using (Html.BeginForm("LockOrder", "ShoppingCart", FormMethod.Post))
             {
@@ -99,31 +116,12 @@
                     To proceed to payment please tick this checkbox which confirms that you have read and acknowledge our <a href="@Url.Action("TermsAndConditions", "Home")" data-id="@Url.Action("TermsAndConditionsModal", "Home")"
                                                                                                                              class="conditionClass freemarket-link">terms and conditions (here)</a>:
                 </div>
-                    <div class="col-sm-offset-3">@Html.EditorFor(m => m.TermsAndConditions, new { htmlAttributes = new { @class = "form-control" } })</div>
+                <div class="col-sm-offset-3">@Html.EditorFor(m => m.TermsAndConditions, new { htmlAttributes = new { @class = "form-control" } })</div>
                     <div>@Html.ValidationMessageFor(c => c.TermsAndConditions, "", new { @class = "text-danger" })</div>
                     <input type="submit" value="Confirm" class="btn btn-success" />
             }
         </div>
-        <div class="col-sm-6">
-            <table class="table table-bordered-totals well well-banner">
-                <tr>
-                    <td colspan="2">
-                        Total Costs
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-sm-2 text-right"><strong>Sub-Total:</strong></td>
-                    <td class="col-sm-2 text-right"><strong>@string.Format("{0:C}", Model.Cart.Order.SubTotal)</strong></td>
-                </tr>
-                <tr>
-                    <td class="col-sm-2 text-right"><strong>Shipping:</strong></td>
-                    <td class="col-sm-2 text-right"><strong>@string.Format("{0:C}", Model.Cart.Order.ShippingTotal)</strong></td>
-                </tr>
-                <tr>
-                    <td class="col-sm-2 text-right"><strong style="font-size: 24px">Total:</strong></td>
-                    <td class="col-sm-2 text-right"><strong style="font-size: 24px">@string.Format("{0:C}", Model.Cart.Order.TotalOrderValue)</strong></td>
-                </tr>
-            </table>
+        <div class="col-sm-3">
         </div>
     </div>
 </div>
@@ -131,10 +129,8 @@
 @Html.Partial("_TermsAndConditionsContainer")
 
 <script type="text/javascript">
-    $(document).ready(function()
-    {
-        if (navigator.appName == "Opera")
-        {
+    $(document).ready(function () {
+        if (navigator.appName == "Opera") {
             $('#EditModal').removeClass('fade');
         }
     });

@@ -13,19 +13,6 @@ namespace FreeMarket.Infrastructure
             return listToClone.Select(item => (T)item.Clone()).ToList();
         }
 
-        public static IEnumerable<TSource> DistinctBy<TSource, TKey>
-            (this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
-        {
-            HashSet<TKey> seenKeys = new HashSet<TKey>();
-            foreach (TSource element in source)
-            {
-                if (seenKeys.Add(keySelector(element)))
-                {
-                    yield return element;
-                }
-            }
-        }
-
         public static string CreateMD5(string input)
         {
             // Use input string to calculate MD5 hash
