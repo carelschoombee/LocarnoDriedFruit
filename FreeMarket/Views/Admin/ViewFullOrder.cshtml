@@ -36,7 +36,7 @@
                                 Weight:
                             </td>
                             <td>
-                                @detail.ProductWeight KG
+                                @Html.Action("GetAllowedSizes", "Product", new { id = detail.SizeType })
                             </td>
                         </tr>
                         <tr>
@@ -120,16 +120,20 @@
         <td>@Model.NumberOfItemsInOrder</td>
     </tr>
     <tr>
-        <td>Shipping Cost Total:</td>
-        <td>@string.Format("{0:C}", Model.Order.ShippingTotal)</td>
-    </tr>
-    <tr>
         <td>Subtotal:</td>
         <td>@string.Format("{0:C}", Model.Order.SubTotal)</td>
     </tr>
     <tr>
+        <td>Shipping Cost Total:</td>
+        <td>@string.Format("{0:C}", Model.Order.ShippingTotal)</td>
+    </tr>
+    <tr>
+        <td>VAT @@ @Model.Order.VATPercentage %:</td>
+        <td>@string.Format("{0:C}", Model.Order.TaxTotal)</td>>
+    </tr>
+    <tr>
         <td>Grand Total:</td>
-        <td>@string.Format("{0:C}", @Model.Order.TotalOrderValue)</td>
+        <td>@string.Format("{0:C}", Model.Order.TotalOrderValue)</td>
     </tr>
     <tr>
         <td>Payment Received?:</td>

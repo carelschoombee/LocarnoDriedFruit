@@ -555,6 +555,9 @@
     <Compile Include="Models\ValidatePaymentAmount_Result.cs">
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\VATPercentage.cs">
+      <DependentUpon>FreeMarketModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\WebsiteFunction.cs">
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>

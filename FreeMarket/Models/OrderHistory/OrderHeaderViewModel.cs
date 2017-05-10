@@ -42,7 +42,8 @@ namespace FreeMarket.Models
                     Quantity = c.Quantity,
                     SupplierName = c.SupplierName,
                     ProductWeight = c.Weight ?? 0,
-                    OrderItemValue = c.OrderItemValue
+                    OrderItemValue = c.OrderItemValue,
+                    SizeType = c.SizeType
                 }).ToList();
 
                 model.Order = order;
@@ -57,6 +58,7 @@ namespace FreeMarket.Models
                 model.Order.CustomerEmail = user.Email;
                 model.Order.CustomerPrimaryContactPhone = user.PhoneNumber;
                 model.Order.CustomerPreferredCommunicationMethod = user.PreferredCommunicationMethod;
+                model.Order.VATPercentage = db.VATPercentages.FirstOrDefault().VATPercentage1;
 
                 model.NumberOfItemsInOrder = db.GetNumberOfItemsInOrder(model.Order.OrderNumber)
                     .FirstOrDefault() ?? 0;

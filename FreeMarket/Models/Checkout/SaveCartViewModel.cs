@@ -30,18 +30,18 @@ namespace FreeMarket.Models
 
         public SaveCartViewModel() { }
 
-        public SaveCartViewModel(string customerNumber, OrderHeader order, decimal localCourierFee, decimal courierFee, decimal postalFee)
+        public SaveCartViewModel(string customerNumber, OrderHeader order, decimal courierFee, decimal postalFee)
         {
-            SetModel(customerNumber, order, localCourierFee, courierFee, postalFee);
+            SetModel(customerNumber, order, courierFee, postalFee);
         }
 
-        public void SetModel(string customerNumber, OrderHeader order, decimal localCourierFee, decimal courierFee, decimal postalFee)
+        public void SetModel(string customerNumber, OrderHeader order, decimal courierFee, decimal postalFee)
         {
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
                 OrderStatus = order.OrderStatus;
 
-                SetDeliveryOptions(order, localCourierFee, courierFee, postalFee);
+                SetDeliveryOptions(order, courierFee, postalFee);
 
                 List<CustomerAddress> addresses = db.CustomerAddresses
                     .Where(c => c.CustomerNumber == customerNumber)
@@ -149,12 +149,11 @@ namespace FreeMarket.Models
             }
         }
 
-        public void SetDeliveryOptions(OrderHeader order, decimal localCourierFee, decimal courierFee, decimal postalFee)
+        public void SetDeliveryOptions(OrderHeader order, decimal courierFee, decimal postalFee)
         {
             DeliveryOptions = new DeliveryType()
             {
                 SelectedDeliveryType = order.DeliveryType,
-                LocalCourierCost = localCourierFee,
                 CourierCost = courierFee,
                 PostOfficeCost = postalFee
             };

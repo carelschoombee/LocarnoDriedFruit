@@ -115,6 +115,10 @@
                     <td class="col-sm-2 text-right"><strong>@string.Format("{0:C}", Model.Order.ShippingTotal)</strong></td>
                 </tr>
                 <tr>
+                    <td class="col-sm-2 text-right"><strong>VAT @@ @Model.Order.VATPercentage %:</strong></td>
+                    <td class="col-sm-2 text-right"><strong>@string.Format("{0:C}", Model.Order.TaxTotal)</strong></td>
+                </tr>
+                <tr>
                     <td class="col-sm-2 text-right"><strong style="font-size: 24px">Total:</strong></td>
                     <td class="col-sm-2 text-right"><strong style="font-size: 24px">@string.Format("{0:C}", Model.Order.TotalOrderValue)</strong></td>
                 </tr>

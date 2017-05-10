@@ -22,6 +22,7 @@ namespace FreeMarket.Models
         public string CustomerEmail { get; set; }
         public string CustomerPrimaryContactPhone { get; set; }
         public string CustomerPreferredCommunicationMethod { get; set; }
+        public decimal VATPercentage { get; set; }
         public bool Selected { get; set; }
 
         public static OrderHeader GetOrderForShoppingCart(string customerNumber)
@@ -47,28 +48,7 @@ namespace FreeMarket.Models
                 if (address == null)
                     address = new CustomerAddress();
 
-                int localCourierResult = 0;
-                int weightDummy = 1;
-                try
-                {
-                    if (!string.IsNullOrEmpty(address.AddressPostalCode))
-                    {
-                        localCourierResult = (int)db.CalculateLocalDeliveryFeeAdhoc(weightDummy, int.Parse(address.AddressPostalCode)).FirstOrDefault();
-                    }
-                }
-                catch (Exception e)
-                {
-                    ExceptionLogging.LogException(e);
-                }
-
-                string deliveryType = "";
-
-                if (localCourierResult == -1)
-                    deliveryType = "Courier";
-                else if (localCourierResult > 0)
-                    deliveryType = "LocalCourier";
-                else
-                    deliveryType = "PostOffice";
+                string deliveryType = "PostOffice";
 
                 // The customer has no unconfirmed orders
                 if (order == null)
@@ -83,6 +63,7 @@ namespace FreeMarket.Models
                         TotalOrderValue = 0,
                         CourierNumber = 1,
                         PaymentOption = 1,
+                        TaxTotal = 0,
 
                         DeliveryAddress = address.ToString(),
                         DeliveryAddressLine1 = address.AddressLine1,
@@ -106,9 +87,6 @@ namespace FreeMarket.Models
                         CustomerPreferredCommunicationMethod = user.PreferredCommunicationMethod
                     };
 
-                    //db.OrderHeaders.Add(order);
-                    //db.SaveChanges();
-
                     Debug.Write(string.Format("New order for shopping cart: {0}", order.ToString()));
                 }
                 // Set the customer details on the currently unconfirmed order
@@ -121,6 +99,8 @@ namespace FreeMarket.Models
 
                     Debug.Write(string.Format("Existing order for shopping cart: {0}", order.ToString()));
                 }
+
+                order.VATPercentage = db.VATPercentages.FirstOrDefault().VATPercentage1;
             }
 
             // Return an order which can be used in a shopping cart
@@ -144,8 +124,8 @@ namespace FreeMarket.Models
 
             if (DeliveryType == "Courier")
                 CourierNumber = 1;
-            else if (DeliveryType == "LocalCourier")
-                CourierNumber = 2;
+            //else if (DeliveryType == "LocalCourier")
+            //    CourierNumber = 2;
 
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
@@ -249,7 +229,7 @@ namespace FreeMarket.Models
                 EmailService email = new EmailService();
 
                 IdentityMessage iMessage = new IdentityMessage();
-                iMessage.Destination = support.Email;
+                iMessage.Destination = "carelschoombee@gmail.com";
 
                 string message1 = "Possible fraudulent activity on order {0}. Checksum failed on payment.";
                 string message2 = "Possible fraudulent activity. Reference could not be parsed. Check logs at about this time.";
@@ -849,7 +829,7 @@ namespace FreeMarket.Models
 
             string message1 = CreateConfirmationMessageCustomer();
 
-            iMessage.Body = string.Format((message1), user.Name, supportInfo.MainContactName, supportInfo.Landline, supportInfo.Cellphone, supportInfo.Email);
+            iMessage.Body = string.Format((message1), user.Name, order.OrderNumber, supportInfo.MainContactName, supportInfo.Landline, supportInfo.Cellphone, supportInfo.Email);
             iMessage.Subject = string.Format("Locarno Sun Dried Fruit Order");
 
             EmailService email = new EmailService();
@@ -864,7 +844,7 @@ namespace FreeMarket.Models
 
             string message1 = CreateInvoiceMessageCustomer();
 
-            iMessage.Body = string.Format((message1), user.Name, supportInfo.MainContactName, supportInfo.Landline, supportInfo.Cellphone, supportInfo.Email);
+            iMessage.Body = string.Format((message1), user.Name, order.OrderNumber, supportInfo.MainContactName, supportInfo.Landline, supportInfo.Cellphone, supportInfo.Email);
             iMessage.Subject = string.Format("Locarno Sun Dried Fruit Order");
 
             EmailService email = new EmailService();

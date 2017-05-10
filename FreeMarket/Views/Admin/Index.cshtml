@@ -308,11 +308,15 @@
 
                 <div class="form-group center_div">
                     <div class="col-sm-6">
+                        Search by entering customer name, email or phone number.
+                    </div>
+                    
+                    <div class="col-sm-6">
                         @Html.TextBoxFor(c => c.OrderSearchCriteria, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.OrderSearchCriteria, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-sm-3">
-                        <input type="submit" value="Search" class="btn btn-primary btn-sm" />
+                        <input type="submit" value="Search / Refresh" class="btn btn-primary btn-sm" />
                     </div>
                 </div>
 
@@ -342,11 +346,14 @@
 
                 <div class="form-group center_div">
                     <div class="col-sm-6">
+                        Search by entering customer name, email or phone number.
+                    </div>
+                    <div class="col-sm-6">
                         @Html.TextBoxFor(c => c.CustomerSearchCriteria, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.CustomerSearchCriteria, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-sm-3">
-                        <input type="submit" value="Search" class="btn btn-primary btn-sm" />
+                        <input type="submit" value="Search / Refresh" class="btn btn-primary btn-sm" />
                     </div>
                 </div>
 

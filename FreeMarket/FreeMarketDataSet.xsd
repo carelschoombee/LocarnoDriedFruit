@@ -2,14 +2,15 @@
 <xs:schema id="FreeMarketDataSet" targetNamespace="http://tempuri.org/FreeMarketDataSet.xsd" xmlns:mstns="http://tempuri.org/FreeMarketDataSet.xsd" xmlns="http://tempuri.org/FreeMarketDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
-      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="1" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
-          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="DefaultConnection" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="DefaultConnection (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.DefaultConnection.ConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="DefaultConnection" IsAppSettingsProperty="true" Modifier="Assembly" Name="DefaultConnection (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.DefaultConnection.ConnectionString" Provider="System.Data.SqlClient" />
+          <Connection ConnectionStringObject="Data Source=Localhost;Initial Catalog=LocarnoDriedFruit;User ID=sa;Password=!Free#Pecans#4" IsAppSettingsProperty="false" Modifier="Assembly" Name="FreeMarketConnectionString (FreeMarket)" ParameterPrefix="@" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="GetOrderReportTableAdapter" GeneratorDataComponentClassName="GetOrderReportTableAdapter" Name="GetOrderReport" UserDataComponentName="GetOrderReportTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="DefaultConnection (Web.config)" DbObjectName="LocarnoDriedFruit.dbo.GetOrderReport" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+              <DbSource ConnectionRef="FreeMarketConnectionString (FreeMarket)" DbObjectName="LocarnoDriedFruit.dbo.GetOrderReport" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                     <CommandText>dbo.GetOrderReport</CommandText>
@@ -34,6 +35,7 @@
               <Mapping SourceColumn="PreferredDeliveryDate" DataSetColumn="PreferredDeliveryDate" />
               <Mapping SourceColumn="SubTotal" DataSetColumn="SubTotal" />
               <Mapping SourceColumn="ShippingTotal" DataSetColumn="ShippingTotal" />
+              <Mapping SourceColumn="TaxTotal" DataSetColumn="TaxTotal" />
               <Mapping SourceColumn="TotalOrderValue" DataSetColumn="TotalOrderValue" />
               <Mapping SourceColumn="Price" DataSetColumn="Price" />
               <Mapping SourceColumn="Quantity" DataSetColumn="Quantity" />
@@ -63,7 +65,7 @@
           </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="GetOrderDeliveryReportTableAdapter" GeneratorDataComponentClassName="GetOrderDeliveryReportTableAdapter" Name="GetOrderDeliveryReport" UserDataComponentName="GetOrderDeliveryReportTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="DefaultConnection (Web.config)" DbObjectName="LocarnoDriedFruit.dbo.GetOrderDeliveryReport" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+              <DbSource ConnectionRef="FreeMarketConnectionString (FreeMarket)" DbObjectName="LocarnoDriedFruit.dbo.GetOrderDeliveryReport" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                     <CommandText>dbo.GetOrderDeliveryReport</CommandText>
@@ -87,6 +89,7 @@
               <Mapping SourceColumn="OrderNumber" DataSetColumn="OrderNumber" />
               <Mapping SourceColumn="PreferredDeliveryDate" DataSetColumn="PreferredDeliveryDate" />
               <Mapping SourceColumn="SubTotal" DataSetColumn="SubTotal" />
+              <Mapping SourceColumn="TaxTotal" DataSetColumn="TaxTotal" />
               <Mapping SourceColumn="ShippingTotal" DataSetColumn="ShippingTotal" />
               <Mapping SourceColumn="TotalOrderValue" DataSetColumn="TotalOrderValue" />
               <Mapping SourceColumn="Price" DataSetColumn="Price" />
@@ -186,6 +189,7 @@
               <xs:element name="PreferredDeliveryDate" msprop:Generator_ColumnVarNameInTable="columnPreferredDeliveryDate" msprop:Generator_ColumnPropNameInRow="PreferredDeliveryDate" msprop:Generator_ColumnPropNameInTable="PreferredDeliveryDateColumn" msprop:Generator_UserColumnName="PreferredDeliveryDate" type="xs:dateTime" minOccurs="0" />
               <xs:element name="SubTotal" msprop:Generator_ColumnVarNameInTable="columnSubTotal" msprop:Generator_ColumnPropNameInRow="SubTotal" msprop:Generator_ColumnPropNameInTable="SubTotalColumn" msprop:Generator_UserColumnName="SubTotal" type="xs:decimal" minOccurs="0" />
               <xs:element name="ShippingTotal" msprop:Generator_ColumnVarNameInTable="columnShippingTotal" msprop:Generator_ColumnPropNameInRow="ShippingTotal" msprop:Generator_ColumnPropNameInTable="ShippingTotalColumn" msprop:Generator_UserColumnName="ShippingTotal" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TaxTotal" msprop:Generator_ColumnVarNameInTable="columnTaxTotal" msprop:Generator_ColumnPropNameInRow="TaxTotal" msprop:Generator_ColumnPropNameInTable="TaxTotalColumn" msprop:Generator_UserColumnName="TaxTotal" type="xs:decimal" minOccurs="0" />
               <xs:element name="TotalOrderValue" msprop:Generator_ColumnVarNameInTable="columnTotalOrderValue" msprop:Generator_ColumnPropNameInRow="TotalOrderValue" msprop:Generator_ColumnPropNameInTable="TotalOrderValueColumn" msprop:Generator_UserColumnName="TotalOrderValue" type="xs:decimal" />
               <xs:element name="Price" msprop:Generator_ColumnVarNameInTable="columnPrice" msprop:Generator_ColumnPropNameInRow="Price" msprop:Generator_ColumnPropNameInTable="PriceColumn" msprop:Generator_UserColumnName="Price" type="xs:decimal" />
               <xs:element name="Quantity" msprop:Generator_ColumnVarNameInTable="columnQuantity" msprop:Generator_ColumnPropNameInRow="Quantity" msprop:Generator_ColumnPropNameInTable="QuantityColumn" msprop:Generator_UserColumnName="Quantity" type="xs:int" />
@@ -389,6 +393,7 @@
               <xs:element name="OrderNumber" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnOrderNumber" msprop:Generator_ColumnPropNameInRow="OrderNumber" msprop:Generator_ColumnPropNameInTable="OrderNumberColumn" msprop:Generator_UserColumnName="OrderNumber" type="xs:int" />
               <xs:element name="PreferredDeliveryDate" msprop:Generator_ColumnVarNameInTable="columnPreferredDeliveryDate" msprop:Generator_ColumnPropNameInRow="PreferredDeliveryDate" msprop:Generator_ColumnPropNameInTable="PreferredDeliveryDateColumn" msprop:Generator_UserColumnName="PreferredDeliveryDate" type="xs:dateTime" minOccurs="0" />
               <xs:element name="SubTotal" msprop:Generator_ColumnVarNameInTable="columnSubTotal" msprop:Generator_ColumnPropNameInRow="SubTotal" msprop:Generator_ColumnPropNameInTable="SubTotalColumn" msprop:Generator_UserColumnName="SubTotal" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TaxTotal" msprop:Generator_ColumnVarNameInTable="columnTaxTotal" msprop:Generator_ColumnPropNameInRow="TaxTotal" msprop:Generator_ColumnPropNameInTable="TaxTotalColumn" msprop:Generator_UserColumnName="TaxTotal" type="xs:decimal" minOccurs="0" />
               <xs:element name="ShippingTotal" msprop:Generator_ColumnVarNameInTable="columnShippingTotal" msprop:Generator_ColumnPropNameInRow="ShippingTotal" msprop:Generator_ColumnPropNameInTable="ShippingTotalColumn" msprop:Generator_UserColumnName="ShippingTotal" type="xs:decimal" minOccurs="0" />
               <xs:element name="TotalOrderValue" msprop:Generator_ColumnVarNameInTable="columnTotalOrderValue" msprop:Generator_ColumnPropNameInRow="TotalOrderValue" msprop:Generator_ColumnPropNameInTable="TotalOrderValueColumn" msprop:Generator_UserColumnName="TotalOrderValue" type="xs:decimal" />
               <xs:element name="Price" msprop:Generator_ColumnVarNameInTable="columnPrice" msprop:Generator_ColumnPropNameInRow="Price" msprop:Generator_ColumnPropNameInTable="PriceColumn" msprop:Generator_UserColumnName="Price" type="xs:decimal" />

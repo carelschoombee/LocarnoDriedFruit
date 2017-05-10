@@ -16,6 +16,7 @@ namespace FreeMarket.Models
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
                 Order = db.OrderHeaders.Find(orderNumber);
+                Order.VATPercentage = db.VATPercentages.FirstOrDefault().VATPercentage1;
                 Body = CartBody.GetDetailsForShoppingCart(Order.OrderNumber);
             }
         }
@@ -527,14 +528,14 @@ namespace FreeMarket.Models
                 {
                     return CalculateCourierFee();
                 }
-                else if (Order.DeliveryType == "LocalCourier")
-                {
-                    decimal fee = CalculateLocalCourierFee();
-                    if (fee > 0)
-                        return fee;
-                    else
-                        return CalculateCourierFee();
-                }
+                //else if (Order.DeliveryType == "LocalCourier")
+                //{
+                //    decimal fee = CalculateLocalCourierFee();
+                //    if (fee > 0)
+                //        return fee;
+                //    else
+                //        return CalculateCourierFee();
+                //}
                 else // Post Office
                     return CalculatePostalFee();
             }
@@ -565,7 +566,21 @@ namespace FreeMarket.Models
             Body.OrderDetails.ForEach(c => c.OrderItemValue = c.Price * c.Quantity);
             Order.SubTotal = Body.OrderDetails.Sum(c => c.OrderItemValue);
             Order.ShippingTotal = CalculateDeliveryFee();
-            Order.TotalOrderValue = (Order.SubTotal ?? 0) + (Order.ShippingTotal ?? 0);
+            Order.TaxTotal = CalculateVAT();
+            Order.TotalOrderValue = (Order.SubTotal ?? 0) + (Order.ShippingTotal ?? 0) + (Order.TaxTotal ?? 0);
+        }
+
+        public decimal? CalculateVAT()
+        {
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                VATPercentage VATPercentage = db.VATPercentages.FirstOrDefault();
+
+                if (VATPercentage != null)
+                    return (Order.SubTotal + Order.ShippingTotal) * (VATPercentage.VATPercentage1 / 100);
+                else
+                    return 0;
+            }
         }
 
         public FreeMarketResult ReserveStock(int productNumber, int supplierNumber, int custodianNumber, int quantityRequested, int sizeType)

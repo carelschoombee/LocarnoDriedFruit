@@ -17,39 +17,54 @@
                 </tr>
                 <tr>
                     <td rowspan="4">
-                        <img class="img-thumbnail" src="@Url.Action("RenderImage", "Image", new { id = Model.ProductInstance.MainImageNumber, defaultSize = PictureSize.Large })" alt="@Model.ProductInstance.Description" title="@Model.ProductInstance.Description" />
+                        @if (Model.ProductInstance.AdditionalImageNumber != 0)
+                        {
+
+                            <div id="myCarousel" class="carousel slide" data-interval="false" data-ride="carousel">
+                                <!-- Carousel indicators -->
+                                @*<ol class="carousel-indicators">
+                                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#myCarousel" data-slide-to="1"></li>
+                            </ol>*@
+
+                                <!-- Wrapper for carousel items -->
+                                <div class="carousel-inner">
+                                    <div class="item active">
+                                        <div class="wrapper"><img class="img-thumbnail img-responsive magnify" src="@Url.Action("RenderImage", "Image", new { id = Model.ProductInstance.MainImageNumber })" alt="@Model.ProductInstance.Description" title="@Model.ProductInstance.Description" /><img class="magnify-icon" src="~/Content/Images/icon.png" /></div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="wrapper"><img class="img-thumbnail img-responsive magnify" src="@Url.Action("RenderImage", "Image", new { id = Model.ProductInstance.AdditionalImageNumber })" alt="@Model.ProductInstance.Description" title="@Model.ProductInstance.Description" /><img class="magnify-icon" src="~/Content/Images/icon.png" /></div>
+                                    </div>
+                                </div>
+
+                                <!-- Carousel controls -->
+                                <a class="carousel-control left" href="#myCarousel" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                </a>
+                                <a class="carousel-control right" href="#myCarousel" data-slide="next">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="wrapper"><img class="img-thumbnail img-responsive magnify" src="@Url.Action("RenderImage", "Image", new { id = Model.ProductInstance.MainImageNumber })" alt="@Model.ProductInstance.Description" title="@Model.ProductInstance.Description" /><img class="magnify-icon" src="~/Content/Images/icon.png" /></div>
+                        }
                     </td>
+                    <td>@Html.DropDownListFor(model => model.SelectedPackageType, Model.ProductSizes, new { @class = "form-control" })</td>
+                </tr>
+                <tr>
+                    <td id="PackageDetailsContainer">
+                        @*<div style="font-size:medium; font-weight:600;" class="text-center">@String.Format("{0:C}", Model.ProductInstance.PricePerUnit)</div>*@
+                    </td>
+                </tr>
+                <tr>
                     <td>
-                        <table class="table table-bordered-custom table-responsive well">
-                            <tr>
-                                <td class="text-center" colspan="2">
-                                    @*<div><u>Rest of RSA</u></div>*@
-                                    <div style="font-size:medium; font-weight:600;">@String.Format("{0:C}", Model.ProductInstance.PricePerUnit)</div>
-                                    <div style="font-size:small">per&nbsp;@Html.Action("GetDimensions", "Product", new { productNumber = Model.ProductInstance.ProductNumber })</div>
-                                    @if (Model.ProductInstance.DepartmentName == "Snacking Nuts")
-                                    {
-                                        <div style="font-size:small"><u>Free Delivery in Struisbaai, L'Agulhas and Suiderstrand</u></div>
-                                    }
-                                </td>
-                                @*<td class="text-center">
-                                    <div><u>Struisbaai</u></div>
-                                    <div style="font-size:medium; font-weight:600">@String.Format("{0:C}", Model.ProductInstance.SpecialPricePerUnit) </div>
-                                    <div style="font-size:small">per&nbsp;@Html.Action("GetDimensions", "Product", new { productNumber = Model.ProductInstance.ProductNumber })</div>
-                                </td>*@
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center">Supplied by: <span class="text-info">@Model.ProductInstance.SupplierName</span></td>
-                </tr>
-                <tr>
-                    <td class="text-center">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-5" })
+                            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-4" })
                             <div class="col-md-6">
                                 @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @style = "width:125px", @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.Quantity)
                             </div>
                         </div>
                     </td>
@@ -64,6 +79,8 @@
                     </td>
                 </tr>
             </table>
+
+
 
             <div>
                 <i>@Model.ProductInstance.LongDescription</i>

@@ -109,23 +109,31 @@ namespace FreeMarket.Controllers
         {
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
-                List<int?> orderNumbers = db.FilterOrders(model.OrderSearchCriteria)
-                    .ToList();
-
-                if (orderNumbers == null || orderNumbers.Count == 0)
-                    return Content("");
-
-                List<OrderHeader> orders = new List<OrderHeader>();
-
-                foreach (int number in orderNumbers)
+                if (model.OrderSearchCriteria == null)
                 {
-                    OrderHeader oh = db.OrderHeaders.Find(number);
-                    orders.Add(oh);
+                    List<OrderHeader> allOrders = db.OrderHeaders.OrderByDescending(c => c.OrderNumber).ToList();
+                    return PartialView("_AllOrders", allOrders);
                 }
+                else
+                {
+                    List<int?> orderNumbers = db.FilterOrders(model.OrderSearchCriteria)
+                        .ToList();
 
-                orders = orders.OrderByDescending(c => c.OrderNumber).ToList();
+                    if (orderNumbers == null || orderNumbers.Count == 0)
+                        return Content("");
 
-                return PartialView("_AllOrders", orders);
+                    List<OrderHeader> orders = new List<OrderHeader>();
+
+                    foreach (int number in orderNumbers)
+                    {
+                        OrderHeader oh = db.OrderHeaders.Find(number);
+                        orders.Add(oh);
+                    }
+
+                    orders = orders.OrderByDescending(c => c.OrderNumber).ToList();
+
+                    return PartialView("_AllOrders", orders);
+                }
             }
         }
 

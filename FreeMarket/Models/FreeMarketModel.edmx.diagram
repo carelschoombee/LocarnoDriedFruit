@@ -67,6 +67,7 @@
         <AssociationConnector Association="FreeMarketModel.FK_OrderDetail_OrderHeader" />
         <AssociationConnector Association="FreeMarketModel.FK_OrderDetail_Product" />
         <AssociationConnector Association="FreeMarketModel.FK_OrderDetail_Supplier" />
+        <EntityTypeShape EntityType="FreeMarketModel.VATPercentage" Width="1.5" PointX="20.375" PointY="12.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

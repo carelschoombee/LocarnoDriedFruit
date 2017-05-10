@@ -73,6 +73,7 @@ namespace FreeMarket.Models
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductSupplier> ProductSuppliers { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<VATPercentage> VATPercentages { get; set; }
     
         public virtual ObjectResult<FilterCustomers_Result> FilterCustomers(string filterCriteria)
         {

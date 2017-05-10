@@ -187,7 +187,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Order will be dispatched next Tuesday and is to be collected at the post office</Value>
+                <Value>Order to be collected at the post office</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                   <TextDecoration>Underline</TextDecoration>
@@ -4769,6 +4769,10 @@
           <DataField>SubTotal</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="TaxTotal">
+          <DataField>TaxTotal</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="ShippingTotal">
           <DataField>ShippingTotal</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
@@ -4872,11 +4876,11 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>FreeMarketDataSet</rd:DataSetName>
-        <rd:SchemaPath>D:\carel\Programming\Projects\GitHub\OverbergTradingPost\FreeMarket\FreeMarketDataSet.xsd</rd:SchemaPath>
-        <rd:TableName>GetOrderReport</rd:TableName>
+        <rd:SchemaPath>D:\carel\Programming\Projects\GitHub\LocarnoDriedFruit\FreeMarket\FreeMarketDataSet.xsd</rd:SchemaPath>
+        <rd:TableName>GetOrderDeliveryReport</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
-        <rd:TableAdapterName>GetOrderReportTableAdapter</rd:TableAdapterName>
+        <rd:TableAdapterName>GetOrderDeliveryReportTableAdapter</rd:TableAdapterName>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

@@ -601,6 +601,14 @@
           <Property Name="DialingCode" Type="nvarchar" MaxLength="10" />
           <Property Name="DeliveryFee" Type="money" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VATPercentage">
+          <Key>
+            <PropertyRef Name="VATPercentage" />
+          </Key>
+          <Property Name="VATPercentage" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="WebsiteFunction">
           <Key>
             <PropertyRef Name="FunctionId" />
@@ -978,6 +986,11 @@
           <EntitySet Name="SystemActions" EntityType="Self.SystemActions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TimeFreightCourierFeeReference" EntityType="Self.TimeFreightCourierFeeReference" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebsiteFunction" EntityType="Self.WebsiteFunction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VATPercentage" EntityType="Self.VATPercentage" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VATPercentage].[VATPercentage] AS [VATPercentage]
+    FROM [dbo].[VATPercentage] AS [VATPercentage]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_CourierReview_Courier" Association="Self.FK_CourierReview_Courier">
             <End Role="Courier" EntitySet="Courier" />
             <End Role="CourierReview" EntitySet="CourierReview" />
@@ -1471,6 +1484,7 @@
           <FunctionImport Name="GetOrderReport" ReturnType="Collection(FreeMarketModel.GetOrderReport_Result)">
           <Parameter Name="OrderNumber" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="VATPercentages" EntityType="FreeMarketModel.VATPercentage" />
           </EntityContainer>
         <EntityType Name="SystemAction">
           <Key>
@@ -2216,6 +2230,7 @@
           <Property Type="String" Name="BankingDetailsAccountType" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="BankingDetailsAccountNumber" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="ProofOfPaymentEmail" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="TaxTotal" Nullable="true" Precision="19" />
         </ComplexType>
         <ComplexType Name="GetOrderDetails_Result">
           <Property Type="Int32" Name="ItemNumber" Nullable="false" />
@@ -2639,7 +2654,14 @@
           <Property Type="String" Name="BankingDetailsAccountType" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="BankingDetailsAccountNumber" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="ProofOfPaymentEmail" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="TaxTotal" Nullable="true" Precision="19" />
         </ComplexType>
+        <EntityType Name="VATPercentage">
+          <Key>
+            <PropertyRef Name="VATPercentage1" />
+          </Key>
+          <Property Name="VATPercentage1" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3631,6 +3653,7 @@
                 <ScalarProperty Name="BankingDetailsAccountType" ColumnName="BankingDetailsAccountType" />
                 <ScalarProperty Name="BankingDetailsAccountNumber" ColumnName="BankingDetailsAccountNumber" />
                 <ScalarProperty Name="ProofOfPaymentEmail" ColumnName="ProofOfPaymentEmail" />
+                <ScalarProperty Name="TaxTotal" ColumnName="TaxTotal" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -3951,9 +3974,17 @@
                 <ScalarProperty Name="BankingDetailsAccountType" ColumnName="BankingDetailsAccountType" />
                 <ScalarProperty Name="BankingDetailsAccountNumber" ColumnName="BankingDetailsAccountNumber" />
                 <ScalarProperty Name="ProofOfPaymentEmail" ColumnName="ProofOfPaymentEmail" />
+                <ScalarProperty Name="TaxTotal" ColumnName="TaxTotal" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="VATPercentages">
+            <EntityTypeMapping TypeName="FreeMarketModel.VATPercentage">
+              <MappingFragment StoreEntitySet="VATPercentage">
+                <ScalarProperty Name="VATPercentage1" ColumnName="VATPercentage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

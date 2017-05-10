@@ -338,6 +338,8 @@ namespace FreeMarket {
             
             private global::System.Data.DataColumn columnShippingTotal;
             
+            private global::System.Data.DataColumn columnTaxTotal;
+            
             private global::System.Data.DataColumn columnTotalOrderValue;
             
             private global::System.Data.DataColumn columnPrice;
@@ -512,6 +514,14 @@ namespace FreeMarket {
             public global::System.Data.DataColumn ShippingTotalColumn {
                 get {
                     return this.columnShippingTotal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn TaxTotalColumn {
+                get {
+                    return this.columnTaxTotal;
                 }
             }
             
@@ -756,6 +766,7 @@ namespace FreeMarket {
                         System.DateTime PreferredDeliveryDate, 
                         decimal SubTotal, 
                         decimal ShippingTotal, 
+                        decimal TaxTotal, 
                         decimal TotalOrderValue, 
                         decimal Price, 
                         int Quantity, 
@@ -794,6 +805,7 @@ namespace FreeMarket {
                         PreferredDeliveryDate,
                         SubTotal,
                         ShippingTotal,
+                        TaxTotal,
                         TotalOrderValue,
                         Price,
                         Quantity,
@@ -859,6 +871,7 @@ namespace FreeMarket {
                 this.columnPreferredDeliveryDate = base.Columns["PreferredDeliveryDate"];
                 this.columnSubTotal = base.Columns["SubTotal"];
                 this.columnShippingTotal = base.Columns["ShippingTotal"];
+                this.columnTaxTotal = base.Columns["TaxTotal"];
                 this.columnTotalOrderValue = base.Columns["TotalOrderValue"];
                 this.columnPrice = base.Columns["Price"];
                 this.columnQuantity = base.Columns["Quantity"];
@@ -912,6 +925,8 @@ namespace FreeMarket {
                 base.Columns.Add(this.columnSubTotal);
                 this.columnShippingTotal = new global::System.Data.DataColumn("ShippingTotal", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnShippingTotal);
+                this.columnTaxTotal = new global::System.Data.DataColumn("TaxTotal", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTaxTotal);
                 this.columnTotalOrderValue = new global::System.Data.DataColumn("TotalOrderValue", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTotalOrderValue);
                 this.columnPrice = new global::System.Data.DataColumn("Price", typeof(decimal), null, global::System.Data.MappingType.Element);
@@ -1164,6 +1179,8 @@ namespace FreeMarket {
             
             private global::System.Data.DataColumn columnSubTotal;
             
+            private global::System.Data.DataColumn columnTaxTotal;
+            
             private global::System.Data.DataColumn columnShippingTotal;
             
             private global::System.Data.DataColumn columnTotalOrderValue;
@@ -1332,6 +1349,14 @@ namespace FreeMarket {
             public global::System.Data.DataColumn SubTotalColumn {
                 get {
                     return this.columnSubTotal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn TaxTotalColumn {
+                get {
+                    return this.columnTaxTotal;
                 }
             }
             
@@ -1583,6 +1608,7 @@ namespace FreeMarket {
                         string PostalCode, 
                         System.DateTime PreferredDeliveryDate, 
                         decimal SubTotal, 
+                        decimal TaxTotal, 
                         decimal ShippingTotal, 
                         decimal TotalOrderValue, 
                         decimal Price, 
@@ -1621,6 +1647,7 @@ namespace FreeMarket {
                         null,
                         PreferredDeliveryDate,
                         SubTotal,
+                        TaxTotal,
                         ShippingTotal,
                         TotalOrderValue,
                         Price,
@@ -1686,6 +1713,7 @@ namespace FreeMarket {
                 this.columnOrderNumber = base.Columns["OrderNumber"];
                 this.columnPreferredDeliveryDate = base.Columns["PreferredDeliveryDate"];
                 this.columnSubTotal = base.Columns["SubTotal"];
+                this.columnTaxTotal = base.Columns["TaxTotal"];
                 this.columnShippingTotal = base.Columns["ShippingTotal"];
                 this.columnTotalOrderValue = base.Columns["TotalOrderValue"];
                 this.columnPrice = base.Columns["Price"];
@@ -1738,6 +1766,8 @@ namespace FreeMarket {
                 base.Columns.Add(this.columnPreferredDeliveryDate);
                 this.columnSubTotal = new global::System.Data.DataColumn("SubTotal", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSubTotal);
+                this.columnTaxTotal = new global::System.Data.DataColumn("TaxTotal", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTaxTotal);
                 this.columnShippingTotal = new global::System.Data.DataColumn("ShippingTotal", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnShippingTotal);
                 this.columnTotalOrderValue = new global::System.Data.DataColumn("TotalOrderValue", typeof(decimal), null, global::System.Data.MappingType.Element);
@@ -2162,6 +2192,22 @@ namespace FreeMarket {
                 }
                 set {
                     this[this.tableGetOrderReport.ShippingTotalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal TaxTotal {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableGetOrderReport.TaxTotalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TaxTotal\' in table \'GetOrderReport\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableGetOrderReport.TaxTotalColumn] = value;
                 }
             }
             
@@ -2623,6 +2669,18 @@ namespace FreeMarket {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsTaxTotalNull() {
+                return this.IsNull(this.tableGetOrderReport.TaxTotalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetTaxTotalNull() {
+                this[this.tableGetOrderReport.TaxTotalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsTotalNull() {
                 return this.IsNull(this.tableGetOrderReport.TotalColumn);
             }
@@ -2952,6 +3010,22 @@ namespace FreeMarket {
                 }
                 set {
                     this[this.tableGetOrderDeliveryReport.SubTotalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal TaxTotal {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableGetOrderDeliveryReport.TaxTotalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TaxTotal\' in table \'GetOrderDeliveryReport\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableGetOrderDeliveryReport.TaxTotalColumn] = value;
                 }
             }
             
@@ -3421,6 +3495,18 @@ namespace FreeMarket {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsTaxTotalNull() {
+                return this.IsNull(this.tableGetOrderDeliveryReport.TaxTotalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetTaxTotalNull() {
+                this[this.tableGetOrderDeliveryReport.TaxTotalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsShippingTotalNull() {
                 return this.IsNull(this.tableGetOrderDeliveryReport.ShippingTotalColumn);
             }
@@ -3781,6 +3867,7 @@ namespace FreeMarket.FreeMarketDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("PreferredDeliveryDate", "PreferredDeliveryDate");
             tableMapping.ColumnMappings.Add("SubTotal", "SubTotal");
             tableMapping.ColumnMappings.Add("ShippingTotal", "ShippingTotal");
+            tableMapping.ColumnMappings.Add("TaxTotal", "TaxTotal");
             tableMapping.ColumnMappings.Add("TotalOrderValue", "TotalOrderValue");
             tableMapping.ColumnMappings.Add("Price", "Price");
             tableMapping.ColumnMappings.Add("Quantity", "Quantity");
@@ -3812,7 +3899,8 @@ namespace FreeMarket.FreeMarketDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            this._connection.ConnectionString = "Data Source=Localhost;Initial Catalog=LocarnoDriedFruit;User ID=sa;Password=!Free" +
+                "#Pecans#4";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3996,6 +4084,7 @@ namespace FreeMarket.FreeMarketDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("OrderNumber", "OrderNumber");
             tableMapping.ColumnMappings.Add("PreferredDeliveryDate", "PreferredDeliveryDate");
             tableMapping.ColumnMappings.Add("SubTotal", "SubTotal");
+            tableMapping.ColumnMappings.Add("TaxTotal", "TaxTotal");
             tableMapping.ColumnMappings.Add("ShippingTotal", "ShippingTotal");
             tableMapping.ColumnMappings.Add("TotalOrderValue", "TotalOrderValue");
             tableMapping.ColumnMappings.Add("Price", "Price");
@@ -4028,7 +4117,8 @@ namespace FreeMarket.FreeMarketDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            this._connection.ConnectionString = "Data Source=Localhost;Initial Catalog=LocarnoDriedFruit;User ID=sa;Password=!Free" +
+                "#Pecans#4";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

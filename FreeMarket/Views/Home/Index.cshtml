@@ -6,34 +6,38 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="parent" class="center_div container">
-    <div class="row">
-        <h1 class="text-center">Welcome to Locarno Sun Dried Fruit & Nuts</h1>
-        <hr />
-    </div>
-    <div class="row">
-        @Html.Partial("_ProductCarousel")
-    </div>
-    <div class="row well text-center">
+<div class="container">
+    <div>
+        <div id="parent" class="center_div">
+            <div class="row">
+                <h1 class="text-center">Welcome to Locarno Sun Dried Fruit & Nuts</h1>
+                <hr />
+            </div>
+            <div class="row">
+                @Html.Partial("_ProductCarousel")
+            </div>
+            <div class="row well text-center">
 
-        @Html.Raw(Model.WelcomeText)
-        <div>Feel free to @Html.ActionLink("Contact", "Contact", "Home", new { @class = "freemarket-link" }) us if you don’t find what you are looking for.</div>
-    </div>
-    <div class="row well-payment text-center">
+                @Html.Raw(Model.WelcomeText)
+                <div>Feel free to @Html.ActionLink("Contact", "Contact", "Home", new { @class = "freemarket-link" }) us if you don’t find what you are looking for.</div>
+            </div>
+            <div class="row well-payment text-center">
 
-        Accepted payment methods (EFT, Credit Card & More)
-        @Html.Partial("_PaymentOptions")
-        
-    </div>
-    
-    @*<div class="row text-center">
-        <a class="btn btn-success" href="@Url.Action("Departments", "Product")"><span class="glyphicon glyphicon-shopping-cart">&nbsp;&nbsp;Start Shopping!</span></a>
-    </div>*@
+                Accepted payment methods (EFT, Credit Card & More)
+                @Html.Partial("_PaymentOptions")
 
-    <div class="row">
-        &nbsp;
+            </div>
+
+            @*<div class="row text-center">
+                    <a class="btn btn-success" href="@Url.Action("Departments", "Product")"><span class="glyphicon glyphicon-shopping-cart">&nbsp;&nbsp;Start Shopping!</span></a>
+                </div>*@
+
+            <div class="row">
+                &nbsp;
+            </div>
+
+        </div>
     </div>
-   
 </div>
 
 @Html.Action("Departments", "Product")

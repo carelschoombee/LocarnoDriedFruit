@@ -256,11 +256,11 @@ namespace FreeMarket.Controllers
                 }
             }
 
-            decimal localCourierCost = sessionCart.CalculateLocalCourierFee();
+            //decimal localCourierCost = sessionCart.CalculateLocalCourierFee();
             decimal courierCost = sessionCart.CalculateCourierFee();
             decimal postOfficeCost = sessionCart.CalculatePostalFee();
 
-            SaveCartViewModel model = new SaveCartViewModel(userId, sessionCart.Order, localCourierCost, courierCost, postOfficeCost);
+            SaveCartViewModel model = new SaveCartViewModel(userId, sessionCart.Order, courierCost, postOfficeCost);
             if (model == null)
                 return RedirectToAction("Departments", "Product");
 
@@ -295,7 +295,7 @@ namespace FreeMarket.Controllers
                 options = new DeliveryType()
                 {
                     SelectedDeliveryType = selectedDeliveryType,
-                    LocalCourierCost = localCourierCost,
+                    //LocalCourierCost = localCourierCost,
                     CourierCost = courierCost,
                     PostOfficeCost = postOfficeCost
                 };
@@ -364,7 +364,7 @@ namespace FreeMarket.Controllers
             decimal localCourierCost = sessionCart.CalculateLocalCourierFeeAdhoc(int.Parse(model.Address.AddressPostalCode));
             decimal courierCost = sessionCart.CalculateCourierFeeAdhoc(int.Parse(model.Address.AddressPostalCode));
             decimal postOfficeCost = sessionCart.CalculatePostalFee();
-            model.SetDeliveryOptions(sessionCart.Order, localCourierCost, courierCost, postOfficeCost);
+            model.SetDeliveryOptions(sessionCart.Order, /*localCourierCost,*/ courierCost, postOfficeCost);
             model.SetTextBlocks();
 
             if (Request.IsAjaxRequest())
