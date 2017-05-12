@@ -742,6 +742,8 @@ namespace FreeMarket.Models
 
                 ReleaseAllStock(order.OrderNumber);
 
+                OrderHeader.UpdatePopularItems(order.OrderNumber);
+
                 Initialize(userId);
             }
         }

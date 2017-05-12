@@ -107,6 +107,48 @@ namespace FreeMarket.Models
             return order;
         }
 
+        public static void UpdatePopularItems(int orderNumber)
+        {
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                OrderHeader order = db.OrderHeaders.Find(orderNumber);
+
+                if (order != null)
+                {
+                    List<OrderDetail> details = db.OrderDetails.Where(c => c.OrderNumber == orderNumber).ToList();
+
+                    if (details.Count > 0)
+                    {
+                        foreach (OrderDetail detail in details)
+                        {
+                            PopularProduct pp = db.PopularProducts.Where(c => c.ProductNumber == detail.ProductNumber
+                                && c.SupplierNumber == detail.SupplierNumber)
+                                .FirstOrDefault();
+
+                            if (pp == null)
+                            {
+                                pp = new PopularProduct
+                                {
+                                    ProductNumber = detail.ProductNumber,
+                                    SupplierNumber = detail.SupplierNumber,
+                                    NumberSold = 1
+                                };
+
+                                db.PopularProducts.Add(pp);
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                ++pp.NumberSold;
+                                db.Entry(pp).State = EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public void UpdateDeliveryDetails(SaveCartViewModel model)
         {
             DeliveryDate = model.prefDeliveryDateTime;
@@ -502,6 +544,8 @@ namespace FreeMarket.Models
 
                 SendInvoiceEmailToCustomer(order, user, supportInfo);
 
+                SendConfirmationEmailToSupport(order, user, supportInfo);
+
                 SendInvoiceSmsToCustomer(user, order);
 
                 SendConfirmationSmsToSupport(user, supportInfo, order);
@@ -541,9 +585,11 @@ namespace FreeMarket.Models
 
                 SendConfirmationEmailToCustomer(order, user, supportInfo);
 
+                SendConfirmationEmailToSupport(order, user, supportInfo);
+
                 SendConfirmationSmsToCustomer(user, order);
 
-                SendConfirmationEmailToCourier(order, supportInfo);
+                // SendConfirmationEmailToCourier(order, supportInfo);
             }
         }
 
@@ -641,10 +687,13 @@ namespace FreeMarket.Models
             builder.Append("Weight (KG)");
             builder.Append("</th>");
             builder.Append("<th>");
-            builder.Append("Size");
+            builder.Append("Unit Price");
             builder.Append("</th>");
             builder.Append("<th>");
             builder.Append("Quantity");
+            builder.Append("</th>");
+            builder.Append("<th>");
+            builder.Append("Total");
             builder.Append("</th>");
             builder.Append("</tr>");
 
@@ -658,10 +707,13 @@ namespace FreeMarket.Models
                 builder.Append(Math.Round(res.Weight ?? 0, 2));
                 builder.Append("</td>");
                 builder.Append("<td>");
-                builder.Append(res.Size);
+                builder.Append(string.Format("{0:C}", res.Price));
                 builder.Append("</td>");
                 builder.Append("<td>");
                 builder.Append(res.Quantity);
+                builder.Append("</td>");
+                builder.Append("<td>");
+                builder.Append(string.Format("{0:C}", res.Total));
                 builder.Append("</td>");
                 builder.Append("</tr>");
             }
@@ -820,6 +872,57 @@ namespace FreeMarket.Models
                     }
                 }
             }
+        }
+
+        private async static void SendConfirmationEmailToSupport(OrderHeader order, ApplicationUser user, Support supportInfo)
+        {
+            Dictionary<Stream, string> orderSummary = new Dictionary<Stream, string>();
+            Dictionary<Stream, string> orderDeliveryInstruction = new Dictionary<Stream, string>();
+
+            GetConfirmationReports(order.OrderNumber, order.DeliveryType, ref orderSummary, ref orderDeliveryInstruction);
+
+            IdentityMessage iMessage = new IdentityMessage();
+            iMessage.Destination = supportInfo.OrdersEmail;
+
+            string message = CreateCourierInstructionsMessage();
+
+            List<GetOrderDeliveryReport_Result> result = new List<GetOrderDeliveryReport_Result>();
+
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                result = db.GetOrderDeliveryReport(order.OrderNumber).ToList();
+            }
+
+            string destination = "";
+            string body = "";
+            string subject = "";
+            string cc = "";
+
+            destination = supportInfo.OrdersEmail;
+
+            string itemsTable = OrderHeader.BuildItemsTableForEmail(result);
+
+            body = string.Format((message)
+                , result.FirstOrDefault().OrderNumber
+                , result.FirstOrDefault().OrderNumber
+                , result.FirstOrDefault().CustomerName
+                , result.FirstOrDefault().CustomerPhone1
+                , result.FirstOrDefault().CustomerPhone2
+                , result.FirstOrDefault().CustomerEmail
+                , string.Format("{0:f}", result.FirstOrDefault().PreferredDeliveryDate)
+                , result.FirstOrDefault().AddressLine1
+                , result.FirstOrDefault().Suburb
+                , result.FirstOrDefault().City
+                , result.FirstOrDefault().PostalCode
+                , itemsTable);
+
+            subject = string.Format("Locarno Sun Dried Fruit Order {0}", order.OrderNumber);
+
+            cc = string.Empty;
+
+            EmailService email = new EmailService();
+
+            await email.SendAsync(subject, destination, cc, body, orderSummary.Keys.FirstOrDefault());
         }
 
         private async static void SendConfirmationEmailToCustomer(OrderHeader order, ApplicationUser user, Support supportInfo)
@@ -1089,148 +1192,6 @@ namespace FreeMarket.Models
 
             return suggestedDate;
         }
-
-        //#region testing
-
-        //public static void TestDates()
-        //{
-        //    DateTime date1 = DateTime.Now;
-        //    DateTime date2 = date1;
-
-        //    int i = 0;
-
-        //    while (i < 14)
-        //    {
-        //        //while (date2.DayOfWeek != DayOfWeek.Wednesday && date2.DayOfWeek != DayOfWeek.Thursday && date2.DayOfWeek != DayOfWeek.Friday)
-        //        //{
-        //        //    date2 = date2.AddDays(1);
-        //        //}
-
-        //        //Debug.WriteLine("-------------------------------------");
-        //        //Debug.WriteLine("date2      : {0}", date2);
-        //        //Debug.WriteLine("Dispatch   : {0}", GetDispatchDay(date2));
-        //        //Debug.WriteLine("Arrive     : {0}", GetArriveDay(date2));
-        //        //Debug.WriteLine("-------------------------------------");
-
-        //        Debug.WriteLine("-------------------------------------");
-        //        Debug.WriteLine("date2      : {0}", date2);
-        //        Debug.WriteLine("Dispatch   : {0}", GetSpecialDispatchDay(date2));
-        //        Debug.WriteLine("Arrive     : {0}", GetSpecialArriveDay(date2));
-        //        Debug.WriteLine("-------------------------------------");
-
-        //        date2 = date2.AddDays(1);
-
-        //        i++;
-        //    }
-
-        //    i = 0;
-
-        //    Debug.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-
-        //    date2 = date1;
-
-        //    while (i < 14)
-        //    {
-        //        date2 = date2.AddDays(1);
-
-        //        Debug.WriteLine("-------------------------------------");
-        //        Debug.WriteLine("date2                      : {0}", date2);
-        //        Debug.WriteLine("SuggestedDelivery          : {0}", GetSuggestedDeliveryTimeTest(date2));
-        //        Debug.WriteLine("SuggestedSpecialDelivery   : {0}", GetSpecialSuggestedDeliveryTimeTest(date2));
-        //        Debug.WriteLine("DaysToMinDate              : {0}", GetDaysToMinDateTest(date2));
-        //        Debug.WriteLine("-------------------------------------");
-
-        //        i++;
-        //    }
-        //}
-
-        //public static DateTime GetSpecialSuggestedDeliveryTimeTest(DateTime todayTest)
-        //{
-        //    DateTime today = todayTest;
-        //    DateTime suggestedDate = today.AddDays(2);
-
-        //    while (suggestedDate.DayOfWeek == DayOfWeek.Saturday || suggestedDate.DayOfWeek == DayOfWeek.Sunday)
-        //    {
-        //        suggestedDate = suggestedDate.AddDays(1);
-        //    }
-
-        //    suggestedDate = suggestedDate.AddHours(-12);
-
-        //    return suggestedDate;
-        //}
-
-        //public static DateTime GetSuggestedDeliveryTimeTest(DateTime todayDate)
-        //{
-        //    DateTime today = todayDate;
-        //    int daysUntilFriday = 0;
-
-        //    if (today.DayOfWeek == DayOfWeek.Friday)
-        //        daysUntilFriday = 7;
-        //    else
-        //    {
-        //        if (GetDaysToMinDate() >= 6)
-        //            daysUntilFriday = (((int)DayOfWeek.Friday - (int)today.DayOfWeek + 7) % 7) + 7;
-        //        else
-        //            daysUntilFriday = ((int)DayOfWeek.Friday - (int)today.DayOfWeek + 7) % 7;
-        //    }
-
-        //    DateTime nextFriday = today.AddDays(daysUntilFriday);
-        //    nextFriday = nextFriday.AddHours(-12);
-
-        //    return nextFriday;
-        //}
-
-        //public static int GetDaysToMinDateTest(DateTime todayDay)
-        //{
-        //    DateTime today = todayDay;
-
-        //    int daysTillMinDate = 0;
-
-        //    if (today.DayOfWeek == DayOfWeek.Monday)
-        //    {
-        //        daysTillMinDate = 1;
-        //        return daysTillMinDate;
-        //    }
-
-        //    if (today.DayOfWeek == DayOfWeek.Tuesday)
-        //    {
-        //        daysTillMinDate = 7;
-        //        return daysTillMinDate;
-        //    }
-
-        //    if (today.DayOfWeek == DayOfWeek.Wednesday)
-        //    {
-        //        daysTillMinDate = 6;
-        //        return daysTillMinDate;
-        //    }
-
-        //    if (today.DayOfWeek == DayOfWeek.Thursday)
-        //    {
-        //        daysTillMinDate = 5;
-        //        return daysTillMinDate;
-        //    }
-
-        //    if (today.DayOfWeek == DayOfWeek.Friday)
-        //    {
-        //        daysTillMinDate = 4;
-        //        return daysTillMinDate;
-        //    }
-
-        //    if (today.DayOfWeek == DayOfWeek.Saturday)
-        //    {
-        //        daysTillMinDate = 3;
-        //        return daysTillMinDate;
-        //    }
-
-        //    if (today.DayOfWeek == DayOfWeek.Sunday)
-        //    {
-        //        daysTillMinDate = 2;
-        //        return daysTillMinDate;
-        //    }
-
-        //    return 0;
-        //}
-        //#endregion
 
         public static int GetDaysToMinDate()
         {

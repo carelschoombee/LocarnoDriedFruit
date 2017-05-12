@@ -380,6 +380,8 @@ namespace FreeMarket.Controllers
                             db.Entry(order).State = System.Data.Entity.EntityState.Modified;
                             db.SaveChanges();
 
+                            OrderHeader.UpdatePopularItems(order.OrderNumber);
+
                             OrderHeader.SendConfirmationMessages(order.CustomerNumber, order.OrderNumber);
 
                             AuditUser.LogAudit(38, string.Format("Order Number: {0}", order.OrderNumber), User.Identity.GetUserId());

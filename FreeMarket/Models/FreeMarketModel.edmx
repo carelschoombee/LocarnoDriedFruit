@@ -386,6 +386,15 @@
           <Property Name="Activated" Type="bit" Nullable="false" />
           <Property Name="LongDescription" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="PopularProducts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductNumber" Type="int" Nullable="false" />
+          <Property Name="SupplierNumber" Type="int" Nullable="false" />
+          <Property Name="NumberSold" Type="int" />
+        </EntityType>
         <EntityType Name="PostalFees">
           <Key>
             <PropertyRef Name="Id" />
@@ -877,6 +886,9 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <Parameter Name="DepartmentNumber" Type="int" Mode="In" />
         </Function>
         <Function Name="GetAllProductsDistinct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllProductsDistinctFilter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="filterCriteria" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="GetAllProductsIncludingDeactivated" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetAllProductsIncludingDeactivatedDistinct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetAllProductsInOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -968,6 +980,7 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <EntitySet Name="PaymentGatewayPaymentMethods" EntityType="Self.PaymentGatewayPaymentMethods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentGatewayTransactionStatus" EntityType="Self.PaymentGatewayTransactionStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentOption" EntityType="Self.PaymentOption" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PopularProducts" EntityType="Self.PopularProducts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PostalFees" EntityType="Self.PostalFees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PreferredCommunicationMethod" EntityType="Self.PreferredCommunicationMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PriceHistory" EntityType="Self.PriceHistory" Schema="dbo" store:Type="Tables" />
@@ -1485,6 +1498,10 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <Parameter Name="OrderNumber" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="VATPercentages" EntityType="FreeMarketModel.VATPercentage" />
+          <EntitySet Name="PopularProducts" EntityType="FreeMarketModel.PopularProduct" />
+          <FunctionImport Name="GetAllProductsDistinctFilter" ReturnType="Collection(FreeMarketModel.GetAllProductsDistinctFilter_Result)">
+            <Parameter Name="filterCriteria" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="SystemAction">
           <Key>
@@ -2662,6 +2679,21 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           </Key>
           <Property Name="VATPercentage1" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
         </EntityType>
+        <EntityType Name="PopularProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductNumber" Type="Int32" Nullable="false" />
+          <Property Name="SupplierNumber" Type="Int32" Nullable="false" />
+          <Property Name="NumberSold" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="GetAllProductsDistinctFilter_Result">
+          <Property Type="Int32" Name="ProductNumber" Nullable="true" />
+          <Property Type="Int32" Name="SupplierNumber" Nullable="true" />
+          <Property Type="Decimal" Name="minPrice" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="maxPrice" Nullable="true" Precision="19" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3985,6 +4017,26 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PopularProducts">
+            <EntityTypeMapping TypeName="FreeMarketModel.PopularProduct">
+              <MappingFragment StoreEntitySet="PopularProducts">
+                <ScalarProperty Name="NumberSold" ColumnName="NumberSold" />
+                <ScalarProperty Name="SupplierNumber" ColumnName="SupplierNumber" />
+                <ScalarProperty Name="ProductNumber" ColumnName="ProductNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetAllProductsDistinctFilter" FunctionName="FreeMarketModel.Store.GetAllProductsDistinctFilter">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FreeMarketModel.GetAllProductsDistinctFilter_Result">
+                <ScalarProperty Name="ProductNumber" ColumnName="ProductNumber" />
+                <ScalarProperty Name="SupplierNumber" ColumnName="SupplierNumber" />
+                <ScalarProperty Name="minPrice" ColumnName="minPrice" />
+                <ScalarProperty Name="maxPrice" ColumnName="maxPrice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

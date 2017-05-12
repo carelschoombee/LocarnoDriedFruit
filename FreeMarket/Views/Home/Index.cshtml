@@ -8,9 +8,9 @@
 
 <div class="container">
     <div>
-        <div id="parent" class="center_div">
+        <div>
             <div class="row">
-                <h1 class="text-center">Welcome to Locarno Sun Dried Fruit & Nuts</h1>
+                <h1 class="text-center">Locarno Sun Dried Fruit & Nuts</h1>
                 <hr />
             </div>
             <div class="row">
@@ -27,11 +27,7 @@
                 @Html.Partial("_PaymentOptions")
 
             </div>
-
-            @*<div class="row text-center">
-                    <a class="btn btn-success" href="@Url.Action("Departments", "Product")"><span class="glyphicon glyphicon-shopping-cart">&nbsp;&nbsp;Start Shopping!</span></a>
-                </div>*@
-
+            
             <div class="row">
                 &nbsp;
             </div>
@@ -41,6 +37,12 @@
 </div>
 
 @Html.Action("Departments", "Product")
+
+@Html.Action("MostPopularProducts", "Product")
+
+<div class="row well text-center">
+    Can't find what you're looking for? Click @Html.ActionLink("here", "AllProductsIndex", "Product") to browse our full product range.
+</div>
 
 <script type="text/javascript">
 

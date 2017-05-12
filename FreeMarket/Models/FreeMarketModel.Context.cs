@@ -74,6 +74,7 @@ namespace FreeMarket.Models
         public virtual DbSet<ProductSupplier> ProductSuppliers { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<VATPercentage> VATPercentages { get; set; }
+        public virtual DbSet<PopularProduct> PopularProducts { get; set; }
     
         public virtual ObjectResult<FilterCustomers_Result> FilterCustomers(string filterCriteria)
         {
@@ -481,6 +482,15 @@ namespace FreeMarket.Models
                 new ObjectParameter("OrderNumber", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetOrderReport_Result>("GetOrderReport", orderNumberParameter);
+        }
+    
+        public virtual ObjectResult<GetAllProductsDistinctFilter_Result> GetAllProductsDistinctFilter(string filterCriteria)
+        {
+            var filterCriteriaParameter = filterCriteria != null ?
+                new ObjectParameter("filterCriteria", filterCriteria) :
+                new ObjectParameter("filterCriteria", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllProductsDistinctFilter_Result>("GetAllProductsDistinctFilter", filterCriteriaParameter);
         }
     }
 }

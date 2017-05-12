@@ -1,6 +1,9 @@
 ﻿using FreeMarket.Infrastructure;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace FreeMarket.Models
 {
@@ -9,10 +12,31 @@ namespace FreeMarket.Models
         public List<Product> Products { get; set; }
         public List<ExternalWebsite> Websites { get; set; }
 
+        [RegularExpression(@"^[A-Za-z0-9\,\s]+$", ErrorMessage = "Alphabetic characters, Numbers, Spaces and commas only")]
+        [StringLength(256)]
+        [DisplayName("Search for products (for example 'Almond', 'Apricot', 'Fruit' or 'Raisin'.)")]
+        public string ProductSearchCriteria { get; set; }
+
+        [DisplayName("Browse by category")]
+        public int SelectedDepartment { get; set; }
+        public List<SelectListItem> Departments { get; set; }
+
         public ProductCollection()
         {
             Products = new List<Product>();
             Websites = new List<ExternalWebsite>();
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                Departments = db.Departments
+                        .Select(c => new SelectListItem
+                        {
+                            Text = c.DepartmentName,
+                            Value = c.DepartmentNumber.ToString()
+                        })
+                        .ToList();
+
+                Departments.Add(new SelectListItem { Text = "Text Search", Value = "9999" });
+            }
         }
 
         public static ProductCollection GetAllProducts()
@@ -26,6 +50,46 @@ namespace FreeMarket.Models
                     .ToList();
 
                 products = SetAllProductDataDistinct(result);
+
+                return products;
+            }
+        }
+
+        public static ProductCollection GetMostPopularProducts()
+        {
+            ProductCollection products = new ProductCollection();
+            List<GetAllProductsDistinct_Result> result = new List<GetAllProductsDistinct_Result>();
+
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                result = db.GetAllProductsDistinct()
+                    .ToList();
+
+                products = SetAllProductDataDistinct(result);
+                products.Products = products.Products
+                    .Where(c => c.NumberSold != 0)
+                    .OrderByDescending(c => c.NumberSold)
+                    .Take(12)
+                    .ToList();
+
+                return products;
+            }
+        }
+
+        public static ProductCollection GetProductsFiltered(string filter)
+        {
+            ProductCollection products = new ProductCollection();
+            List<GetAllProductsDistinctFilter_Result> result = new List<GetAllProductsDistinctFilter_Result>();
+
+            if (string.IsNullOrEmpty(filter))
+                return products;
+
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                result = db.GetAllProductsDistinctFilter(filter)
+                    .ToList();
+
+                products = SetAllProductDataDistinctFilter(result);
 
                 return products;
             }
@@ -167,6 +231,12 @@ namespace FreeMarket.Models
                         prodTemp.MinPrice = product.minPrice;
                         prodTemp.MaxPrice = product.maxPrice;
 
+                        PopularProduct pp = db.PopularProducts.Where(c => c.ProductNumber == prodTemp.ProductNumber
+                            && c.SupplierNumber == prodTemp.SupplierNumber).FirstOrDefault();
+
+                        if (pp != null)
+                            prodTemp.NumberSold = pp.NumberSold ?? 0;
+
                         if (prodTemp != null)
                             collection.Products.Add(prodTemp);
                     }
@@ -187,6 +257,35 @@ namespace FreeMarket.Models
                     foreach (GetAllProductsDistinct_Result product in allProducts)
                     {
                         Product prodTemp = Product.GetShallowProduct(product.ProductNumber, product.SupplierNumber);
+                        prodTemp.MinPrice = product.minPrice;
+                        prodTemp.MaxPrice = product.maxPrice;
+
+                        PopularProduct pp = db.PopularProducts.Where(c => c.ProductNumber == prodTemp.ProductNumber
+                            && c.SupplierNumber == prodTemp.SupplierNumber).FirstOrDefault();
+
+                        if (pp != null)
+                            prodTemp.NumberSold = pp.NumberSold ?? 0;
+
+                        if (prodTemp != null)
+                            collection.Products.Add(prodTemp);
+                    }
+                }
+
+                return collection;
+            }
+        }
+
+        public static ProductCollection SetAllProductDataDistinctFilter(List<GetAllProductsDistinctFilter_Result> allProducts)
+        {
+            ProductCollection collection = new ProductCollection();
+
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                if (allProducts != null && allProducts.Count > 0)
+                {
+                    foreach (GetAllProductsDistinctFilter_Result product in allProducts)
+                    {
+                        Product prodTemp = Product.GetShallowProduct((int)product.ProductNumber, (int)product.SupplierNumber);
                         prodTemp.MinPrice = product.minPrice;
                         prodTemp.MaxPrice = product.maxPrice;
 

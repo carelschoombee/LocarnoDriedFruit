@@ -20,6 +20,13 @@ namespace FreeMarket.Controllers
             return View("Index", model);
         }
 
+        public ActionResult AllProductsIndex()
+        {
+            ProductCollection model = ProductCollection.GetAllProducts();
+
+            return View("AllProductsIndex", model);
+        }
+
         public ActionResult IndexPlain()
         {
             return View();
@@ -33,6 +40,41 @@ namespace FreeMarket.Controllers
                 return PartialView("_Departments", departments);
 
             return PartialView("_Departments");
+        }
+
+        [HttpPost]
+        public ActionResult FilterProduct(ProductCollection model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.SelectedDepartment == 9999)
+                {
+                    if (!string.IsNullOrEmpty(model.ProductSearchCriteria))
+                    {
+                        ProductCollection products = ProductCollection.GetProductsFiltered(model.ProductSearchCriteria);
+
+                        return View("AllProductsIndex", products);
+                    }
+                    else
+                    {
+                        return View("AllProductsIndex", new ProductCollection());
+                    }
+                }
+                else if (model.SelectedDepartment != 0)
+                {
+                    ProductCollection products = ProductCollection.GetProductsByDepartment(model.SelectedDepartment);
+
+                    return View("AllProductsIndex", products);
+                }
+                else
+                {
+                    return View("AllProductsIndex", new ProductCollection());
+                }
+            }
+            else
+            {
+                return View("AllProductsIndex", new ProductCollection());
+            }
         }
 
         [ChildActionOnly]
@@ -141,6 +183,17 @@ namespace FreeMarket.Controllers
 
                 return Content(size.Description);
             }
+        }
+
+        [ChildActionOnly]
+        public ActionResult MostPopularProducts()
+        {
+            ProductCollection products = ProductCollection.GetMostPopularProducts();
+
+            if (products.Products != null && products.Products.Count > 0)
+                return PartialView("_ShowAllProducts", products);
+            else
+                return PartialView("_ShowAllProducts", new ProductCollection());
         }
 
         public string RenderRazorViewToString(string viewName, object model)

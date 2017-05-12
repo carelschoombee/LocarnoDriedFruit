@@ -330,6 +330,9 @@
     <Compile Include="Models\GetAllProductsByDepartment_Result.cs">
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetAllProductsDistinctFilter_Result.cs">
+      <DependentUpon>FreeMarketModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetAllProductsDistinct_Result.cs">
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>
@@ -493,6 +496,9 @@
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PaymentOption.cs">
+      <DependentUpon>FreeMarketModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PopularProduct.cs">
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PostalFee.cs">
@@ -986,6 +992,8 @@
     <Content Include="Views\Home\ThankYouForYourEmail.cshtml" />
     <Content Include="Views\Home\_GalleryCarousel.cshtml" />
     <Content Include="Views\Home\Gallery.cshtml" />
+    <Content Include="Views\Product\_ShowAllProductsSearch.cshtml" />
+    <Content Include="Views\Product\AllProductsIndex.cshtml" />
     <None Include="Views\Shared\_SocialMedia.cshtml" />
   </ItemGroup>
   <ItemGroup>

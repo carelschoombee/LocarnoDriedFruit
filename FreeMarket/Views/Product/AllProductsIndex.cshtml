@@ -1,0 +1,234 @@
+﻿@using FreeMarket.Models
+@model ProductCollection
+
+@{
+    ViewBag.Title = "Locarno Sun Dried Fruit - Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@helper ListProduct(int i)
+{
+    <div>
+        <table class="table table-bordered-custom-product table-responsive well">
+            <tr>
+                <td class="text-center" colspan="2">
+                    <img width="256" height="192" class="img-thumbnail img-responsive" src="@Url.Action("RenderImage", "Image", new { id = Model.Products[i].MainImageNumber})" alt="@Model.Products[i].Description" title="@Model.Products[i].Description" />
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center" colspan="2">
+                    <div style="font-size: 24px; color:white"><i><strong>@Html.DisplayFor(model => Model.Products[i].Description) - @Html.DisplayFor(model => Model.Products[i].SupplierName)</strong></i></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center" colspan="2">
+                    <div style="font-size: 20px">@String.Format("{0:C} - {1:C}", Model.Products[i].MinPrice, Model.Products[i].MaxPrice)</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center" colspan="2">
+                    <a href="@Url.Action("ViewProduct", "ShoppingCart")/@Model.Products[i].ProductNumber?supplierNumber=@Model.Products[i].SupplierNumber&amp;quantity=1" data-id="@Url.Action("ViewProductModal", "ShoppingCart")/@Model.Products[i].ProductNumber?supplierNumber=@Model.Products[i].SupplierNumber&amp;quantity=1"
+                       class="btn btn-success editClass"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">&nbsp;&nbsp;View Product</span></a>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+}
+
+<br />
+
+<div class="container">
+    <div class="row well">
+        <h2 class="text-center">Full Product Range Search</h2>
+        @using (Html.BeginForm("FilterProduct", "Product", FormMethod.Post, new { @id = "productSearchForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(model => model.SelectedDepartment, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-6">
+                    @Html.DropDownListFor(model => model.SelectedDepartment, Model.Departments, "Choose", new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div id="textSearch" style="display:none">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductSearchCriteria, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.ProductSearchCriteria, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ProductSearchCriteria)
+                    </div>
+                </div>
+                <div class="form-group">
+                    
+                    <button type="submit" class="btn btn-success" name="Search">Search</button>
+                </div>
+            </div>
+            
+            if (Model.Products.Count > 0)
+            {
+                <div>
+                    Showing @Model.Products.Count results
+                </div>
+            }
+        }
+    </div>
+
+    @if (Model.Products.Count > 0)
+    {
+    
+    <div class="col-sm-12">
+        @if (Model.Products.Count == 1)
+        {
+            <div class="row">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-6">
+                    @ListProduct(0)
+                </div>
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-3">
+                </div>
+            </div>
+        }
+        else if (Model.Products.Count == 2)
+        {
+            <div class="row">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="col-sm-4">
+                    @ListProduct(0)
+                </div>
+
+                <div class="col-sm-4">
+                    @ListProduct(1)
+                </div>
+                <div class="col-sm-2">
+
+                </div>
+            </div>
+        }
+        else if (Model.Products.Count == 3)
+        {
+            <div class="row">
+                <div class="col-sm-4">
+                    @ListProduct(0)
+                </div>
+                <div class="col-sm-4">
+                    @ListProduct(1)
+                </div>
+                <div class="col-sm-4">
+                    @ListProduct(2)
+                </div>
+            </div>
+        }
+        else
+        {
+            for (int i = 0; i < Model.Products.Count; i++)
+            {
+                <div class="row">
+                    @if (i < Model.Products.Count)
+                    {
+                        <div class="col-sm-3">
+                            @ListProduct(i)
+                        </div>
+                    }
+                    @if (++i < Model.Products.Count)
+                    {
+                        <div class="col-sm-3">
+                            @ListProduct(i)
+                        </div>
+                    }
+                    @if (++i < Model.Products.Count)
+                    {
+                        <div class="col-sm-3">
+                            @ListProduct(i)
+                        </div>
+                    }
+                    @if (++i < Model.Products.Count)
+                    {
+                        <div class="col-sm-3">
+                            @ListProduct(i)
+                        </div>
+                    }
+                </div>
+            }
+        }
+
+    </div>
+
+    }
+    else
+    {
+        <div class="well">No products match your search criteria. Please try again.</div>
+    }
+
+    <div class="col-sm-12">
+        <div class="row text-center">
+            @Html.ActionLink("Back to Categories", "Index", "Home", null, new { @style = "color:black; font-size:20px; font-weight:600" })
+        </div>
+    </div>
+</div>
+
+<div id="loadingDiv" style="display:none;"></div>
+
+@Html.Partial("_CourierContainer")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($('#SelectedDepartment').val() == 9999) {
+            $('#textSearch').show();
+        }
+        else {
+            $('#textSearch').hide();
+        }
+    });
+
+    $('#SelectedDepartment').change(function () {
+        if ($('#SelectedDepartment').val() != 9999)
+        {
+            this.form.submit();
+        }
+        else
+        {
+            $('#textSearch').show();
+        }
+    });
+
+    $(document).ready(function () {
+        $('#productSearchForm')
+                .bootstrapValidator({
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        'ProductSearchCriteria': {
+                            validators: {
+                                stringLength: {
+                                    max: 256,
+                                    message: "The maximum input allowed is 256 characters."
+                                },
+                                regexp: {
+                                    regexp: /^[A-Za-z0-9\,\s]+$/,
+                                    message: 'Alphabetic characters, spaces, commas and numbers only'
+                                }
+                            }
+                        }
+
+                    }
+                })
+    });
+
+    $(document).ready(function()
+    {
+        if (navigator.appName == "Opera")
+        {
+            $('#EditModal').removeClass('fade');
+        }
+    });
+</script>
+

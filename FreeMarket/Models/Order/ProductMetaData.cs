@@ -73,6 +73,8 @@ namespace FreeMarket.Models
 
         public List<ProductSize> SizeVariations { get; set; }
 
+        public int NumberSold { get; set; }
+
         public static string GetFullDescription(int productNumber, int supplierNumber)
         {
             if (productNumber == 0 || supplierNumber == 0)

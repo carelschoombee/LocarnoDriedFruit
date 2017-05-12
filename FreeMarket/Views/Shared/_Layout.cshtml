@@ -2,8 +2,6 @@
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="google-site-verification" content="vJ8bKpA-J04cKhp-qGGKGmUYIPfHRpb2lfwfiTChLI8" />
-    <meta name="msvalidate.01" content="7C1F84CC34B954E18BC5468DE2846E93" />
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,11 +48,12 @@
                     <ul class="nav navbar-nav pull-right">
                         <li>
                             <a class="dropdown-toggle navbar-brand" data-toggle="dropdown" href="#">
-                                Locarno Sun Dried Fruit Menu
-                                <span class="caret"></span>
+                                Locarno Menu
+                                <span style="color:yellow" class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+                                <li>@Html.ActionLink("Search Products", "AllProductsIndex", "Product", new { area = "" }, null)</li>
                                 <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, null)</li>
                                 <li>@Html.ActionLink("Contact Us", "Contact", "Home", new { area = "" }, null)</li>
                                 <li>@Html.ActionLink("Gallery", "Gallery", "Home", new { area = "" }, null)</li>
@@ -75,7 +74,7 @@
                 <div class="navbar-header pull-right">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:yellow">
                                 <span id="cartItemsPartial" class="glyphicon glyphicon-shopping-cart" aria-hidden="true" onclick="window.location = '@Url.Action("Cart", "ShoppingCart")'">Cart(@Html.Action("GetItemsCount", "ShoppingCart"))</span>
                             </a>
                             <ul class="dropdown-menu dropdown-cart well hidden-xs hidden-sm" role="menu">
