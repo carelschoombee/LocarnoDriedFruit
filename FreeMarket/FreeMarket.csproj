@@ -14,7 +14,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FreeMarket</RootNamespace>
-    <AssemblyName>OverbergTradingPost</AssemblyName>
+    <AssemblyName>LocarnoSunDriedFruit</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -528,6 +528,7 @@
     <Compile Include="Models\ProductSupplier.cs">
       <DependentUpon>FreeMarketModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Product\ProductCollectionPaged.cs" />
     <Compile Include="Models\Product\ProductCollection.cs" />
     <Compile Include="Models\Review\CourierReviewMetaData.cs" />
     <Compile Include="Models\Review\ProductReviewsMetaData.cs" />

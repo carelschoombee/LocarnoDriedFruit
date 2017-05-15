@@ -14,7 +14,7 @@ namespace FreeMarket.Models
                 WelcomeText = db.SiteConfigurations.Where(c => c.Key == "IndexWelcomeText").FirstOrDefault().Value;
             }
 
-            Products = ProductCollection.GetAllProducts();
+            Products = ProductCollection.GetOneProductFromEachCategory();
 
             if (Products == null || Products.Products.Count == 0)
             {

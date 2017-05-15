@@ -462,7 +462,7 @@
           <Property Name="PictureNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductNumber" Type="int" Nullable="false" />
           <Property Name="Picture" Type="varbinary(max)" Nullable="false" />
-          <Property Name="Annotation" Type="nvarchar" MaxLength="50" />
+          <Property Name="Annotation" Type="nvarchar" MaxLength="900" />
           <Property Name="Dimensions" Type="nvarchar" MaxLength="50" />
           <Property Name="PictureMimeType" Type="nvarchar" MaxLength="50" />
         </EntityType>
@@ -1209,7 +1209,7 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <Property Name="PictureNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProductNumber" Type="Int32" Nullable="false" />
           <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
-          <Property Name="Annotation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Annotation" Type="String" MaxLength="900" FixedLength="false" Unicode="true" />
           <Property Name="Dimensions" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PictureMimeType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Product" Relationship="FreeMarketModel.FK_ProductPicture_Product" FromRole="ProductPicture" ToRole="Product" />
@@ -1500,7 +1500,7 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <EntitySet Name="VATPercentages" EntityType="FreeMarketModel.VATPercentage" />
           <EntitySet Name="PopularProducts" EntityType="FreeMarketModel.PopularProduct" />
           <FunctionImport Name="GetAllProductsDistinctFilter" ReturnType="Collection(FreeMarketModel.GetAllProductsDistinctFilter_Result)">
-            <Parameter Name="filterCriteria" Mode="In" Type="String" />
+          <Parameter Name="filterCriteria" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="SystemAction">

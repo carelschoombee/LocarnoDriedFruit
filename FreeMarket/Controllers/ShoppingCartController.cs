@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -62,6 +63,22 @@ namespace FreeMarket.Controllers
         {
             string userId = User.Identity.GetUserId();
             ShoppingCart cart = GetCartFromSession(userId);
+
+            if (User.Identity.Name != null)
+            {
+                if (User.Identity.Name == ConfigurationManager.AppSettings["developerIdentity"])
+                {
+
+                }
+                else
+                {
+                    AuditUser.LogAudit(32, "Hit", userId);
+                }
+            }
+            else
+            {
+                AuditUser.LogAudit(32, "Hit");
+            }
 
             ViewProductViewModel model = new ViewProductViewModel(id, supplierNumber, quantity, cart.Order.OrderNumber);
             if (model == null)

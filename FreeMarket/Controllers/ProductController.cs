@@ -1,4 +1,5 @@
 ﻿using FreeMarket.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,7 +25,13 @@ namespace FreeMarket.Controllers
         {
             ProductCollection model = ProductCollection.GetAllProducts();
 
-            return View("AllProductsIndex", model);
+            PagedList<Product> products = (PagedList<Product>)model.Products.ToPagedList(1, 12);
+
+            ProductCollectionPaged pagedProducts = new ProductCollectionPaged();
+
+            pagedProducts.Products = products;
+
+            return View("AllProductsIndex", pagedProducts);
         }
 
         public ActionResult IndexPlain()
@@ -42,38 +49,58 @@ namespace FreeMarket.Controllers
             return PartialView("_Departments");
         }
 
-        [HttpPost]
-        public ActionResult FilterProduct(ProductCollection model)
+        public ActionResult FilterProduct(int? PageNumber, ProductCollectionPaged model)
         {
+            int pageNumber = (PageNumber ?? 1);
+            int pageSizeNo = 12;
+
+            ViewBag.pageNumber = pageNumber;
+            ViewBag.pageSizeNo = pageSizeNo;
+
             if (ModelState.IsValid)
             {
                 if (model.SelectedDepartment == 9999)
                 {
                     if (!string.IsNullOrEmpty(model.ProductSearchCriteria))
                     {
-                        ProductCollection products = ProductCollection.GetProductsFiltered(model.ProductSearchCriteria);
+                        ProductCollectionPaged products = ProductCollectionPaged.GetProductsFiltered(pageNumber, pageSizeNo, model.ProductSearchCriteria);
+                        products.SelectedDepartment = model.SelectedDepartment;
+                        products.ProductSearchCriteria = model.ProductSearchCriteria;
 
                         return View("AllProductsIndex", products);
                     }
                     else
                     {
-                        return View("AllProductsIndex", new ProductCollection());
+                        return View("AllProductsIndex", new ProductCollectionPaged());
                     }
                 }
                 else if (model.SelectedDepartment != 0)
                 {
-                    ProductCollection products = ProductCollection.GetProductsByDepartment(model.SelectedDepartment);
+                    ProductCollectionPaged products = ProductCollectionPaged.GetProductsByDepartment(pageNumber, pageSizeNo, model.SelectedDepartment);
+                    products.SelectedDepartment = model.SelectedDepartment;
+                    products.ProductSearchCriteria = model.ProductSearchCriteria;
 
                     return View("AllProductsIndex", products);
                 }
                 else
                 {
-                    return View("AllProductsIndex", new ProductCollection());
+                    ProductCollection pcp = ProductCollection.GetAllProducts();
+
+                    PagedList<Product> products = (PagedList<Product>)pcp.Products.ToPagedList(pageNumber, pageSizeNo);
+
+                    ProductCollectionPaged pagedProducts = new ProductCollectionPaged();
+
+                    pagedProducts.Products = products;
+
+                    pagedProducts.SelectedDepartment = model.SelectedDepartment;
+                    pagedProducts.ProductSearchCriteria = model.ProductSearchCriteria;
+
+                    return View("AllProductsIndex", pagedProducts);
                 }
             }
             else
             {
-                return View("AllProductsIndex", new ProductCollection());
+                return View("AllProductsIndex", new ProductCollectionPaged());
             }
         }
 

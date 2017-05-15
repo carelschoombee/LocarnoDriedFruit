@@ -1,4 +1,5 @@
 ﻿using FreeMarket.Infrastructure;
+using PagedList;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -7,9 +8,9 @@ using System.Web.Mvc;
 
 namespace FreeMarket.Models
 {
-    public class ProductCollection
+    public class ProductCollectionPaged
     {
-        public List<Product> Products { get; set; }
+        public PagedList<Product> Products { get; set; }
         public List<ExternalWebsite> Websites { get; set; }
 
         [RegularExpression(@"^[A-Za-z0-9\,\s]+$", ErrorMessage = "Alphabetic characters, Numbers, Spaces and commas only")]
@@ -21,10 +22,8 @@ namespace FreeMarket.Models
         public int SelectedDepartment { get; set; }
         public List<SelectListItem> Departments { get; set; }
 
-        public ProductCollection()
+        public ProductCollectionPaged()
         {
-            Products = new List<Product>();
-            Websites = new List<ExternalWebsite>();
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
                 Departments = db.Departments
@@ -55,43 +54,6 @@ namespace FreeMarket.Models
             }
         }
 
-        public static ProductCollection GetOneProductFromEachCategory()
-        {
-            ProductCollection products = new ProductCollection();
-            List<Department> departments = new List<Department>();
-
-            using (FreeMarketEntities db = new FreeMarketEntities())
-            {
-                departments = db.Departments.ToList();
-
-                foreach (Department dep in departments)
-                {
-                    Product prod = db.Products
-                        .Where(c => c.DepartmentNumber == dep.DepartmentNumber)
-                        .FirstOrDefault();
-
-                    if (prod != null)
-                    {
-                        ProductSupplier supplier = db.ProductSuppliers
-                            .Where(c => c.ProductNumber == prod.ProductNumber)
-                            .FirstOrDefault();
-
-                        if (supplier != null)
-                        {
-                            Product prodImage = Product.GetProduct(supplier.ProductNumber, supplier.SupplierNumber, supplier.SizeType);
-
-                            if (prodImage != null)
-                            {
-                                products.Products.Add(prodImage);
-                            }
-                        }
-                    }
-                }
-
-                return products;
-            }
-        }
-
         public static ProductCollection GetMostPopularProducts()
         {
             ProductCollection products = new ProductCollection();
@@ -113,9 +75,9 @@ namespace FreeMarket.Models
             }
         }
 
-        public static ProductCollection GetProductsFiltered(string filter)
+        public static ProductCollectionPaged GetProductsFiltered(int pageNumber, int pageSize, string filter)
         {
-            ProductCollection products = new ProductCollection();
+            ProductCollectionPaged products = new ProductCollectionPaged();
             List<GetAllProductsDistinctFilter_Result> result = new List<GetAllProductsDistinctFilter_Result>();
 
             if (string.IsNullOrEmpty(filter))
@@ -126,15 +88,15 @@ namespace FreeMarket.Models
                 result = db.GetAllProductsDistinctFilter(filter)
                     .ToList();
 
-                products = SetAllProductDataDistinctFilter(result);
+                products = SetAllProductDataDistinctFilter(pageNumber, pageSize, result);
 
                 return products;
             }
         }
 
-        public static ProductCollection GetProductsByDepartment(int departmentNumber)
+        public static ProductCollectionPaged GetProductsByDepartment(int pageNumber, int pageSize, int departmentNumber)
         {
-            ProductCollection departmentProducts = new ProductCollection();
+            ProductCollectionPaged departmentProducts = new ProductCollectionPaged();
             List<GetAllProductsByDepartmentDistinct_Result> result = new List<GetAllProductsByDepartmentDistinct_Result>();
 
             using (FreeMarketEntities db = new FreeMarketEntities())
@@ -142,7 +104,7 @@ namespace FreeMarket.Models
                 result = db.GetAllProductsByDepartmentDistinct(departmentNumber)
                     .ToList();
 
-                departmentProducts = SetProductDataDistinct(result);
+                departmentProducts = SetProductDataDistinct(pageNumber, pageSize, result);
 
                 return departmentProducts;
             }
@@ -254,9 +216,10 @@ namespace FreeMarket.Models
             }
         }
 
-        public static ProductCollection SetProductDataDistinct(List<GetAllProductsByDepartmentDistinct_Result> allProducts)
+        public static ProductCollectionPaged SetProductDataDistinct(int pageNumber, int pageSize, List<GetAllProductsByDepartmentDistinct_Result> allProducts)
         {
-            ProductCollection collection = new ProductCollection();
+            ProductCollectionPaged collection = new ProductCollectionPaged();
+            List<Product> temp = new List<Product>();
 
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
@@ -275,9 +238,11 @@ namespace FreeMarket.Models
                             prodTemp.NumberSold = pp.NumberSold ?? 0;
 
                         if (prodTemp != null)
-                            collection.Products.Add(prodTemp);
+                            temp.Add(prodTemp);
                     }
                 }
+
+                collection.Products = (PagedList<Product>)temp.ToPagedList(pageNumber, pageSize);
 
                 return collection;
             }
@@ -312,9 +277,10 @@ namespace FreeMarket.Models
             }
         }
 
-        public static ProductCollection SetAllProductDataDistinctFilter(List<GetAllProductsDistinctFilter_Result> allProducts)
+        public static ProductCollectionPaged SetAllProductDataDistinctFilter(int pageNumber, int pageSize, List<GetAllProductsDistinctFilter_Result> allProducts)
         {
-            ProductCollection collection = new ProductCollection();
+            ProductCollectionPaged collection = new ProductCollectionPaged();
+            List<Product> temp = new List<Product>();
 
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
@@ -327,9 +293,11 @@ namespace FreeMarket.Models
                         prodTemp.MaxPrice = product.maxPrice;
 
                         if (prodTemp != null)
-                            collection.Products.Add(prodTemp);
+                            temp.Add(prodTemp);
                     }
                 }
+
+                collection.Products = (PagedList<Product>)temp.ToPagedList(pageNumber, pageSize);
 
                 return collection;
             }

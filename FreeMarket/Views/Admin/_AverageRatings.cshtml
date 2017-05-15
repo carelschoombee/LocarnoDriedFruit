@@ -10,9 +10,9 @@
     <table class="table table-bordered-custom table-responsive">
 
     <tr>
-        <th>
+        @*<th>
             Image
-        </th>
+        </th>*@
         <th>
             Description
         </th>
@@ -32,9 +32,9 @@
     @foreach (KeyValuePair<Product, Dictionary<string, int>> item in Model.AverageRatings)
     {
         <tr>
-            <td>
+            @*<td>
                 <img class="img-thumbnail" src="@Url.Action("RenderImage", "Image", new { id = item.Key.MainImageNumber, defaultSize = PictureSize.Small })" alt="@item.Key.Description" title="@item.Key.Description" />
-            </td>
+            </td>*@
             <td>
                 @item.Key.Description
             </td>

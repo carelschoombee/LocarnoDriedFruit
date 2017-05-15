@@ -1,5 +1,6 @@
 ﻿@using FreeMarket.Models
-@model ProductCollection
+@using PagedList.Mvc
+@model ProductCollectionPaged
 
 @{
     ViewBag.Title = "Locarno Sun Dried Fruit - Products";
@@ -12,12 +13,12 @@
         <table class="table table-bordered-custom-product table-responsive well">
             <tr>
                 <td class="text-center" colspan="2">
-                    <img width="256" height="192" class="img-thumbnail img-responsive" src="@Url.Action("RenderImage", "Image", new { id = Model.Products[i].MainImageNumber})" alt="@Model.Products[i].Description" title="@Model.Products[i].Description" />
+                    <img width="256" height="192" class="img-responsive" src="@Url.Action("RenderImage", "Image", new { id = Model.Products[i].MainImageNumber})" alt="@Model.Products[i].Description" title="@Model.Products[i].Description" />
                 </td>
             </tr>
             <tr>
                 <td class="text-center" colspan="2">
-                    <div style="font-size: 24px; color:white"><i><strong>@Html.DisplayFor(model => Model.Products[i].Description) - @Html.DisplayFor(model => Model.Products[i].SupplierName)</strong></i></div>
+                    <div style="font-size: 24px; color:white"><i><strong>@Html.DisplayFor(model => Model.Products[i].Description)</strong></i></div>
                 </td>
             </tr>
             <tr>
@@ -65,7 +66,7 @@
                 </div>
             </div>
             
-            if (Model.Products.Count > 0)
+            if (Model.Products != null && Model.Products.Count > 0)
             {
                 <div>
                     Showing @Model.Products.Count results
@@ -74,7 +75,7 @@
         }
     </div>
 
-    @if (Model.Products.Count > 0)
+    @if (Model.Products != null && Model.Products.Count > 0)
     {
     
     <div class="col-sm-12">
@@ -171,6 +172,21 @@
         </div>
     </div>
 </div>
+
+<ul class="list-group">
+    <li class="list-group-item row well-banner">
+        <div class="col-sm-3">
+            Page @(Model.Products.PageCount < Model.Products.PageNumber ? 0 : Model.Products.PageNumber) of @Model.Products.PageCount
+        </div>
+    </li>
+    <li class="list-group-item well-banner">
+        @Html.PagedListPager(Model.Products, page => Url.Action("FilterProduct", "Product" , new RouteValueDictionary() {
+            {"PageNumber", page},
+            {"ProductSearchCriteria", Model.ProductSearchCriteria },
+            {"SelectedDepartment", Model.SelectedDepartment},
+   }))
+    </li>
+</ul>
 
 <div id="loadingDiv" style="display:none;"></div>
 

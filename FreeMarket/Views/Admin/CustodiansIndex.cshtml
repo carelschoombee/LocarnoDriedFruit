@@ -18,7 +18,7 @@
         <table class="table table-bordered-custom table-responsive">
 
             <tr>
-                <th class="col-sm-1">Image</th>
+                @*<th class="col-sm-1">Image</th>*@
                 <th class="col-sm-1">Product</th>
                 <th class="col-sm-1">In Stock</th>
             </tr>
@@ -26,9 +26,9 @@
         @for (int i = 0; i < Model.Count; i++)
         {
             <tr class="well">
-                <td class="text-center">
+                @*<td class="text-center">
                     <img width="256" height="192" class="img-thumbnail" src="@Url.Action("RenderImage", "Image", new { id = Model[i].MainImageNumber})" alt="@Model[i].ProductName" title="@Model[i].ProductName" />
-                </td>
+                </td>*@
                 <td class="text-center">
                     @Model[i].ProductName
                     @Html.HiddenFor(c => Model[i].ProductNumber)
