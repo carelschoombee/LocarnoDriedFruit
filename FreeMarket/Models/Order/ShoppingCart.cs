@@ -63,6 +63,7 @@ namespace FreeMarket.Models
                 // Get the order and body from the database with all joining fields
 
                 Order = OrderHeader.GetOrderForShoppingCart(userId);
+                Order.VATPercentage = db.VATPercentages.FirstOrDefault().VATPercentage1;
                 Body = CartBody.GetDetailsForShoppingCart(Order.OrderNumber);
             }
         }
@@ -702,6 +703,10 @@ namespace FreeMarket.Models
         {
             Body = new CartBody();
             Order = new OrderHeader();
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                Order.VATPercentage = db.VATPercentages.FirstOrDefault().VATPercentage1;
+            }
         }
 
         public bool IsAllVirtualOrder()

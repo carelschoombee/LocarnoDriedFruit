@@ -995,7 +995,7 @@
     <Content Include="Views\Home\Gallery.cshtml" />
     <Content Include="Views\Product\_ShowAllProductsSearch.cshtml" />
     <Content Include="Views\Product\AllProductsIndex.cshtml" />
-    <None Include="Views\Shared\_SocialMedia.cshtml" />
+    <Content Include="Views\Shared\_SocialMedia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
