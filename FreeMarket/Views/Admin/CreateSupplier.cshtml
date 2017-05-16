@@ -9,7 +9,7 @@
 <h2 class="text-center"><span class="glyphicon glyphicon-edit text-success"></span>&nbsp;Create Supplier</h2>
 <hr />
 
-<div id="parent" class="container center_div">
+<div id="parentCreateSupplier" class="container center_div">
 
     @if (Model != null)
     {
@@ -35,5 +35,26 @@
 }
 
 </div>
+
+<script type="text/javascript">
+
+(function ($) {
+        var $window = $(window),
+            $html = $('#parentCreateSupplier');
+
+        function resize() {
+            if ($window.width() > 600) {
+                return $html.addClass('center_div');
+            }
+
+            $html.removeClass('center_div');
+        }
+
+        $window
+            .resize(resize)
+            .trigger('resize');
+})(jQuery);
+
+</script>
 
 @Html.Partial("_ValidateSupplierPartial")

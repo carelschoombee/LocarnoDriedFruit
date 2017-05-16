@@ -9,7 +9,7 @@
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
-<div id="parent" class="container center_div well well-modal">
+<div id="parentDetails" class="container center_div well well-modal">
 
 @using (Html.BeginForm("ModifyAccountDetails", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "registerForm" }))
 {
@@ -32,6 +32,27 @@
 }
 
 </div>
+
+<script type="text/javascript">
+
+(function ($) {
+        var $window = $(window),
+            $html = $('#parentDetails');
+
+        function resize() {
+            if ($window.width() > 600) {
+                return $html.addClass('center_div');
+            }
+
+            $html.removeClass('center_div');
+        }
+
+        $window
+            .resize(resize)
+            .trigger('resize');
+})(jQuery);
+
+</script>
 
 @Html.Partial("_ValidateModifyAccountDetailsPartial")
 

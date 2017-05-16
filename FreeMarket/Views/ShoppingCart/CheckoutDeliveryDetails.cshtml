@@ -19,7 +19,7 @@
 <h2 class="text-center"><span class="glyphicon glyphicon-lock"></span>@ViewBag.Title</h2>
 <hr />
 
-<div id="parent" class="container center_div well well-modal">
+<div id="parentDelivery" class="container center_div well well-modal">
 
     @using (Html.BeginForm("UpdateDeliveryDetails", "ShoppingCart", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "saveForm" }))
     {
@@ -368,6 +368,23 @@
             }
 
     });
+
+    (function ($) {
+        var $window = $(window),
+            $html = $('#parentDelivery');
+
+        function resize() {
+            if ($window.width() > 600) {
+                return $html.addClass('center_div');
+            }
+
+            $html.removeClass('center_div');
+        }
+
+        $window
+            .resize(resize)
+            .trigger('resize');
+    })(jQuery);
 
 </script>
 

@@ -9,7 +9,7 @@
 <h2 class="text-center"><span class="glyphicon glyphicon-lock"></span>@ViewBag.Title</h2>
 <hr />
 
-<div id="parent" class="container center_div well-payment">
+<div id="parentPayment" class="container center_div well-payment">
 
     <div class="text-center">
         <table class="table table-responsive">
@@ -40,3 +40,24 @@
         </table>
     </div>
 </div>
+
+<script type="text/javascript">
+
+(function ($) {
+        var $window = $(window),
+            $html = $('#parentPayment');
+
+        function resize() {
+            if ($window.width() > 600) {
+                return $html.addClass('center_div');
+            }
+
+            $html.removeClass('center_div');
+        }
+
+        $window
+            .resize(resize)
+            .trigger('resize');
+})(jQuery);
+
+</script>
