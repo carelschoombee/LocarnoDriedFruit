@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Configuration;
 using System.Linq;
 
 namespace FreeMarket.Models
@@ -27,7 +26,7 @@ namespace FreeMarket.Models
             using (FreeMarketEntities db = new FreeMarketEntities())
             {
                 SupportInfo = db.Supports.FirstOrDefault();
-                DestinationEmail = ConfigurationManager.AppSettings["systemEmail"];
+                DestinationEmail = SupportInfo.OrdersEmail;
             }
         }
     }

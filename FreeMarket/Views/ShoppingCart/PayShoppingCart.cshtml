@@ -100,6 +100,10 @@
                 <td class="col-sm-2 text-center"><strong>@string.Format("{0:C}", Model.Cart.Order.ShippingTotal)</strong></td>
             </tr>
             <tr>
+                <td class="col-sm-2 text-center"><strong>VAT @@ 14%:</strong></td>
+                <td class="col-sm-2 text-center"><strong>@string.Format("{0:C}", Model.Cart.Order.TaxTotal)</strong></td>
+            </tr>
+            <tr>
                 <td class="col-sm-2 text-center"><strong style="font-size: 24px">Total:</strong></td>
                 <td class="col-sm-2 text-center"><strong style="font-size: 24px">@string.Format("{0:C}", Model.Cart.Order.TotalOrderValue)</strong></td>
             </tr>

@@ -23,6 +23,49 @@ namespace FreeMarket.Controllers
             return View(model);
         }
 
+        public ActionResult FilterProductAdmin(ProductCollection model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.SelectedDepartment == 9999)
+                {
+                    if (!string.IsNullOrEmpty(model.ProductSearchCriteria))
+                    {
+                        ProductCollection products = ProductCollection.GetProductsFiltered(model.ProductSearchCriteria);
+                        products.SelectedDepartment = model.SelectedDepartment;
+                        products.ProductSearchCriteria = model.ProductSearchCriteria;
+
+                        return View("ProductsIndex", products);
+                    }
+                    else
+                    {
+                        return View("ProductsIndex", new ProductCollection());
+                    }
+                }
+                else if (model.SelectedDepartment != 0)
+                {
+                    ProductCollection products = ProductCollection.GetProductsByDepartment(model.SelectedDepartment);
+                    products.SelectedDepartment = model.SelectedDepartment;
+                    products.ProductSearchCriteria = model.ProductSearchCriteria;
+
+                    return View("ProductsIndex", products);
+                }
+                else
+                {
+                    ProductCollection products = ProductCollection.GetAllProducts();
+
+                    products.SelectedDepartment = model.SelectedDepartment;
+                    products.ProductSearchCriteria = model.ProductSearchCriteria;
+
+                    return View("ProductsIndex", products);
+                }
+            }
+            else
+            {
+                return View("ProductsIndex", new ProductCollection());
+            }
+        }
+
         public ActionResult GetAddress(string userId, string addressName)
         {
             CustomerAddress address = new CustomerAddress();

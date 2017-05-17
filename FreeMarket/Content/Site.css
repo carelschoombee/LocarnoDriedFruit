@@ -461,7 +461,7 @@ th, td {
     body {
         margin: 0;
         background-color: black;
-        /*color: white;*/
+        background-image: none;
         background-repeat: no-repeat;
         background-attachment: fixed;
     }
