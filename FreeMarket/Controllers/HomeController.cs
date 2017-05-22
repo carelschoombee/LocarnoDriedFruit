@@ -14,6 +14,11 @@ namespace FreeMarket.Controllers
             return View(model);
         }
 
+        public ActionResult en()
+        {
+            return RedirectToAction("Index");
+        }
+
         public ActionResult Gallery()
         {
             return View();
