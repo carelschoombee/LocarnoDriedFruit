@@ -37,8 +37,8 @@ namespace FreeMarket
                 if (!Roles.IsUserInRole("hannes@locarno.co.za", "Administrator"))
                     Roles.AddUserToRole("hannes@locarno.co.za", "Administrator");
 
-                if (!Roles.IsUserInRole("locarno@breede.co.za", "Administrator"))
-                    Roles.AddUserToRole("locarno@breede.co.za", "Administrator");
+                if (!Roles.IsUserInRole("lisa@locarno.co.za", "Administrator"))
+                    Roles.AddUserToRole("lisa@locarno.co.za", "Administrator");
 
             }
             catch (Exception e)

@@ -200,7 +200,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>4.88833cm</Top>
+        <Top>3.2822cm</Top>
+        <Left>0.05407cm</Left>
         <Height>5.03933cm</Height>
         <Width>16.88394cm</Width>
         <Style>
@@ -4106,7 +4107,6 @@
                         <rd:FormatSymbolCulture>en-ZA</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -4321,7 +4321,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
-        <Top>9.96294cm</Top>
+        <Top>8.35681cm</Top>
+        <Left>0.05407cm</Left>
         <Height>13.68494cm</Height>
         <Width>16.88395cm</Width>
         <ZIndex>1</ZIndex>
@@ -4335,8 +4336,8 @@
         <Source>Embedded</Source>
         <Value>slideCourier2</Value>
         <Sizing>FitProportional</Sizing>
-        <Top>4.95889cm</Top>
-        <Left>6.54941cm</Left>
+        <Top>3.35276cm</Top>
+        <Left>6.60348cm</Left>
         <Height>2.17145cm</Height>
         <Width>5.65807cm</Width>
         <ZIndex>2</ZIndex>
@@ -4385,8 +4386,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
-        <Top>2.90716cm</Top>
-        <Left>10.63221cm</Left>
+        <Top>1.30103cm</Top>
+        <Left>10.68628cm</Left>
         <Height>1.87534cm</Height>
         <Width>6.23523cm</Width>
         <ZIndex>3</ZIndex>
@@ -4400,21 +4401,6 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Image Name="Image5">
-        <Source>Embedded</Source>
-        <Value>paid</Value>
-        <Sizing>FitProportional</Sizing>
-        <Top>2.8366cm</Top>
-        <Left>7.31608cm</Left>
-        <Height>1.84005cm</Height>
-        <Width>2.45299cm</Width>
-        <ZIndex>4</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-        </Style>
-      </Image>
       <Textbox Name="Textbox3">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
@@ -4432,11 +4418,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox3</rd:DefaultName>
-        <Top>2.90716cm</Top>
-        <Left>1.03434cm</Left>
+        <Top>1.30103cm</Top>
+        <Left>1.08841cm</Left>
         <Height>0.5475cm</Height>
         <Width>4.95534cm</Width>
-        <ZIndex>5</ZIndex>
+        <ZIndex>4</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -4452,10 +4438,11 @@
         <Source>Embedded</Source>
         <Value>Cellphone</Value>
         <Sizing>FitProportional</Sizing>
-        <Top>2.90716cm</Top>
+        <Top>1.30103cm</Top>
+        <Left>0.05407cm</Left>
         <Height>0.5475cm</Height>
         <Width>0.82267cm</Width>
-        <ZIndex>6</ZIndex>
+        <ZIndex>5</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -4466,10 +4453,11 @@
         <Source>Embedded</Source>
         <Value>LandLine</Value>
         <Sizing>FitProportional</Sizing>
-        <Top>3.51816cm</Top>
+        <Top>1.91203cm</Top>
+        <Left>0.05407cm</Left>
         <Height>0.56867cm</Height>
         <Width>0.82267cm</Width>
-        <ZIndex>7</ZIndex>
+        <ZIndex>6</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -4493,11 +4481,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox3</rd:DefaultName>
-        <Top>3.51816cm</Top>
-        <Left>1.03434cm</Left>
+        <Top>1.91203cm</Top>
+        <Left>1.08841cm</Left>
         <Height>0.53339cm</Height>
         <Width>4.95533cm</Width>
-        <ZIndex>8</ZIndex>
+        <ZIndex>7</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -4513,10 +4501,11 @@
         <Source>Embedded</Source>
         <Value>email</Value>
         <Sizing>FitProportional</Sizing>
-        <Top>4.08683cm</Top>
+        <Top>2.4807cm</Top>
+        <Left>0.05407cm</Left>
         <Height>0.66038cm</Height>
         <Width>0.82267cm</Width>
-        <ZIndex>9</ZIndex>
+        <ZIndex>8</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -4540,11 +4529,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox3</rd:DefaultName>
-        <Top>4.12211cm</Top>
-        <Left>1.03434cm</Left>
+        <Top>2.51598cm</Top>
+        <Left>1.08841cm</Left>
         <Height>0.66038cm</Height>
         <Width>4.95534cm</Width>
-        <ZIndex>10</ZIndex>
+        <ZIndex>9</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -4560,11 +4549,11 @@
         <Source>Embedded</Source>
         <Value>Logopng</Value>
         <Sizing>FitProportional</Sizing>
-        <Top>0.00141cm</Top>
-        <Left>6.09551cm</Left>
+        <Top>0.3059cm</Top>
+        <Left>6.14958cm</Left>
         <Height>2.83519cm</Height>
         <Width>4.50567cm</Width>
-        <ZIndex>11</ZIndex>
+        <ZIndex>10</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>

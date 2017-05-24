@@ -914,6 +914,7 @@ namespace FreeMarket.Models
                 , result.FirstOrDefault().Suburb
                 , result.FirstOrDefault().City
                 , result.FirstOrDefault().PostalCode
+                , result.FirstOrDefault().DeliveryType
                 , itemsTable);
 
             subject = string.Format("Locarno Sun Dried Fruit Order {0}", order.OrderNumber);
@@ -932,7 +933,7 @@ namespace FreeMarket.Models
 
             string message1 = CreateConfirmationMessageCustomer();
 
-            iMessage.Body = string.Format((message1), user.Name, order.OrderNumber, supportInfo.MainContactName, supportInfo.Landline, supportInfo.Cellphone, supportInfo.Email);
+            iMessage.Body = string.Format((message1), user.Name, order.OrderNumber, supportInfo.MainContactName, supportInfo.Landline, supportInfo.Email);
             iMessage.Subject = string.Format("Locarno Sun Dried Fruit Order");
 
             EmailService email = new EmailService();
@@ -947,7 +948,7 @@ namespace FreeMarket.Models
 
             string message1 = CreateInvoiceMessageCustomer();
 
-            iMessage.Body = string.Format((message1), user.Name, order.OrderNumber, supportInfo.MainContactName, supportInfo.Landline, supportInfo.Cellphone, supportInfo.Email);
+            iMessage.Body = string.Format((message1), user.Name, order.OrderNumber, supportInfo.MainContactName, supportInfo.Landline, supportInfo.Email);
             iMessage.Subject = string.Format("Locarno Sun Dried Fruit Order");
 
             EmailService email = new EmailService();
