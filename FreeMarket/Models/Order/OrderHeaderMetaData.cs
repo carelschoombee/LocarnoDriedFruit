@@ -905,6 +905,7 @@ namespace FreeMarket.Models
             body = string.Format((message)
                 , result.FirstOrDefault().OrderNumber
                 , result.FirstOrDefault().OrderNumber
+                , order.PaymentReceived ? "true (action immediatly)" : "false (await proof of payment)"
                 , result.FirstOrDefault().CustomerName
                 , result.FirstOrDefault().CustomerPhone1
                 , result.FirstOrDefault().CustomerPhone2
