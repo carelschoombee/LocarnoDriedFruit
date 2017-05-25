@@ -108,7 +108,7 @@ namespace FreeMarket
 
             if (cc == string.Empty)
             {
-
+                mail.Bcc.Add(new MailAddress(ConfigurationManager.AppSettings["ordersEmail"]));
             }
             else
             {
