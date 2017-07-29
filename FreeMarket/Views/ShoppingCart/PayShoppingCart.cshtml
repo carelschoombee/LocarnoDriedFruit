@@ -124,7 +124,7 @@
                 <div>
                     @Html.Hidden("PAY_REQUEST_ID", Model.Pay_Request_Id)
                     @Html.Hidden("CHECKSUM", Model.Checksum)
-                    <input type="submit" value="Pay Securely With Pay Gate" class="btn btn-success" disabled="disabled" />
+                    <input type="submit" value="Pay Securely With Pay Gate" class="btn btn-success"/>
                     @Html.Partial("_PaymentOptions")
                 </div>
             }
