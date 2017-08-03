@@ -35,7 +35,6 @@ namespace FreeMarket.Models
         public virtual DbSet<ExceptionLogging> ExceptionLoggings { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<OrderStatu> OrderStatus { get; set; }
-        public virtual DbSet<PaymentGatewayParameter> PaymentGatewayParameters { get; set; }
         public virtual DbSet<PaymentGatewayPaymentMethod> PaymentGatewayPaymentMethods { get; set; }
         public virtual DbSet<PaymentGatewayTransactionStatu> PaymentGatewayTransactionStatus { get; set; }
         public virtual DbSet<PreferredCommunicationMethod> PreferredCommunicationMethods { get; set; }
@@ -55,7 +54,6 @@ namespace FreeMarket.Models
         public virtual DbSet<PostalFee> PostalFees { get; set; }
         public virtual DbSet<OrderHeader> OrderHeaders { get; set; }
         public virtual DbSet<Custodian> Custodians { get; set; }
-        public virtual DbSet<PaymentGatewayMessage> PaymentGatewayMessages { get; set; }
         public virtual DbSet<Support> Supports { get; set; }
         public virtual DbSet<CashCustomer> CashCustomers { get; set; }
         public virtual DbSet<CashOrderDetail> CashOrderDetails { get; set; }
@@ -75,6 +73,8 @@ namespace FreeMarket.Models
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<VATPercentage> VATPercentages { get; set; }
         public virtual DbSet<PopularProduct> PopularProducts { get; set; }
+        public virtual DbSet<PaymentGatewayParameter> PaymentGatewayParameters { get; set; }
+        public virtual DbSet<PaymentGatewayMessage> PaymentGatewayMessages { get; set; }
     
         public virtual ObjectResult<FilterCustomers_Result> FilterCustomers(string filterCriteria)
         {
@@ -193,15 +193,6 @@ namespace FreeMarket.Models
                 new ObjectParameter("CustomerNumber", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetOrderHistory_Result>("GetOrderHistory", customerNumberParameter);
-        }
-    
-        public virtual ObjectResult<GetPaymentGatewayMessages_Result> GetPaymentGatewayMessages(string orderNumber)
-        {
-            var orderNumberParameter = orderNumber != null ?
-                new ObjectParameter("orderNumber", orderNumber) :
-                new ObjectParameter("orderNumber", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPaymentGatewayMessages_Result>("GetPaymentGatewayMessages", orderNumberParameter);
         }
     
         public virtual ObjectResult<GetCashOrderDetails_Result> GetCashOrderDetails(Nullable<int> orderNumber)
@@ -491,6 +482,15 @@ namespace FreeMarket.Models
                 new ObjectParameter("filterCriteria", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllProductsDistinctFilter_Result>("GetAllProductsDistinctFilter", filterCriteriaParameter);
+        }
+    
+        public virtual ObjectResult<GetPaymentGatewayMessages_Result> GetPaymentGatewayMessages(string orderNumber)
+        {
+            var orderNumberParameter = orderNumber != null ?
+                new ObjectParameter("orderNumber", orderNumber) :
+                new ObjectParameter("orderNumber", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPaymentGatewayMessages_Result>("GetPaymentGatewayMessages", orderNumberParameter);
         }
     }
 }

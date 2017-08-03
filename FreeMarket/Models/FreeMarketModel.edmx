@@ -323,7 +323,7 @@
           <Property Name="MessageNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Reference" Type="varchar" MaxLength="80" />
           <Property Name="Pay_Request_ID" Type="char" MaxLength="36" />
-          <Property Name="PayGate_ID" Type="numeric" Precision="11" Scale="0" />
+          <Property Name="PayGate_ID" Type="numeric" Precision="13" Scale="0" />
           <Property Name="Amount" Type="numeric" Precision="11" Scale="0" />
           <Property Name="Currency" Type="char" MaxLength="3" />
           <Property Name="ReturnUrl" Type="varchar" MaxLength="255" />
@@ -356,7 +356,7 @@
           </Key>
           <Property Name="PaymentGatewayNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PaymentGatewayName" Type="nvarchar" MaxLength="100" />
-          <Property Name="PaymentGatewayID" Type="numeric" Precision="11" Scale="0" />
+          <Property Name="PaymentGatewayID" Type="numeric" Precision="13" Scale="0" />
           <Property Name="TransactionRequestUrl" Type="varchar" MaxLength="255" />
           <Property Name="Return_Url" Type="varchar" MaxLength="255" />
           <Property Name="Notify_Url" Type="varchar" MaxLength="255" />
@@ -1168,19 +1168,6 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <Property Name="OrderStatusNumber" Type="Int32" Nullable="false" />
           <Property Name="OrderStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
-        <EntityType Name="PaymentGatewayParameter">
-          <Key>
-            <PropertyRef Name="PaymentGatewayNumber" />
-          </Key>
-          <Property Name="PaymentGatewayNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PaymentGatewayName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="PaymentGatewayID" Type="Decimal" Precision="11" Scale="0" />
-          <Property Name="TransactionRequestUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Return_Url" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Notify_Url" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="RedirectToSecurePayment_Url" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Key" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="PaymentGatewayPaymentMethod">
           <Key>
             <PropertyRef Name="PayMethod" />
@@ -1266,7 +1253,6 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <EntitySet Name="ExceptionLoggings" EntityType="Self.ExceptionLogging" />
           <EntitySet Name="Locations" EntityType="Self.Location" />
           <EntitySet Name="OrderStatus" EntityType="Self.OrderStatu" />
-          <EntitySet Name="PaymentGatewayParameters" EntityType="Self.PaymentGatewayParameter" />
           <EntitySet Name="PaymentGatewayPaymentMethods" EntityType="Self.PaymentGatewayPaymentMethod" />
           <EntitySet Name="PaymentGatewayTransactionStatus" EntityType="Self.PaymentGatewayTransactionStatu" />
           <EntitySet Name="PreferredCommunicationMethods" EntityType="Self.PreferredCommunicationMethod" />
@@ -1332,7 +1318,6 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
             <End Role="Custodian" EntitySet="Custodians" />
             <End Role="CourierStockMovementLog" EntitySet="CourierStockMovementLogs" />
           </AssociationSet>
-          <EntitySet Name="PaymentGatewayMessages" EntityType="FreeMarketModel.PaymentGatewayMessage" />
           <FunctionImport Name="ValidatePaymentAmount" ReturnType="Collection(FreeMarketModel.ValidatePaymentAmount_Result)">
           <Parameter Name="orderNumber" Mode="In" Type="String" />
           </FunctionImport>
@@ -1343,9 +1328,6 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <FunctionImport Name="GetDeliveryLabels" ReturnType="Collection(FreeMarketModel.GetDeliveryLabels_Result)" />
           <FunctionImport Name="GetOrderHistory" ReturnType="Collection(FreeMarketModel.GetOrderHistory_Result)">
           <Parameter Name="CustomerNumber" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="GetPaymentGatewayMessages" ReturnType="Collection(FreeMarketModel.GetPaymentGatewayMessages_Result)">
-          <Parameter Name="orderNumber" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="CashCustomers" EntityType="FreeMarketModel.CashCustomer" />
           <EntitySet Name="CashOrderDetails" EntityType="FreeMarketModel.CashOrderDetail" />
@@ -1502,6 +1484,11 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <FunctionImport Name="GetAllProductsDistinctFilter" ReturnType="Collection(FreeMarketModel.GetAllProductsDistinctFilter_Result)">
           <Parameter Name="filterCriteria" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="PaymentGatewayParameters" EntityType="FreeMarketModel.PaymentGatewayParameter" />
+          <FunctionImport Name="GetPaymentGatewayMessages" ReturnType="Collection(FreeMarketModel.GetPaymentGatewayMessages_Result)">
+          <Parameter Name="orderNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="PaymentGatewayMessages" EntityType="FreeMarketModel.PaymentGatewayMessage" />
           </EntityContainer>
         <EntityType Name="SystemAction">
           <Key>
@@ -1836,40 +1823,6 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="PaymentGatewayMessage">
-          <Key>
-            <PropertyRef Name="MessageNumber" />
-          </Key>
-          <Property Name="MessageNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Reference" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
-          <Property Name="Pay_Request_ID" Type="String" MaxLength="36" FixedLength="true" Unicode="false" />
-          <Property Name="PayGate_ID" Type="Decimal" Precision="11" Scale="0" />
-          <Property Name="Amount" Type="Decimal" Precision="11" Scale="0" />
-          <Property Name="Currency" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
-          <Property Name="ReturnUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Transaction_Date" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
-          <Property Name="Locale" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Country" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
-          <Property Name="Pay_Method" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Pay_Method_Detail" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
-          <Property Name="Notify_Url" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
-          <Property Name="User1" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
-          <Property Name="User2" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
-          <Property Name="User3" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
-          <Property Name="Vault" Type="Boolean" />
-          <Property Name="Vault_ID" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="TransactionStatus" Type="Decimal" Precision="1" Scale="0" />
-          <Property Name="Result_Code" Type="Decimal" Precision="11" Scale="0" />
-          <Property Name="Auth_Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Result_Desc" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
-          <Property Name="Transaction_ID" Type="Decimal" Precision="11" Scale="0" />
-          <Property Name="Risk_Indicator" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
-          <Property Name="Pay_Vault_Data1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Pay_Vault_Data2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Checksum_Passed" Type="Boolean" />
-          <Property Name="PriceSameAsRequest" Type="Boolean" />
-        </EntityType>
         <ComplexType Name="ValidatePaymentAmount_Result">
           <Property Type="Int32" Name="MessageNumber" Nullable="false" />
           <Property Type="String" Name="Reference" Nullable="true" MaxLength="80" />
@@ -1963,39 +1916,6 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <Property Type="Boolean" Name="PaymentReceived" Nullable="false" />
           <Property Type="String" Name="DeliveryType" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TrackingCodes" Nullable="true" MaxLength="700" />
-        </ComplexType>
-        <ComplexType Name="GetPaymentGatewayMessages_Result">
-          <Property Type="Int32" Name="MessageNumber" Nullable="false" />
-          <Property Type="String" Name="Reference" Nullable="true" MaxLength="80" />
-          <Property Type="String" Name="Pay_Request_ID" Nullable="true" MaxLength="36" />
-          <Property Type="Decimal" Name="PayGate_ID" Nullable="true" Precision="11" Scale="0" />
-          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="11" Scale="0" />
-          <Property Type="String" Name="Currency" Nullable="true" MaxLength="3" />
-          <Property Type="String" Name="ReturnUrl" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="Transaction_Date" Nullable="true" MaxLength="19" />
-          <Property Type="String" Name="Locale" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="Country" Nullable="true" MaxLength="3" />
-          <Property Type="String" Name="Email" Nullable="true" MaxLength="225" />
-          <Property Type="String" Name="Pay_Method" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Pay_Method_Detail" Nullable="true" MaxLength="225" />
-          <Property Type="String" Name="Notify_Url" Nullable="true" MaxLength="225" />
-          <Property Type="String" Name="User1" Nullable="true" MaxLength="225" />
-          <Property Type="String" Name="User2" Nullable="true" MaxLength="225" />
-          <Property Type="String" Name="User3" Nullable="true" MaxLength="225" />
-          <Property Type="Boolean" Name="Vault" Nullable="true" />
-          <Property Type="String" Name="Vault_ID" Nullable="true" MaxLength="40" />
-          <Property Type="Decimal" Name="TransactionStatus" Nullable="true" Precision="1" Scale="0" />
-          <Property Type="Decimal" Name="Result_Code" Nullable="true" Precision="11" Scale="0" />
-          <Property Type="String" Name="Auth_Code" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Result_Desc" Nullable="true" MaxLength="80" />
-          <Property Type="Decimal" Name="Transaction_ID" Nullable="true" Precision="11" Scale="0" />
-          <Property Type="String" Name="Risk_Indicator" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="Pay_Vault_Data1" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Pay_Vault_Data2" Nullable="true" MaxLength="50" />
-          <Property Type="Boolean" Name="Checksum_Passed" Nullable="true" />
-          <Property Type="Boolean" Name="PriceSameAsRequest" Nullable="true" />
-          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
         </ComplexType>
         <EntityType Name="CashCustomer">
           <Key>
@@ -2694,6 +2614,86 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <Property Type="Decimal" Name="minPrice" Nullable="true" Precision="19" />
           <Property Type="Decimal" Name="maxPrice" Nullable="true" Precision="19" />
         </ComplexType>
+        <EntityType Name="PaymentGatewayParameter">
+          <Key>
+            <PropertyRef Name="PaymentGatewayNumber" />
+          </Key>
+          <Property Name="PaymentGatewayNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentGatewayName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentGatewayID" Type="Decimal" Precision="13" Scale="0" />
+          <Property Name="TransactionRequestUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Return_Url" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Notify_Url" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="RedirectToSecurePayment_Url" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Key" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="GetPaymentGatewayMessages_Result">
+          <Property Type="Int32" Name="MessageNumber" Nullable="false" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="Pay_Request_ID" Nullable="true" MaxLength="36" />
+          <Property Type="Decimal" Name="PayGate_ID" Nullable="true" Precision="13" Scale="0" />
+          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="11" Scale="0" />
+          <Property Type="String" Name="Currency" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="ReturnUrl" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Transaction_Date" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="Locale" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Country" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="225" />
+          <Property Type="String" Name="Pay_Method" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Pay_Method_Detail" Nullable="true" MaxLength="225" />
+          <Property Type="String" Name="Notify_Url" Nullable="true" MaxLength="225" />
+          <Property Type="String" Name="User1" Nullable="true" MaxLength="225" />
+          <Property Type="String" Name="User2" Nullable="true" MaxLength="225" />
+          <Property Type="String" Name="User3" Nullable="true" MaxLength="225" />
+          <Property Type="Boolean" Name="Vault" Nullable="true" />
+          <Property Type="String" Name="Vault_ID" Nullable="true" MaxLength="40" />
+          <Property Type="Decimal" Name="TransactionStatus" Nullable="true" Precision="1" Scale="0" />
+          <Property Type="Decimal" Name="Result_Code" Nullable="true" Precision="11" Scale="0" />
+          <Property Type="String" Name="Auth_Code" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Result_Desc" Nullable="true" MaxLength="80" />
+          <Property Type="Decimal" Name="Transaction_ID" Nullable="true" Precision="11" Scale="0" />
+          <Property Type="String" Name="Risk_Indicator" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="Pay_Vault_Data1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Pay_Vault_Data2" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="Checksum_Passed" Nullable="true" />
+          <Property Type="Boolean" Name="PriceSameAsRequest" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="PaymentGatewayMessage">
+          <Key>
+            <PropertyRef Name="MessageNumber" />
+          </Key>
+          <Property Name="MessageNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Reference" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Pay_Request_ID" Type="String" MaxLength="36" FixedLength="true" Unicode="false" />
+          <Property Name="PayGate_ID" Type="Decimal" Precision="13" Scale="0" />
+          <Property Name="Amount" Type="Decimal" Precision="11" Scale="0" />
+          <Property Name="Currency" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="ReturnUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Transaction_Date" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
+          <Property Name="Locale" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
+          <Property Name="Pay_Method" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Pay_Method_Detail" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
+          <Property Name="Notify_Url" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
+          <Property Name="User1" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
+          <Property Name="User2" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
+          <Property Name="User3" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
+          <Property Name="Vault" Type="Boolean" />
+          <Property Name="Vault_ID" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="TransactionStatus" Type="Decimal" Precision="1" Scale="0" />
+          <Property Name="Result_Code" Type="Decimal" Precision="11" Scale="0" />
+          <Property Name="Auth_Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Result_Desc" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Transaction_ID" Type="Decimal" Precision="11" Scale="0" />
+          <Property Name="Risk_Indicator" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Pay_Vault_Data1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Pay_Vault_Data2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Checksum_Passed" Type="Boolean" />
+          <Property Name="PriceSameAsRequest" Type="Boolean" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2793,20 +2793,6 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
               <MappingFragment StoreEntitySet="OrderStatus">
                 <ScalarProperty Name="OrderStatusNumber" ColumnName="OrderStatusNumber" />
                 <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PaymentGatewayParameters">
-            <EntityTypeMapping TypeName="FreeMarketModel.PaymentGatewayParameter">
-              <MappingFragment StoreEntitySet="PaymentGatewayParameter">
-                <ScalarProperty Name="Key" ColumnName="Key" />
-                <ScalarProperty Name="PaymentGatewayNumber" ColumnName="PaymentGatewayNumber" />
-                <ScalarProperty Name="PaymentGatewayName" ColumnName="PaymentGatewayName" />
-                <ScalarProperty Name="PaymentGatewayID" ColumnName="PaymentGatewayID" />
-                <ScalarProperty Name="TransactionRequestUrl" ColumnName="TransactionRequestUrl" />
-                <ScalarProperty Name="Return_Url" ColumnName="Return_Url" />
-                <ScalarProperty Name="Notify_Url" ColumnName="Notify_Url" />
-                <ScalarProperty Name="RedirectToSecurePayment_Url" ColumnName="RedirectToSecurePayment_Url" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3204,41 +3190,6 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PaymentGatewayMessages">
-            <EntityTypeMapping TypeName="FreeMarketModel.PaymentGatewayMessage">
-              <MappingFragment StoreEntitySet="PaymentGatewayMessage">
-                <ScalarProperty Name="PriceSameAsRequest" ColumnName="PriceSameAsRequest" />
-                <ScalarProperty Name="Checksum_Passed" ColumnName="Checksum_Passed" />
-                <ScalarProperty Name="Pay_Vault_Data2" ColumnName="Pay_Vault_Data2" />
-                <ScalarProperty Name="Pay_Vault_Data1" ColumnName="Pay_Vault_Data1" />
-                <ScalarProperty Name="Risk_Indicator" ColumnName="Risk_Indicator" />
-                <ScalarProperty Name="Transaction_ID" ColumnName="Transaction_ID" />
-                <ScalarProperty Name="Result_Desc" ColumnName="Result_Desc" />
-                <ScalarProperty Name="Auth_Code" ColumnName="Auth_Code" />
-                <ScalarProperty Name="Result_Code" ColumnName="Result_Code" />
-                <ScalarProperty Name="TransactionStatus" ColumnName="TransactionStatus" />
-                <ScalarProperty Name="Vault_ID" ColumnName="Vault_ID" />
-                <ScalarProperty Name="Vault" ColumnName="Vault" />
-                <ScalarProperty Name="User3" ColumnName="User3" />
-                <ScalarProperty Name="User2" ColumnName="User2" />
-                <ScalarProperty Name="User1" ColumnName="User1" />
-                <ScalarProperty Name="Notify_Url" ColumnName="Notify_Url" />
-                <ScalarProperty Name="Pay_Method_Detail" ColumnName="Pay_Method_Detail" />
-                <ScalarProperty Name="Pay_Method" ColumnName="Pay_Method" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="Locale" ColumnName="Locale" />
-                <ScalarProperty Name="Transaction_Date" ColumnName="Transaction_Date" />
-                <ScalarProperty Name="ReturnUrl" ColumnName="ReturnUrl" />
-                <ScalarProperty Name="Currency" ColumnName="Currency" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="PayGate_ID" ColumnName="PayGate_ID" />
-                <ScalarProperty Name="Pay_Request_ID" ColumnName="Pay_Request_ID" />
-                <ScalarProperty Name="Reference" ColumnName="Reference" />
-                <ScalarProperty Name="MessageNumber" ColumnName="MessageNumber" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="ValidatePaymentAmount" FunctionName="FreeMarketModel.Store.ValidatePaymentAmount">
             <ResultMapping>
               <ComplexTypeMapping TypeName="FreeMarketModel.ValidatePaymentAmount_Result">
@@ -3347,43 +3298,6 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
                 <ScalarProperty Name="PaymentReceived" ColumnName="PaymentReceived" />
                 <ScalarProperty Name="DeliveryType" ColumnName="DeliveryType" />
                 <ScalarProperty Name="TrackingCodes" ColumnName="TrackingCodes" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetPaymentGatewayMessages" FunctionName="FreeMarketModel.Store.GetPaymentGatewayMessages">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="FreeMarketModel.GetPaymentGatewayMessages_Result">
-                <ScalarProperty Name="MessageNumber" ColumnName="MessageNumber" />
-                <ScalarProperty Name="Reference" ColumnName="Reference" />
-                <ScalarProperty Name="Pay_Request_ID" ColumnName="Pay_Request_ID" />
-                <ScalarProperty Name="PayGate_ID" ColumnName="PayGate_ID" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Currency" ColumnName="Currency" />
-                <ScalarProperty Name="ReturnUrl" ColumnName="ReturnUrl" />
-                <ScalarProperty Name="Transaction_Date" ColumnName="Transaction_Date" />
-                <ScalarProperty Name="Locale" ColumnName="Locale" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Pay_Method" ColumnName="Pay_Method" />
-                <ScalarProperty Name="Pay_Method_Detail" ColumnName="Pay_Method_Detail" />
-                <ScalarProperty Name="Notify_Url" ColumnName="Notify_Url" />
-                <ScalarProperty Name="User1" ColumnName="User1" />
-                <ScalarProperty Name="User2" ColumnName="User2" />
-                <ScalarProperty Name="User3" ColumnName="User3" />
-                <ScalarProperty Name="Vault" ColumnName="Vault" />
-                <ScalarProperty Name="Vault_ID" ColumnName="Vault_ID" />
-                <ScalarProperty Name="TransactionStatus" ColumnName="TransactionStatus" />
-                <ScalarProperty Name="Result_Code" ColumnName="Result_Code" />
-                <ScalarProperty Name="Auth_Code" ColumnName="Auth_Code" />
-                <ScalarProperty Name="Result_Desc" ColumnName="Result_Desc" />
-                <ScalarProperty Name="Transaction_ID" ColumnName="Transaction_ID" />
-                <ScalarProperty Name="Risk_Indicator" ColumnName="Risk_Indicator" />
-                <ScalarProperty Name="Pay_Vault_Data1" ColumnName="Pay_Vault_Data1" />
-                <ScalarProperty Name="Pay_Vault_Data2" ColumnName="Pay_Vault_Data2" />
-                <ScalarProperty Name="Checksum_Passed" ColumnName="Checksum_Passed" />
-                <ScalarProperty Name="PriceSameAsRequest" ColumnName="PriceSameAsRequest" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -4037,6 +3951,92 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="PaymentGatewayParameters">
+            <EntityTypeMapping TypeName="FreeMarketModel.PaymentGatewayParameter">
+              <MappingFragment StoreEntitySet="PaymentGatewayParameter">
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="RedirectToSecurePayment_Url" ColumnName="RedirectToSecurePayment_Url" />
+                <ScalarProperty Name="Notify_Url" ColumnName="Notify_Url" />
+                <ScalarProperty Name="Return_Url" ColumnName="Return_Url" />
+                <ScalarProperty Name="TransactionRequestUrl" ColumnName="TransactionRequestUrl" />
+                <ScalarProperty Name="PaymentGatewayID" ColumnName="PaymentGatewayID" />
+                <ScalarProperty Name="PaymentGatewayName" ColumnName="PaymentGatewayName" />
+                <ScalarProperty Name="PaymentGatewayNumber" ColumnName="PaymentGatewayNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetPaymentGatewayMessages" FunctionName="FreeMarketModel.Store.GetPaymentGatewayMessages">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FreeMarketModel.GetPaymentGatewayMessages_Result">
+                <ScalarProperty Name="MessageNumber" ColumnName="MessageNumber" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="Pay_Request_ID" ColumnName="Pay_Request_ID" />
+                <ScalarProperty Name="PayGate_ID" ColumnName="PayGate_ID" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="ReturnUrl" ColumnName="ReturnUrl" />
+                <ScalarProperty Name="Transaction_Date" ColumnName="Transaction_Date" />
+                <ScalarProperty Name="Locale" ColumnName="Locale" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Pay_Method" ColumnName="Pay_Method" />
+                <ScalarProperty Name="Pay_Method_Detail" ColumnName="Pay_Method_Detail" />
+                <ScalarProperty Name="Notify_Url" ColumnName="Notify_Url" />
+                <ScalarProperty Name="User1" ColumnName="User1" />
+                <ScalarProperty Name="User2" ColumnName="User2" />
+                <ScalarProperty Name="User3" ColumnName="User3" />
+                <ScalarProperty Name="Vault" ColumnName="Vault" />
+                <ScalarProperty Name="Vault_ID" ColumnName="Vault_ID" />
+                <ScalarProperty Name="TransactionStatus" ColumnName="TransactionStatus" />
+                <ScalarProperty Name="Result_Code" ColumnName="Result_Code" />
+                <ScalarProperty Name="Auth_Code" ColumnName="Auth_Code" />
+                <ScalarProperty Name="Result_Desc" ColumnName="Result_Desc" />
+                <ScalarProperty Name="Transaction_ID" ColumnName="Transaction_ID" />
+                <ScalarProperty Name="Risk_Indicator" ColumnName="Risk_Indicator" />
+                <ScalarProperty Name="Pay_Vault_Data1" ColumnName="Pay_Vault_Data1" />
+                <ScalarProperty Name="Pay_Vault_Data2" ColumnName="Pay_Vault_Data2" />
+                <ScalarProperty Name="Checksum_Passed" ColumnName="Checksum_Passed" />
+                <ScalarProperty Name="PriceSameAsRequest" ColumnName="PriceSameAsRequest" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="PaymentGatewayMessages">
+            <EntityTypeMapping TypeName="FreeMarketModel.PaymentGatewayMessage">
+              <MappingFragment StoreEntitySet="PaymentGatewayMessage">
+                <ScalarProperty Name="PriceSameAsRequest" ColumnName="PriceSameAsRequest" />
+                <ScalarProperty Name="Checksum_Passed" ColumnName="Checksum_Passed" />
+                <ScalarProperty Name="Pay_Vault_Data2" ColumnName="Pay_Vault_Data2" />
+                <ScalarProperty Name="Pay_Vault_Data1" ColumnName="Pay_Vault_Data1" />
+                <ScalarProperty Name="Risk_Indicator" ColumnName="Risk_Indicator" />
+                <ScalarProperty Name="Transaction_ID" ColumnName="Transaction_ID" />
+                <ScalarProperty Name="Result_Desc" ColumnName="Result_Desc" />
+                <ScalarProperty Name="Auth_Code" ColumnName="Auth_Code" />
+                <ScalarProperty Name="Result_Code" ColumnName="Result_Code" />
+                <ScalarProperty Name="TransactionStatus" ColumnName="TransactionStatus" />
+                <ScalarProperty Name="Vault_ID" ColumnName="Vault_ID" />
+                <ScalarProperty Name="Vault" ColumnName="Vault" />
+                <ScalarProperty Name="User3" ColumnName="User3" />
+                <ScalarProperty Name="User2" ColumnName="User2" />
+                <ScalarProperty Name="User1" ColumnName="User1" />
+                <ScalarProperty Name="Notify_Url" ColumnName="Notify_Url" />
+                <ScalarProperty Name="Pay_Method_Detail" ColumnName="Pay_Method_Detail" />
+                <ScalarProperty Name="Pay_Method" ColumnName="Pay_Method" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Locale" ColumnName="Locale" />
+                <ScalarProperty Name="Transaction_Date" ColumnName="Transaction_Date" />
+                <ScalarProperty Name="ReturnUrl" ColumnName="ReturnUrl" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PayGate_ID" ColumnName="PayGate_ID" />
+                <ScalarProperty Name="Pay_Request_ID" ColumnName="Pay_Request_ID" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="MessageNumber" ColumnName="MessageNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -13,7 +13,6 @@
         <EntityTypeShape EntityType="FreeMarketModel.ExceptionLogging" Width="1.5" PointX="9.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FreeMarketModel.Location" Width="1.5" PointX="5.25" PointY="25.875" IsExpanded="true" />
         <EntityTypeShape EntityType="FreeMarketModel.OrderStatu" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FreeMarketModel.PaymentGatewayParameter" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FreeMarketModel.PaymentGatewayPaymentMethod" Width="1.5" PointX="12.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FreeMarketModel.PaymentGatewayTransactionStatu" Width="1.5" PointX="12.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FreeMarketModel.PreferredCommunicationMethod" Width="1.5" PointX="12.75" PointY="10.75" IsExpanded="true" />
@@ -38,7 +37,6 @@
         <EntityTypeShape EntityType="FreeMarketModel.OrderHeader" Width="1.5" PointX="15.375" PointY="13.125" />
         <EntityTypeShape EntityType="FreeMarketModel.Custodian" Width="1.5" PointX="3" PointY="5" />
         <AssociationConnector Association="FreeMarketModel.FK_CourierStockMovementLog_Custodian" />
-        <EntityTypeShape EntityType="FreeMarketModel.PaymentGatewayMessage" Width="1.5" PointX="10.375" PointY="16.75" />
         <EntityTypeShape EntityType="FreeMarketModel.Support" Width="1.5" PointX="12.375" PointY="16.75" />
         <EntityTypeShape EntityType="FreeMarketModel.CashCustomer" Width="1.5" PointX="9.75" PointY="10.75" />
         <EntityTypeShape EntityType="FreeMarketModel.CashOrderDetail" Width="1.5" PointX="0.75" PointY="18.75" />
@@ -69,6 +67,8 @@
         <AssociationConnector Association="FreeMarketModel.FK_OrderDetail_Supplier" />
         <EntityTypeShape EntityType="FreeMarketModel.VATPercentage" Width="1.5" PointX="20.375" PointY="12.75" />
         <EntityTypeShape EntityType="FreeMarketModel.PopularProduct" Width="1.5" PointX="20.375" PointY="14.75" />
+        <EntityTypeShape EntityType="FreeMarketModel.PaymentGatewayParameter" Width="1.5" PointX="14.375" PointY="20.75" />
+        <EntityTypeShape EntityType="FreeMarketModel.PaymentGatewayMessage" Width="1.5" PointX="8.375" PointY="16.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
