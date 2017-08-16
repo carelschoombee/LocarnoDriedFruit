@@ -564,6 +564,9 @@ namespace FreeMarket.Models
 
         public void UpdateTotal()
         {
+            if (GetTotalWeightOfOrder() > 29)
+                Order.DeliveryType = "Courier";
+
             Body.OrderDetails.ForEach(c => c.OrderItemValue = c.Price * c.Quantity);
             Order.SubTotal = Body.OrderDetails.Sum(c => c.OrderItemValue);
             Order.ShippingTotal = CalculateDeliveryFee();

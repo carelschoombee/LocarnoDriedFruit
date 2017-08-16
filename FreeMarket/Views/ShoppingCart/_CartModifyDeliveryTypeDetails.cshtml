@@ -20,11 +20,14 @@
                 <td>Deliver via National Courier</td>
                 <td>@string.Format("{0:C}", Model.DeliveryOptions.CourierCost)</td>
             </tr>
+            @if (Model.DeliveryOptions.PostOfficeCost > 0)
+            {
             <tr>
                 <td>@Html.RadioButtonFor(c => Model.DeliveryOptions.SelectedDeliveryType, "PostOffice", new { @class = "radioControl", @disabled = "disabled" })</td>
                 <td>Collect from your Post Office</td>
                 <td>@string.Format("{0:C}", Model.DeliveryOptions.PostOfficeCost)</td>
             </tr>
+            }
         </table>
     </div>
 }
@@ -45,11 +48,14 @@ else
                 <td>Deliver via National Courier</td>
                 <td>@string.Format("{0:C}", Model.DeliveryOptions.CourierCost)</td>
             </tr>
+            @if (Model.DeliveryOptions.PostOfficeCost > 0)
+            {
             <tr>
                 <td>@Html.RadioButtonFor(c => Model.DeliveryOptions.SelectedDeliveryType, "PostOffice", new { @class = "radioControl" })</td>
                 <td>Collect from your Post Office</td>
                 <td>@string.Format("{0:C}", Model.DeliveryOptions.PostOfficeCost)</td>
             </tr>
+            }
         </table>
     </div>
 }

@@ -164,6 +164,35 @@ namespace FreeMarket.Models
 
             DeliveryType = model.DeliveryOptions.SelectedDeliveryType;
 
+            decimal totalWeight = 0;
+
+            using (FreeMarketEntities db = new FreeMarketEntities())
+            {
+                OrderHeader orderHeader = db.OrderHeaders.Find(OrderNumber);
+
+                if (orderHeader != null)
+                {
+                    List<OrderDetail> details = db.OrderDetails
+                        .Where(c => c.OrderNumber == orderHeader.OrderNumber)
+                        .ToList();
+
+                    foreach (OrderDetail od in details)
+                    {
+
+                        decimal? weight = db.ProductSizes.Find(od.SizeType).Weight;
+
+                        Product product = db.Products.Find(od.ProductNumber);
+
+                        if (!product.IsVirtual)
+                            totalWeight += weight.Value * od.Quantity;
+
+                    }
+                }
+            }
+
+            if (totalWeight > 29)
+                DeliveryType = "Courier";
+
             if (DeliveryType == "Courier")
                 CourierNumber = 1;
             //else if (DeliveryType == "LocalCourier")

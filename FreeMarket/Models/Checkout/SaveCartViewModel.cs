@@ -151,12 +151,50 @@ namespace FreeMarket.Models
 
         public void SetDeliveryOptions(OrderHeader order, decimal courierFee, decimal postalFee)
         {
-            DeliveryOptions = new DeliveryType()
+            decimal totalWeight = 0;
+
+            using (FreeMarketEntities db = new FreeMarketEntities())
             {
-                SelectedDeliveryType = order.DeliveryType,
-                CourierCost = courierFee,
-                PostOfficeCost = postalFee
-            };
+                OrderHeader orderHeader = db.OrderHeaders.Find(order.OrderNumber);
+
+                if (orderHeader != null)
+                {
+                    List<OrderDetail> details = db.OrderDetails
+                        .Where(c => c.OrderNumber == orderHeader.OrderNumber)
+                        .ToList();
+
+                    foreach (OrderDetail od in details)
+                    {
+
+                        decimal? weight = db.ProductSizes.Find(od.SizeType).Weight;
+
+                        Product product = db.Products.Find(od.ProductNumber);
+
+                        if (!product.IsVirtual)
+                            totalWeight += weight.Value * od.Quantity;
+
+                    }
+                }
+            }
+
+            if (totalWeight > 29)
+            {
+                DeliveryOptions = new DeliveryType()
+                {
+                    SelectedDeliveryType = order.DeliveryType,
+                    CourierCost = courierFee,
+                    PostOfficeCost = 0
+                };
+            }
+            else
+            {
+                DeliveryOptions = new DeliveryType()
+                {
+                    SelectedDeliveryType = order.DeliveryType,
+                    CourierCost = courierFee,
+                    PostOfficeCost = postalFee
+                };
+            }
         }
     }
 }
