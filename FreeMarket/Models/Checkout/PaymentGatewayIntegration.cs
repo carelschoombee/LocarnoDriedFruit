@@ -147,7 +147,7 @@ namespace FreeMarket.Models
                 }
                 catch (Exception e)
                 {
-
+                    ExceptionLogging.LogException(e);
                 }
 
                 Message1 = new[] {

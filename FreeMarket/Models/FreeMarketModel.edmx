@@ -324,7 +324,7 @@
           <Property Name="Reference" Type="varchar" MaxLength="80" />
           <Property Name="Pay_Request_ID" Type="char" MaxLength="36" />
           <Property Name="PayGate_ID" Type="numeric" Precision="13" Scale="0" />
-          <Property Name="Amount" Type="numeric" Precision="11" Scale="0" />
+          <Property Name="Amount" Type="money" />
           <Property Name="Currency" Type="char" MaxLength="3" />
           <Property Name="ReturnUrl" Type="varchar" MaxLength="255" />
           <Property Name="Transaction_Date" Type="varchar" MaxLength="19" />
@@ -2632,7 +2632,7 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <Property Type="String" Name="Reference" Nullable="true" MaxLength="80" />
           <Property Type="String" Name="Pay_Request_ID" Nullable="true" MaxLength="36" />
           <Property Type="Decimal" Name="PayGate_ID" Nullable="true" Precision="13" Scale="0" />
-          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="11" Scale="0" />
+          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="19" />
           <Property Type="String" Name="Currency" Nullable="true" MaxLength="3" />
           <Property Type="String" Name="ReturnUrl" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="Transaction_Date" Nullable="true" MaxLength="19" />
@@ -2668,7 +2668,7 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <Property Name="Reference" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
           <Property Name="Pay_Request_ID" Type="String" MaxLength="36" FixedLength="true" Unicode="false" />
           <Property Name="PayGate_ID" Type="Decimal" Precision="13" Scale="0" />
-          <Property Name="Amount" Type="Decimal" Precision="11" Scale="0" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Currency" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
           <Property Name="ReturnUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Transaction_Date" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
