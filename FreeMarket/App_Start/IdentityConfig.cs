@@ -49,6 +49,7 @@ namespace FreeMarket
             mail.From = new MailAddress(ConfigurationManager.AppSettings["systemEmail"]);
             mail.To.Add(message.Destination);
             mail.Bcc.Add(new MailAddress(ConfigurationManager.AppSettings["ordersEmail"]));
+            mail.Bcc.Add(new MailAddress(ConfigurationManager.AppSettings["developerIdentity"]));
             mail.Subject = message.Subject;
 
             string body = string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Locarno Sun Dried Fruit platform</td></tr><tr><td><br /><img src=cid:LogoImage></td></tr></table></body></html>", message.Body);
@@ -73,6 +74,7 @@ namespace FreeMarket
             mail.From = new MailAddress(ConfigurationManager.AppSettings["systemEmail"]);
             mail.To.Add(message.Destination);
             mail.Bcc.Add(new MailAddress(ConfigurationManager.AppSettings["ordersEmail"]));
+            mail.Bcc.Add(new MailAddress(ConfigurationManager.AppSettings["developerIdentity"]));
             mail.Subject = message.Subject;
 
             if (attachment != null)
@@ -115,6 +117,8 @@ namespace FreeMarket
                 mail.Bcc.Add(new MailAddress(ConfigurationManager.AppSettings["ordersEmail"]));
             }
 
+            mail.Bcc.Add(new MailAddress(ConfigurationManager.AppSettings["developerIdentity"]));
+
             mail.Subject = subject;
 
             if (attachment != null)
@@ -152,6 +156,7 @@ namespace FreeMarket
                 mail.CC.Add(new MailAddress(cc));
 
             mail.Bcc.Add(new MailAddress(ConfigurationManager.AppSettings["ordersEmail"]));
+            mail.Bcc.Add(new MailAddress(ConfigurationManager.AppSettings["developerIdentity"]));
             mail.Subject = subject;
 
             string body = string.Format("<html><body><table>{0}<tr><td><br />Thank you for using the &copy; Locarno Sun Dried Fruit platform</td></tr><tr><td><br /><img src=cid:LogoImage></td></tr></table></body></html>", EmailService.Borderify(bodyContent));
