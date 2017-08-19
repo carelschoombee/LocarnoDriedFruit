@@ -130,7 +130,7 @@ namespace FreeMarket.Models
                 {
                     PayGate_ID = Parameters.PaymentGatewayID,
                     Reference = REFERENCE,
-                    Amount = Amount,
+                    Amount = (int)Amount,
                     Currency = CURRENCY,
                     ReturnUrl = RETURN_URL,
                     Transaction_Date = TRANSACTION_DATE,
@@ -218,7 +218,7 @@ namespace FreeMarket.Models
                 {
                     PayGate_ID = Parameters.PaymentGatewayID,
                     Reference = REFERENCE,
-                    Amount = Amount,
+                    Amount = (int)Amount,
                     Currency = CURRENCY,
                     ReturnUrl = RETURN_URL,
                     Transaction_Date = TRANSACTION_DATE,

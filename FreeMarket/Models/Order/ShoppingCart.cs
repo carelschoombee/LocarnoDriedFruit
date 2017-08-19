@@ -581,7 +581,7 @@ namespace FreeMarket.Models
                 VATPercentage VATPercentage = db.VATPercentages.FirstOrDefault();
 
                 if (VATPercentage != null)
-                    return (Order.SubTotal + Order.ShippingTotal) * (VATPercentage.VATPercentage1 / 100);
+                    return Math.Round((Order.SubTotal + Order.ShippingTotal) * (VATPercentage.VATPercentage1 / 100) ?? 0, 2);
                 else
                     return 0;
             }
