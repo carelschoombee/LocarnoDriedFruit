@@ -17,7 +17,7 @@ namespace FreeMarket.Models
         public string Reference { get; set; }
         public string Pay_Request_ID { get; set; }
         public Nullable<decimal> PayGate_ID { get; set; }
-        public Nullable<decimal> Amount { get; set; }
+        public Nullable<int> Amount { get; set; }
         public string Currency { get; set; }
         public string ReturnUrl { get; set; }
         public string Transaction_Date { get; set; }

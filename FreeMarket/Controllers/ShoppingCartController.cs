@@ -813,7 +813,11 @@ namespace FreeMarket.Controllers
                             }
                         }
 
-                        AuditUser.LogAudit(33, string.Format("Order Number: {0}", orderNumber), User.Identity.GetUserId());
+                        AuditUser.LogAudit(33, string.Format("Order Number: {0} | Transaction Status: {1} | Pay Request Id: {2}", orderNumber, TRANSACTION_STATUS, PAY_REQUEST_ID), User.Identity.GetUserId());
+                    }
+                    else
+                    {
+                        AuditUser.LogAudit(39, string.Format("Order Number: {0} | Transaction Status: {1} | Pay Request Id: {2}", orderNumber, TRANSACTION_STATUS, PAY_REQUEST_ID), User.Identity.GetUserId());
                     }
                 }
                 else

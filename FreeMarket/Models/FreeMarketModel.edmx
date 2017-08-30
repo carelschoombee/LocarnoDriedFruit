@@ -1827,8 +1827,8 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <Property Type="Int32" Name="MessageNumber" Nullable="false" />
           <Property Type="String" Name="Reference" Nullable="true" MaxLength="80" />
           <Property Type="String" Name="Pay_Request_ID" Nullable="true" MaxLength="36" />
-          <Property Type="Decimal" Name="PayGate_ID" Nullable="true" Precision="11" Scale="0" />
-          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="11" Scale="0" />
+          <Property Type="Decimal" Name="PayGate_ID" Nullable="true" Precision="13" Scale="0" />
+          <Property Type="Int32" Name="Amount" Nullable="true" />
           <Property Type="String" Name="Currency" Nullable="true" MaxLength="3" />
           <Property Type="String" Name="ReturnUrl" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="Transaction_Date" Nullable="true" MaxLength="19" />
