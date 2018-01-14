@@ -209,7 +209,14 @@ namespace FreeMarket.Controllers
 
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    string html = "";
+                    string message = "";
+                    using (FreeMarketEntities db = new FreeMarketEntities())
+                    {
+                        html = db.SiteConfigurations.First(c => c.Key == "Email: Confirm Account")?.Value;
+                        message = html.Replace("{{0}}", user.Name).Replace("{{1}}", callbackUrl);
+                    }
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", message);
 
                     AuditUser.LogAudit(1, "", user.Id);
 
@@ -282,7 +289,15 @@ namespace FreeMarket.Controllers
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                string html = "";
+                string message = "";
+                using (FreeMarketEntities db = new FreeMarketEntities())
+                {
+                    html = db.SiteConfigurations.First(c => c.Key == "Email: Reset Password")?.Value;
+                    message = html.Replace("{{0}}", callbackUrl);
+                }
+                  
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", message);
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 

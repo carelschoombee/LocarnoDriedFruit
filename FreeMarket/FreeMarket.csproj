@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -717,6 +718,8 @@
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\star-rating.css" />
     <Content Include="Content\star-rating.min.css" />
+    <Content Include="EmailTemplates\ConfirmAccount.html" />
+    <Content Include="EmailTemplates\ResetPassword.html" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\animsition.js" />
     <Content Include="Scripts\animsition.min.js" />
