@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace FreeMarket.Models
@@ -63,7 +65,7 @@ namespace FreeMarket.Models
             CreateMessage1();
 
             bool checksumPassed = false;
-            string response1 = SendMessage(Message1);
+            string response1 = SendMessage(Message1).Result;
 
             if (!string.IsNullOrEmpty(response1))
             {
@@ -166,12 +168,14 @@ namespace FreeMarket.Models
             }
         }
 
-        public string SendMessage(IEnumerable<KeyValuePair<string, string>> message)
+        public async Task<string> SendMessage(IEnumerable<KeyValuePair<string, string>> message)
         {
             string resultContent = "";
 
             try
             {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
                 client = new HttpClient();
                 client.BaseAddress = new Uri(BaseUri);
                 client.DefaultRequestHeaders.Accept.Clear();
@@ -181,8 +185,8 @@ namespace FreeMarket.Models
                     message
                 );
 
-                var result = client.PostAsync(Url, content).Result;
-                resultContent = result.Content.ReadAsStringAsync().Result;
+                var result = await client.PostAsync(Url, content).ConfigureAwait(false);
+                resultContent = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
             }
             catch (Exception e)
             {
