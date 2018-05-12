@@ -88,63 +88,58 @@
                         <span id="temp">Example: 18/03/2024 12:00</span>
                     </div>
                 </div>
-                                }
-                                else
-                                {
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.SelectedAddress, new { @class = "col-md-4 control-label" })
-                                        <div class="col-md-6">
-                                            @Html.DropDownListFor(model => model.SelectedAddress, Model.AddressNameOptions, new { @class = "form-control" })
-                                            @Html.HiddenFor(c => c.DaysToAddToMinDate)
-                                        </div>
-                                    </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    @Html.LabelFor(m => m.SelectedAddress, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(model => model.SelectedAddress, Model.AddressNameOptions, new { @class = "form-control" })
+                        @Html.HiddenFor(c => c.DaysToAddToMinDate)
+                    </div>
+                </div>
 
-                                    <div id="AddressContainer">
-                                        @Html.Partial("_CartModifyDeliveryDetails", Model)
-                                    </div>
+                <div id="AddressContainer">
+                    @Html.Partial("_CartModifyDeliveryDetails", Model)
+                </div>
 
-                                    <div id="DeliveryTypeContainer">
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                @Html.Partial("_CartModifyDeliveryTypeDetails", Model)
-                                            </div>
-                                        </div>
+                <div id="DeliveryTypeContainer">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.Partial("_CartModifyDeliveryTypeDetails", Model)
+                        </div>
+                    </div>
+                </div>
 
-                                    </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                </div>
 
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <hr />
-                                        </div>
-                                    </div>
-
-                                    <div id="deliveryDateContainer" class="form-group">
-                                        <label class="col-sm-4 control-label">Preferred Delivery Time</label>
-                                        <div class="col-sm-6">
-                                            <div class="input-group date" id="datetimePicker">
-                                                @{ Html.EnableClientValidation(false); }
-                                                @Html.EditorFor(m => m.prefDeliveryDateTime, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(m => m.prefDeliveryDateTime)
-                                                @{ Html.EnableClientValidation(true); }
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                            </div>
-                                            <span id="temp">Example: 18/03/2024 12:00</span>
-                                        </div>
-                                    </div>
-                                                    }
-
-
+                <div id="deliveryDateContainer" class="form-group">
+                    <label class="col-sm-4 control-label">Preferred Delivery Time</label>
+                    <div class="col-sm-6">
+                        <div class="input-group date" id="datetimePicker">
+                            @{ Html.EnableClientValidation(false); }
+                            @Html.EditorFor(m => m.prefDeliveryDateTime, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.prefDeliveryDateTime)
+                            @{ Html.EnableClientValidation(true); }
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        <span id="temp">Example: 18/03/2024 12:00</span>
+                    </div>
+                </div>
+            }
 
             <div class="center_div">
                 <input type="submit" value="Next - Confirmation" class="btn btn-success btn-sm" />
                 <a class="btn btn-primary btn-sm" href="@Url.Action("Cart", "ShoppingCart")"><span class="glyphicon glyphicon-shopping-cart">&nbsp;&nbsp;Back To Cart</span> </a>
             </div>
-
         </div>
-                                                    }
-
+    }
 </div>
 
 <script type="text/javascript">
@@ -385,7 +380,6 @@
             .resize(resize)
             .trigger('resize');
     })(jQuery);
-
 </script>
 
 @Html.Partial("_RequiredFields")

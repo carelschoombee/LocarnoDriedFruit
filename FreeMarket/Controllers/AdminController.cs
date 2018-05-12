@@ -77,7 +77,14 @@ namespace FreeMarket.Controllers
                     .FirstOrDefault();
             }
 
-            return Content(address.ToString());
+            if (address == null)
+            {
+                return Content("");
+            }
+            else
+            {
+                return Content(address.ToString());
+            }
         }
 
         public ActionResult EditCustomer(string customerNumber)

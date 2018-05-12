@@ -845,6 +845,9 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <Parameter Name="weight" Type="decimal" Mode="In" />
           <Parameter Name="postalCode" Type="int" Mode="In" />
         </Function>
+        <Function Name="CalculateLocarnoCourierFee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="totalWeight" Type="decimal" Mode="In" />
+        </Function>
         <Function Name="CalculatePostOfficeFee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="totalWeight" Type="decimal" Mode="In" />
         </Function>
@@ -1489,6 +1492,9 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
           <Parameter Name="orderNumber" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="PaymentGatewayMessages" EntityType="FreeMarketModel.PaymentGatewayMessage" />
+          <FunctionImport Name="CalculateLocarnoCourierFee" ReturnType="Collection(Decimal)">
+            <Parameter Name="totalWeight" Mode="In" Type="Decimal" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="SystemAction">
           <Key>
@@ -4037,6 +4043,7 @@ warning 6002: The table/view 'LocarnoDriedFruit.dbo.VATPercentage' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CalculateLocarnoCourierFee" FunctionName="FreeMarketModel.Store.CalculateLocarnoCourierFee" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

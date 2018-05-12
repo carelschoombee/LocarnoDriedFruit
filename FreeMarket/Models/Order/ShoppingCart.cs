@@ -316,14 +316,34 @@ namespace FreeMarket.Models
             {
                 using (FreeMarketEntities db = new FreeMarketEntities())
                 {
+                    var differences = from oh in db.OrderHeaders
+                                      join od in db.OrderDetails on oh.OrderNumber equals od.OrderNumber
+                                      join ps in db.ProductSuppliers on new { od.ProductNumber, od.SizeType } equals new { ps.ProductNumber, ps.SizeType }
+                                      where oh.OrderNumber == Order.OrderNumber && ps.PricePerUnit != od.Price
+                                      select od; 
+
+                    if (!differences.Any())
+                    {
+                        Debug.Write(string.Format("No price difference found."));
+                        return;
+                    }
+
                     Debug.Write(string.Format("Updating prices for order {0} ...", Order.OrderNumber));
 
                     foreach (OrderDetail item in Body.OrderDetails)
                     {
-                        item.ProductPrice = db.ProductSuppliers
-                            .Find(item.ProductNumber, item.SupplierNumber, item.SizeType)
-                            .PricePerUnit;
+                        var dbItem = db.OrderDetails.Find(item.ItemNumber);
+
+                        if (dbItem != null)
+                        {
+                            dbItem.Price = db.ProductSuppliers
+                                .Find(item.ProductNumber, item.SupplierNumber, item.SizeType)
+                                .PricePerUnit;
+                            db.Entry(dbItem).State = EntityState.Modified;
+                        }
                     }
+
+                    db.SaveChanges();
                 }
 
                 // Keep the OrderTotal in sync
@@ -410,6 +430,9 @@ namespace FreeMarket.Models
 
                     AuditUser.LogAudit(7, string.Format("Order number: {0}", Order.OrderNumber));
                 }
+
+                // Ensure the latest prices are used
+                UpdatePrices();
             }
         }
 
@@ -468,9 +491,21 @@ namespace FreeMarket.Models
                 if (totalWeight == 0)
                     return 0;
                 else
-                    return (decimal)db.CalculateDeliveryFee(totalWeight, Order.OrderNumber).FirstOrDefault();
+                    return (decimal)db.CalculateLocarnoCourierFee(totalWeight).FirstOrDefault();
             }
         }
+
+        //public decimal CalculateCourierFee()
+        //{
+        //    using (FreeMarketEntities db = new FreeMarketEntities())
+        //    {
+        //        decimal totalWeight = GetTotalWeightOfOrder();
+        //        if (totalWeight == 0)
+        //            return 0;
+        //        else
+        //            return (decimal)db.CalculateDeliveryFee(totalWeight, Order.OrderNumber).FirstOrDefault();
+        //    }
+        //}
 
         public decimal CalculateCourierFeeAdhoc(int postalCode)
         {

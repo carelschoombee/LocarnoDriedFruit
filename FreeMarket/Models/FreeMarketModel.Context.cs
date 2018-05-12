@@ -492,5 +492,14 @@ namespace FreeMarket.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPaymentGatewayMessages_Result>("GetPaymentGatewayMessages", orderNumberParameter);
         }
+    
+        public virtual ObjectResult<Nullable<decimal>> CalculateLocarnoCourierFee(Nullable<decimal> totalWeight)
+        {
+            var totalWeightParameter = totalWeight.HasValue ?
+                new ObjectParameter("totalWeight", totalWeight) :
+                new ObjectParameter("totalWeight", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("CalculateLocarnoCourierFee", totalWeightParameter);
+        }
     }
 }

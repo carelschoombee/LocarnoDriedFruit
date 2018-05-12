@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using FreeMarket.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -7,7 +8,7 @@ namespace FreeMarket.UnitTests
     [TestClass]
     public class Tests
     {
-        [TestMethod]
+        [TestMethod, TestCategory("PaymentUnitTests")]
         public void PaymentGatewayCall()
         {
             string reference = "1";
