@@ -2,6 +2,14 @@
 
 @if (Model != null)
 {
-    <div style="font-size:medium; font-weight:600;" class="text-center">@String.Format("{0:C}", Model.PricePerUnit)</div>
+    if (Model.SpecialPricePerUnit != null && Model.SpecialPricePerUnit > 0)
+    {
+        <div style="font-size:medium; font-weight:600;" class="text-center">@String.Format("{0:C}", Model.SpecialPricePerUnit)</div>
+    }
+    else
+    {
+        <div style="font-size:medium; font-weight:600;" class="text-center">@String.Format("{0:C}", Model.PricePerUnit)</div>
+    }
+
 }
 

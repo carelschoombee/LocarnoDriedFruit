@@ -195,6 +195,17 @@ namespace FreeMarket.Models
                 var productInfo = db.GetShallowProduct(productNumber, supplierNumber)
                     .FirstOrDefault();
 
+                // Accomodate special price
+                decimal? shallowPrice = 0.0M;
+                if (productInfo.SpecialPricePerUnit != null && productInfo.SpecialPricePerUnit > 0)
+                {
+                    shallowPrice = productInfo.SpecialPricePerUnit;
+                }
+                else
+                {
+                    shallowPrice = productInfo.PricePerUnit;
+                }
+
                 product = new Product
                 {
                     Activated = productInfo.Activated,
@@ -203,7 +214,7 @@ namespace FreeMarket.Models
                     DepartmentName = productInfo.DepartmentName,
                     DepartmentNumber = productInfo.DepartmentNumber,
                     Description = productInfo.Description,
-                    PricePerUnit = productInfo.PricePerUnit,
+                    PricePerUnit = shallowPrice ?? productInfo.PricePerUnit,
                     ProductNumber = productInfo.ProductNumber,
                     Size = "",
                     SupplierName = productInfo.SupplierName,
@@ -469,6 +480,7 @@ namespace FreeMarket.Models
                             {
                                 PricePerUnit = x.PricePerUnit,
                                 ProductNumber = product.ProductNumber,
+                                SpecialPricePerUnit = x.SpecialPricePerUnit,
                                 SupplierNumber = product.SupplierNumber,
                                 SizeType = x.SizeId,
                             };
@@ -490,12 +502,12 @@ namespace FreeMarket.Models
                         else
                         {
                             // If the prices differ, record it in the pricehistory table
-                            if (x.PricePerUnit != temp.PricePerUnit)
+                            if (x.PricePerUnit != temp.PricePerUnit || x.SpecialPricePerUnit != temp.SpecialPricePerUnit)
                             {
                                 PriceHistory history = new PriceHistory()
                                 {
                                     OldPrice = temp.PricePerUnit,
-                                    NewPrice = x.PricePerUnit,
+                                    NewPrice = x.PricePerUnit,    
                                     ProductNumber = product.ProductNumber,
                                     SupplierNumber = product.SupplierNumber,
                                     Date = DateTime.Now,
@@ -506,6 +518,7 @@ namespace FreeMarket.Models
 
                                 // Update the record
                                 temp.PricePerUnit = x.PricePerUnit;
+                                temp.SpecialPricePerUnit = x.SpecialPricePerUnit;
                                 db.Entry(temp).State = EntityState.Modified;
 
                                 db.SaveChanges();

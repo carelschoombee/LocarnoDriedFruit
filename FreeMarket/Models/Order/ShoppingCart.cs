@@ -106,6 +106,16 @@ namespace FreeMarket.Models
                     if (productInfo == null)
                         return new FreeMarketObject { Result = FreeMarketResult.Failure, Argument = null, Message = "No products could be found." };
 
+                    decimal? shallowPrice = 0.0M;
+                    if (productInfo.SpecialPricePerUnit != null && productInfo.SpecialPricePerUnit > 0)
+                    {
+                        shallowPrice = productInfo.SpecialPricePerUnit;
+                    }
+                    else
+                    {
+                        shallowPrice = productInfo.PricePerUnit;
+                    }
+
                     string status = "Unconfirmed";
 
                     // Add a small image for the CartBody
@@ -127,7 +137,7 @@ namespace FreeMarket.Models
                             PaidSupplier = null,
                             PayCourier = null,
                             PaySupplier = null,
-                            Price = productInfo.PricePerUnit,
+                            Price = shallowPrice ?? productInfo.PricePerUnit,
                             ProductNumber = productInfo.ProductNumber,
                             ProductDescription = productInfo.Description,
                             ProductDepartment = productInfo.DepartmentName,
@@ -320,9 +330,16 @@ namespace FreeMarket.Models
                                       join od in db.OrderDetails on oh.OrderNumber equals od.OrderNumber
                                       join ps in db.ProductSuppliers on new { od.ProductNumber, od.SizeType } equals new { ps.ProductNumber, ps.SizeType }
                                       where oh.OrderNumber == Order.OrderNumber && ps.PricePerUnit != od.Price
-                                      select od; 
+                                      select od;
 
-                    if (!differences.Any())
+                    var specialDifferences = from oh in db.OrderHeaders
+                                      join od in db.OrderDetails on oh.OrderNumber equals od.OrderNumber
+                                      join ps in db.ProductSuppliers on new { od.ProductNumber, od.SizeType } equals new { ps.ProductNumber, ps.SizeType }
+                                      where oh.OrderNumber == Order.OrderNumber && ps.SpecialPricePerUnit != null && ps.SpecialPricePerUnit != 0
+                                        && od.Price != ps.SpecialPricePerUnit
+                                      select od;
+
+                    if (!differences.Any() && !specialDifferences.Any())
                     {
                         Debug.Write(string.Format("No price difference found."));
                         return;
@@ -336,10 +353,29 @@ namespace FreeMarket.Models
 
                         if (dbItem != null)
                         {
-                            dbItem.Price = db.ProductSuppliers
+                            var specialPrice = db.ProductSuppliers
                                 .Find(item.ProductNumber, item.SupplierNumber, item.SizeType)
-                                .PricePerUnit;
-                            db.Entry(dbItem).State = EntityState.Modified;
+                                .SpecialPricePerUnit;
+
+                            if (specialPrice != null && dbItem.Price == specialPrice)
+                            {
+                                continue;
+                            }
+
+                            if (specialPrice == 0.00M)
+                            {
+                                dbItem.Price = db.ProductSuppliers
+                                    .Find(item.ProductNumber, item.SupplierNumber, item.SizeType)
+                                    .PricePerUnit;
+                                db.Entry(dbItem).State = EntityState.Modified;
+                            }
+                            else
+                            {
+                                dbItem.Price = specialPrice ?? db.ProductSuppliers
+                                    .Find(item.ProductNumber, item.SupplierNumber, item.SizeType)
+                                    .PricePerUnit;
+                                db.Entry(dbItem).State = EntityState.Modified;
+                            }
                         }
                     }
 

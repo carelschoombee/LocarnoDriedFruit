@@ -92,6 +92,7 @@ else
         <tr>
             <th>Description</th>
             <th>Price Per Unit</th>
+            <th>Special Price</th>
             <th>Active</th>
         </tr>
         @for (int i = 0; i < Model.SizeVariations.Count; i++)
@@ -106,6 +107,12 @@ else
                 @Html.EditorFor(m => Model.SizeVariations[i].PricePerUnit, new { htmlAttributes = new { @class = "form-control" } })
                 @{ Html.EnableClientValidation(true); }
                 @Html.ValidationMessageFor(m => Model.SizeVariations[i].PricePerUnit, null, new { @class = "text-danger" })
+            </td>
+            <td>
+                @{ Html.EnableClientValidation(false); }
+                @Html.EditorFor(m => Model.SizeVariations[i].SpecialPricePerUnit, new { htmlAttributes = new { @class = "form-control" } })
+                @{ Html.EnableClientValidation(true); }
+                @Html.ValidationMessageFor(m => Model.SizeVariations[i].SpecialPricePerUnit, null, new { @class = "text-danger" })
             </td>
             <td>
                 @Html.EditorFor(m => Model.SizeVariations[i].Activated)

@@ -9,6 +9,7 @@ namespace FreeMarket.Models
     public partial class ProductSize
     {
         public decimal PricePerUnit { get; set; }
+        public decimal SpecialPricePerUnit { get; set; }
         public bool Activated { get; set; }
 
         public static List<ProductSize> GetNewProductSizes()
@@ -40,6 +41,7 @@ namespace FreeMarket.Models
                 foreach (ProductSupplier item in productSizes)
                 {
                     prices.Where(c => c.SizeId == item.SizeType).FirstOrDefault().PricePerUnit = item.PricePerUnit;
+                    prices.Where(c => c.SizeId == item.SizeType).FirstOrDefault().SpecialPricePerUnit = item.SpecialPricePerUnit ?? 0.00M;
                     prices.Where(c => c.SizeId == item.SizeType).FirstOrDefault().Activated = true;
                 }
 
