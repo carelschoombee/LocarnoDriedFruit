@@ -21,5 +21,13 @@ namespace FreeMarket.UnitTests
             Assert.IsTrue(!(string.IsNullOrEmpty(payObject.Pay_Request_Id)));
             Assert.IsTrue(!(string.IsNullOrEmpty(payObject.Checksum)));
         }
+
+        [TestMethod, TestCategory("SMS")]
+        public async void SMS_Can_Be_Sent()
+        {
+            SMSHelper helper = new SMSHelper();
+
+            await helper.SendMessage("This is a test", "0828011299");
+        }
     }
 }

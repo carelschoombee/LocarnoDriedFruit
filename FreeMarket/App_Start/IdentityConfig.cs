@@ -106,7 +106,11 @@ namespace FreeMarket
             SmtpClient smtp = new SmtpClient();
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(ConfigurationManager.AppSettings["systemEmail"]);
-            mail.To.Add(destination);
+
+            foreach (var address in destination.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                mail.To.Add(address);
+            }
 
             if (cc == string.Empty)
             {
